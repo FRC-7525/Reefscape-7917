@@ -5,25 +5,24 @@ import static frc.robot.subsystems.Climber.ClimberConstants.OFF_POS;
 
 import org.team7525.subsystem.SubsystemStates;
 
-public enum ClimberStates implements SubsystemStates{
-    IDLE("IDLE", IDLE_POS),
-    OFF("OFF", OFF_POS);
-    
-    private String stateString;
-    private double position;
+public enum ClimberStates implements SubsystemStates {
+	IDLE("IDLE", IDLE_POS),
+	OFF("OFF", OFF_POS);
 
-    ClimberStates(String stateString, double position) {
-        this.stateString = stateString;
-        this.position = position;
-    }
+	private String stateString;
+	private double position;
 
-    @Override
-    public String getStateString() {
-        return stateString;
-    }
+	ClimberStates(String stateString, double position) {
+		this.stateString = stateString;
+		this.position = position;
+	}
 
-    public double getPosition() {
-        return position;
-    }
-    
+	@Override
+	public String getStateString() {
+		return stateString;
+	}
+
+	public double getPosition() {
+		return position;
+	}
 }
