@@ -28,10 +28,10 @@ public enum AlgaeCorralerStates implements SubsystemStates {
         this.speed = speed;
     }
 
-    @Override
-    public String getStateString() {
-        return stateString;
-    }
+	@Override
+	public String getStateString() {
+		return stateString;
+	}
 
     public AngularVelocity getWheelSpeed() {
         return speed;
