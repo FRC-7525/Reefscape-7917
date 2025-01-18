@@ -17,10 +17,10 @@ public class Climber extends Subsystem<ClimberStates> {
 
 	public Climber() {
 		super("Climber", ClimberStates.IDLE);
-		this.pid = CLIMBER_CONTROLLER.get();
-		this.robotClimber = new SparkMax(DEVICE_ID, MotorType.kBrushless);
+		pid = CLIMBER_CONTROLLER.get();
+		robotClimber = new SparkMax(DEVICE_ID, MotorType.kBrushless);
 
-		this.pid.setTolerance(ERROR_TOLERANCE.in(Degrees));
+		pid.setTolerance(ERROR_TOLERANCE.in(Degrees));
 
 		robotClimber.getEncoder().setPosition(0);
 	}
