@@ -28,22 +28,30 @@ public class AlageCorraler extends Subsystem<AlgaeCorralerStates> {
 		leftPivotMotor = new SparkMax(LEFT_PIVOT_MOTOR_CANID, MotorType.kBrushless);
 		motorController = PIVOT_CONTROLLER.get();
 
-        //Motor Configs
-        configuration = new SparkMaxConfig(); 
-        configuration.follow(RIGHT_PIVOT_MOTOR_CANID);
-        leftPivotMotor.configure(configuration, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters); 
-        
-        rightPivotMotor.getEncoder().setPosition(0); 
-        leftPivotMotor.getEncoder().setPosition(0); 
-        motorController.setTolerance(ERROR_TOLERANCE);
-        wheelsMotor.set(0);
+		//Motor Configs
+		configuration = new SparkMaxConfig();
+		configuration.follow(RIGHT_PIVOT_MOTOR_CANID);
+		leftPivotMotor.configure(
+			configuration,
+			ResetMode.kResetSafeParameters,
+			PersistMode.kPersistParameters
+		);
 
-    }
+		rightPivotMotor.getEncoder().setPosition(0);
+		leftPivotMotor.getEncoder().setPosition(0);
+		motorController.setTolerance(ERROR_TOLERANCE);
+		wheelsMotor.set(0);
+	}
 
-    @Override
-    public void runState() {
-        rightPivotMotor.setVoltage(motorController.calculate(rightPivotMotor.getEncoder().getPosition(), Units.degreesToRotations(getState().getAlgaePosition().magnitude())));
-        wheelsMotor.set(getState().getWheelSpeed().magnitude());
+	@Override
+	public void runState() {
+		rightPivotMotor.setVoltage(
+			motorController.calculate(
+				rightPivotMotor.getEncoder().getPosition(),
+				Units.degreesToRotations(getState().getAlgaePosition().magnitude())
+			)
+		);
+		wheelsMotor.set(getState().getWheelSpeed().magnitude());
 
 		SmartDashboard.putString(ALGAE_CORRALLER_ID, getState().getStateString());
 	}
