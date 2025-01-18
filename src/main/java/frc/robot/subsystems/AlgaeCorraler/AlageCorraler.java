@@ -10,6 +10,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AlageCorraler extends Subsystem<AlgaeCorralerStates> {
@@ -35,15 +36,15 @@ public class AlageCorraler extends Subsystem<AlgaeCorralerStates> {
         
         rightPivotMotor.getEncoder().setPosition(0); 
         leftPivotMotor.getEncoder().setPosition(0); 
-        motorController.setTolerance(5);
+        motorController.setTolerance(ERROR_TOLERANCE);
         wheelsMotor.set(0);
 
     }
 
     @Override
     public void runState() {
-        rightPivotMotor.setVoltage(motorController.calculate(rightPivotMotor.getEncoder().getPosition(), getState().getAlgaePosition()));
-        wheelsMotor.set(getState().getWheelSpeed());
+        rightPivotMotor.setVoltage(motorController.calculate(rightPivotMotor.getEncoder().getPosition(), Units.degreesToRotations(getState().getAlgaePosition().magnitude())));
+        wheelsMotor.set(getState().getWheelSpeed().magnitude());
 
         SmartDashboard.putString(ALGAE_CORRALLER_ID, getState().getStateString()); 
     }

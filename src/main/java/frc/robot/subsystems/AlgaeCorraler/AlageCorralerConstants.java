@@ -1,11 +1,13 @@
 package frc.robot.subsystems.AlgaeCorraler;
 
 import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.DegreesPerSecond;
 
 import java.util.function.Supplier;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
 
 public final class AlageCorralerConstants {
 
@@ -18,11 +20,12 @@ public final class AlageCorralerConstants {
     public static final Supplier<PIDController> PIVOT_CONTROLLER = () -> {
 	    return new PIDController(1, 0, 0.1);
     }; 
+    public static final double ERROR_TOLERANCE = 5; 
     
     //Speeds
-    public static final double ALGAE_IN_SPEED = 0.3; 
-    public static final double ALGAE_OUT_SPEED = 0.7;
-    public static final double CORAL_OUT_SPEED = 0.7;
+    public static final AngularVelocity ALGAE_IN_SPEED = DegreesPerSecond.of(0.3); 
+    public static final AngularVelocity ALGAE_OUT_SPEED = DegreesPerSecond.of(0.7);
+    public static final AngularVelocity CORAL_OUT_SPEED = DegreesPerSecond.of(0.7);
 
     //Angles
     public static final Angle ALGAE_IDLE_ANGLE = Degrees.of(180);

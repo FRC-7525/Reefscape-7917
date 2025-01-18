@@ -1,26 +1,31 @@
 package frc.robot.subsystems.AlgaeCorraler;
 
-import static frc.robot.subsystems.AlgaeCorraler.AlageCorralerConstants.*; 
+import org.team7525.subsystem.SubsystemStates;
 
-import org.team7525.subsystem.SubsystemStates; 
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.DegreesPerSecond;
+
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
+
+import static frc.robot.subsystems.AlgaeCorraler.AlageCorralerConstants.*; 
 
 public enum AlgaeCorralerStates implements SubsystemStates {
 
-    IDLE("IDLE", 0, ALGAE_IDLE_ANGLE.magnitude()),
-    CORALOUT("CORALOUT",CORAL_OUT_SPEED, 0),
-    ALGAEIN("ALGAEIN", ALGAE_IN_SPEED, ALGAE_OUT_ANGLE.magnitude()),
-    HOLDING("HOLDING", 0, ALGAE_HOLDING_ANGLE.magnitude()),
-    ALGAEOUT("ALGAEOUT", ALGAE_OUT_SPEED, ALGAE_OUT_ANGLE.magnitude());
+    IDLE("IDLE", DegreesPerSecond.of(0), ALGAE_IDLE_ANGLE),
+    CORALOUT("CORALOUT",CORAL_OUT_SPEED, Degrees.of(0)),
+    ALGAEIN("ALGAEIN", ALGAE_IN_SPEED, ALGAE_OUT_ANGLE),
+    HOLDING("HOLDING", DegreesPerSecond.of(0), ALGAE_HOLDING_ANGLE),
+    ALGAEOUT("ALGAEOUT", ALGAE_OUT_SPEED, ALGAE_OUT_ANGLE);
     
     private String stateString;
-    private double speed;
-    private double algaePosition;
+    private AngularVelocity speed;
+    private Angle algaePosition;
     
-    AlgaeCorralerStates(String stateString, double speed, double algaePosition) {
+    AlgaeCorralerStates(String stateString, AngularVelocity speed, Angle algaePosition) {
         this.stateString = stateString;
         this.algaePosition = algaePosition;
         this.speed = speed;
-        
     }
 
     @Override
@@ -28,11 +33,11 @@ public enum AlgaeCorralerStates implements SubsystemStates {
         return stateString;
     }
 
-    public double getWheelSpeed() {
+    public AngularVelocity getWheelSpeed() {
         return speed;
     }
     
-    public double getAlgaePosition() {
+    public Angle getAlgaePosition() {
         return algaePosition;
     }
 
