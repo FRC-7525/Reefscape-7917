@@ -12,8 +12,8 @@ public final class AlageCorralerConstants {
 
 	//CAN IDs - Random values
 	public static final int LEFT_PIVOT_MOTOR_CANID = 0;
-	public static final int RIGHT_PIVOT_MOTOR_CANID = 1;
-	public static final int SPEED_MOTOR_CANID = 2;
+	public static final int RIGHT_PIVOT_MOTOR_CANID = 34;
+	public static final int SPEED_MOTOR_CANID = 35;
 
 	//PID
 	public static final Supplier<PIDController> PIVOT_CONTROLLER = () -> {
