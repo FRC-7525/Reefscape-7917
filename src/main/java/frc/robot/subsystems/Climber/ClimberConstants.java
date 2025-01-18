@@ -1,15 +1,14 @@
 package frc.robot.subsystems.Climber;
 
-import java.util.function.Supplier;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Angle;
+import java.util.function.Supplier;
 
 public final class ClimberConstants {
 
 	public static final Supplier<PIDController> CLIMBER_CONTROLLER = () -> {
-			return new PIDController(1, 0, 0);
+		return new PIDController(1, 0, 0);
 	};
 	public static final int DEVICE_ID = 16;
 

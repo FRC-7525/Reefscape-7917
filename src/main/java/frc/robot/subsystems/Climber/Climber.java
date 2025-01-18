@@ -17,7 +17,6 @@ public class Climber extends Subsystem<ClimberStates> {
 
 	public Climber() {
 		super("Climber", ClimberStates.IDLE);
-
 		this.pid = CLIMBER_CONTROLLER.get();
 		this.robotClimber = new SparkMax(DEVICE_ID, MotorType.kBrushless);
 
@@ -29,7 +28,10 @@ public class Climber extends Subsystem<ClimberStates> {
 	@Override
 	public void runState() {
 		robotClimber.setVoltage(
-			pid.calculate(Units.rotationsToDegrees(robotClimber.getEncoder().getPosition()) * GEAR_RATIO, getState().getPosition().in(Degrees))
+			pid.calculate(
+				Units.rotationsToDegrees(robotClimber.getEncoder().getPosition()) * GEAR_RATIO,
+				getState().getPosition().in(Degrees)
+			)
 		);
 		SmartDashboard.putString(CLIMBER_STATE_ID, getState().getStateString());
 	}
