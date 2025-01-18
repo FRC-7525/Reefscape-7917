@@ -1,13 +1,6 @@
 package frc.robot.subsystems.AlgaeCorraler;
 
-import static edu.wpi.first.units.Units.Degrees;
-import static edu.wpi.first.units.Units.Rotations;
-import static frc.robot.subsystems.AlgaeCorraler.AlageCorralerConstants.ALGAE_CORRALLER_ID;
-import static frc.robot.subsystems.AlgaeCorraler.AlageCorralerConstants.LEFT_PIVOT_MOTOR_CANID;
-import static frc.robot.subsystems.AlgaeCorraler.AlageCorralerConstants.PIVOT_CONTROLLER;
-import static frc.robot.subsystems.AlgaeCorraler.AlageCorralerConstants.RIGHT_PIVOT_MOTOR_CANID;
-import static frc.robot.subsystems.AlgaeCorraler.AlageCorralerConstants.SPEED_MOTOR_CANID;
-
+import static frc.robot.subsystems.AlgaeCorraler.AlageCorralerConstants.*; 
 import org.team7525.subsystem.Subsystem;
 
 import com.revrobotics.spark.SparkMax;
