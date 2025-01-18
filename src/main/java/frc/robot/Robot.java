@@ -5,12 +5,16 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import frc.robot.subsystems.Manager.Manager;
+
 import org.team7525.misc.CommandsUtil;
 
 public class Robot extends TimedRobot {
+	Manager manager;
 
 	public Robot() {
 		CommandsUtil.logCommands();
+		manager = new Manager();
 	}
 
 	@Override
@@ -26,7 +30,9 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {}
 
 	@Override
-	public void teleopPeriodic() {}
+	public void teleopPeriodic() {
+		manager.periodic();
+	}
 
 	@Override
 	public void disabledInit() {}
