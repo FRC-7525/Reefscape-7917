@@ -22,7 +22,7 @@ public class Climber extends Subsystem<ClimberStates> {
 
 		this.pid.setTolerance(ERROR_TOLERANCE.in(Degrees));
 
-		robotClimber.getEncoder().setPosition(0);
+		this.robotClimber.getEncoder().setPosition(0);
 	}
 
 	@Override
