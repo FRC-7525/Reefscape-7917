@@ -9,7 +9,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.GlobalConstants.Controllers;
 import frc.robot.subsystems.AlgaeCorraler.AlageCorraler;
@@ -20,7 +19,6 @@ import swervelib.SwerveDrive;
 import swervelib.parser.SwerveParser;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
-import static frc.robot.GlobalConstants.*;
 
 import org.team7525.subsystem.Subsystem;
 
@@ -29,7 +27,6 @@ public class Manager extends Subsystem<ManagerStates> {
 
 	private Climber climber;
 	private AlageCorraler algaeCorraler;
-	private XboxController operatorController;
 	private AutoAligner autoAligner;
 	private SwerveDrive swerveDrive;
 	private Drive drive;
@@ -48,7 +45,6 @@ public class Manager extends Subsystem<ManagerStates> {
         }
         swerveDrive.setHeadingCorrection(false);
         swerveDrive.setCosineCompensator(false);
-		operatorController = new XboxController(1);
 
 		climber = new Climber();
 		algaeCorraler = new AlageCorraler();
@@ -59,42 +55,42 @@ public class Manager extends Subsystem<ManagerStates> {
 		addTrigger(
 			ManagerStates.IDLE,
 			ManagerStates.CORAL_OUT,
-			operatorController::getYButtonPressed
+			Controllers.OPERATOR_CONTROLLER::getYButtonPressed
 		);
 		addTrigger(
 			ManagerStates.CORAL_OUT,
 			ManagerStates.IDLE,
-			operatorController::getYButtonPressed
+			Controllers.OPERATOR_CONTROLLER::getYButtonPressed
 		);
 		addTrigger(
 			ManagerStates.IDLE,
 			ManagerStates.ALGAE_IN,
-			operatorController::getBButtonPressed
+			Controllers.OPERATOR_CONTROLLER::getBButtonPressed
 		);
 		addTrigger(
 			ManagerStates.ALGAE_IN,
 			ManagerStates.IDLE,
-			operatorController::getBButtonPressed
+			Controllers.OPERATOR_CONTROLLER::getBButtonPressed
 		);
 		addTrigger(
 			ManagerStates.ALGAE_IN,
 			ManagerStates.HOLDING,
-			operatorController::getAButtonPressed
+			Controllers.OPERATOR_CONTROLLER::getAButtonPressed
 		);
 		addTrigger(
 			ManagerStates.HOLDING,
 			ManagerStates.ALGAE_OUT,
-			operatorController::getXButtonPressed
+			Controllers.OPERATOR_CONTROLLER::getXButtonPressed
 		);
 		addTrigger(
 			ManagerStates.ALGAE_OUT,
 			ManagerStates.IDLE,
-			operatorController::getXButtonPressed
+			Controllers.OPERATOR_CONTROLLER::getXButtonPressed
 		);
 		addTrigger(
 			ManagerStates.IDLE,
 			ManagerStates.CLIMBING,
-			operatorController::getRightBumperButtonPressed
+			Controllers.OPERATOR_CONTROLLER::getRightBumperButtonPressed
 		);
 		addTrigger(ManagerStates.AUTO_ALIGNING_REEF, ManagerStates.IDLE, Controllers.DRIVER_CONTROLLER::getXButtonPressed);
 		addTrigger(ManagerStates.AUTO_ALIGNING_FEEDER, ManagerStates.IDLE, Controllers.DRIVER_CONTROLLER::getYButtonPressed);
