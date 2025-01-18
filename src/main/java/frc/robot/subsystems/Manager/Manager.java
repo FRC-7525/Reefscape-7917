@@ -22,22 +22,46 @@ public class Manager extends Subsystem<ManagerStates> {
 		algaeCorraler = new AlageCorraler();
 		operatorController = new XboxController(0);
 
-		addTrigger(ManagerStates.IDLE, ManagerStates.CORAL_OUT,
-			operatorController::getYButtonPressed);
-		addTrigger(ManagerStates.CORAL_OUT, ManagerStates.IDLE,
-			operatorController::getYButtonPressed);
-		addTrigger(ManagerStates.IDLE, ManagerStates.ALGAE_IN, 
-			operatorController::getBButtonPressed);
-		addTrigger(ManagerStates.ALGAE_IN, ManagerStates.IDLE,
-			operatorController::getBButtonPressed);
-		addTrigger(ManagerStates.ALGAE_IN, ManagerStates.HOLDING, 
-			operatorController::getAButtonPressed);
-		addTrigger(ManagerStates.HOLDING, ManagerStates.ALGAE_OUT, 
-			operatorController::getXButtonPressed);
-		addTrigger(ManagerStates.ALGAE_OUT, ManagerStates.IDLE, 
-			operatorController::getXButtonPressed);
-		addTrigger(ManagerStates.IDLE, ManagerStates.CLIMBING, 
-			operatorController::getRightBumperButtonPressed); 
+		addTrigger(
+			ManagerStates.IDLE,
+			ManagerStates.CORAL_OUT,
+			operatorController::getYButtonPressed
+		);
+		addTrigger(
+			ManagerStates.CORAL_OUT,
+			ManagerStates.IDLE,
+			operatorController::getYButtonPressed
+		);
+		addTrigger(
+			ManagerStates.IDLE,
+			ManagerStates.ALGAE_IN,
+			operatorController::getBButtonPressed
+		);
+		addTrigger(
+			ManagerStates.ALGAE_IN,
+			ManagerStates.IDLE,
+			operatorController::getBButtonPressed
+		);
+		addTrigger(
+			ManagerStates.ALGAE_IN,
+			ManagerStates.HOLDING,
+			operatorController::getAButtonPressed
+		);
+		addTrigger(
+			ManagerStates.HOLDING,
+			ManagerStates.ALGAE_OUT,
+			operatorController::getXButtonPressed
+		);
+		addTrigger(
+			ManagerStates.ALGAE_OUT,
+			ManagerStates.IDLE,
+			operatorController::getXButtonPressed
+		);
+		addTrigger(
+			ManagerStates.IDLE,
+			ManagerStates.CLIMBING,
+			operatorController::getRightBumperButtonPressed
+		);
 	}
 
 	public void runState() {
