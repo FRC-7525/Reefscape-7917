@@ -2,16 +2,33 @@ package frc.robot.subsystems.AlgaeCorraler;
 
 import static edu.wpi.first.units.Units.Degrees;
 
+import java.util.function.Supplier;
+
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.units.measure.Angle;
 
 public final class AlageCorralerConstants {
 
-        public final static double ALGAE_IN_SPEED = 0.3; 
-        public final static double ALGAE_OUT_SPEED = 0.7;
-        public final static double CORAL_OUT_SPEED = 0.7;
-        public final static Angle ALGAE_IDLE_ANGLE = Degrees.of(180);
-        public final static Angle ALGAE_OUT_ANGLE = Degrees.of(35);
-        public final static Angle ALGAE_HOLDING_ANGLE = Degrees.of(160);
-        
+    //CAN IDs - Random values 
+    public static final int LEFT_PIVOT_MOTOR_CANID = 0; 
+    public static final int RIGHT_PIVOT_MOTOR_CANID = 1; 
+    public static final int SPEED_MOTOR_CANID = 2; 
+
+    //PID
+    public static final Supplier<PIDController> PIVOT_CONTROLLER = () -> {
+	    return new PIDController(1, 0, 0.1);
+    }; 
+    
+    //Speeds
+    public static final double ALGAE_IN_SPEED = 0.3; 
+    public static final double ALGAE_OUT_SPEED = 0.7;
+    public static final double CORAL_OUT_SPEED = 0.7;
+
+    //Angles
+    public static final Angle ALGAE_IDLE_ANGLE = Degrees.of(180);
+    public static final Angle ALGAE_OUT_ANGLE = Degrees.of(35);
+    public static final Angle ALGAE_HOLDING_ANGLE = Degrees.of(160); 
+    
+    public static final String ALGAE_CORRALLER_ID = "Algae Corraler State"; 
     
 }
