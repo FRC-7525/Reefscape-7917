@@ -1,11 +1,6 @@
 package frc.robot.subsystems.AutoAligner;
 
-import static frc.robot.subsystems.AutoAligner.AutoAlignerConstants.ROTATION_PID;
-import static frc.robot.subsystems.AutoAligner.AutoAlignerConstants.ROTATION_TOLERANCE;
-import static frc.robot.subsystems.AutoAligner.AutoAlignerConstants.X_PID;
-import static frc.robot.subsystems.AutoAligner.AutoAlignerConstants.X_TOLERANCE;
-import static frc.robot.subsystems.AutoAligner.AutoAlignerConstants.Y_PID;
-import static frc.robot.subsystems.AutoAligner.AutoAlignerConstants.Y_TOLERANCE;
+import static frc.robot.subsystems.AutoAligner.AutoAlignerConstants.*; 
 
 import org.team7525.subsystem.Subsystem;
 
