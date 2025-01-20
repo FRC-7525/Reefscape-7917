@@ -30,7 +30,7 @@ public class Climber extends Subsystem<ClimberStates> {
 		robotClimber.setVoltage(
 			pid.calculate(
 				Units.rotationsToDegrees(robotClimber.getEncoder().getPosition()) * GEAR_RATIO,
-				getState().getPosition().in(Degrees)
+				getState().getPosition().magnitude()
 			)
 		);
 		SmartDashboard.putString(CLIMBER_STATE_ID, getState().getStateString());

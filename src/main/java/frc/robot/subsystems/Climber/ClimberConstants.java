@@ -11,6 +11,7 @@ public final class ClimberConstants {
 	public static final Supplier<PIDController> CLIMBER_CONTROLLER = () -> {
 		return new PIDController(1, 0, 0);
 	};
+	
 	public static final int DEVICE_ID = 16;
 
 	public static final Angle IDLE_POS = Degrees.of(29);

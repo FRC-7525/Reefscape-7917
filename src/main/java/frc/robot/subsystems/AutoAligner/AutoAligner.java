@@ -1,5 +1,12 @@
 package frc.robot.subsystems.AutoAligner;
 
+import static frc.robot.subsystems.AutoAligner.AutoAlignerConstants.ROTATION_PID;
+import static frc.robot.subsystems.AutoAligner.AutoAlignerConstants.ROTATION_TOLERANCE;
+import static frc.robot.subsystems.AutoAligner.AutoAlignerConstants.X_PID;
+import static frc.robot.subsystems.AutoAligner.AutoAlignerConstants.X_TOLERANCE;
+import static frc.robot.subsystems.AutoAligner.AutoAlignerConstants.Y_PID;
+import static frc.robot.subsystems.AutoAligner.AutoAlignerConstants.Y_TOLERANCE;
+
 import org.team7525.subsystem.Subsystem;
 
 import edu.wpi.first.math.MathUtil;
@@ -16,17 +23,22 @@ public class AutoAligner extends Subsystem<AutoAlignerStates> {
     PIDController yPID;
     PIDController rotationPID;
     Pose2d currentTarget;
-    double maxRotationSpeed = Math.PI;
+    double maxRotationSpeed; 
 
     public AutoAligner(SwerveDrive swerveDrive) {
         super("AutoAligner", AutoAlignerStates.OFF);
+
         this.swerveDrive = swerveDrive;
-        this.rotationPID = new PIDController(3.5, 0.0, 0.0);
-        this.xPID = new PIDController(6, 0.0, 0.0);
-        xPID.setTolerance(0.1);
-        this.yPID = new PIDController(6, 0.0, 0.0);
-        yPID.setTolerance(0.1);
-        rotationPID.setTolerance(Math.toRadians(3));
+        maxRotationSpeed = Math.PI; 
+
+        rotationPID = ROTATION_PID.get(); 
+        xPID = X_PID.get();
+        yPID = Y_PID.get(); 
+
+        rotationPID.setTolerance(Math.toRadians(ROTATION_TOLERANCE));
+        xPID.setTolerance(X_TOLERANCE);
+        yPID.setTolerance(Y_TOLERANCE);
+
         currentTarget = null;
         rotationPID.enableContinuousInput(-Math.PI, Math.PI);
     }
@@ -54,6 +66,7 @@ public class AutoAligner extends Subsystem<AutoAlignerStates> {
         double yOutput = yPID.calculate(swerveDrive.getPose().getY(), targetPose.getY());
 
         ChassisSpeeds speeds = new ChassisSpeeds(xOutput, yOutput, rotationOutput);
+
         swerveDrive.driveFieldOriented(speeds);
         swerveDrive.updateOdometry();
     }
@@ -69,7 +82,6 @@ public class AutoAligner extends Subsystem<AutoAlignerStates> {
                 nearestDistance = distance;
             }
         }
-
         return nearestPose;
     }
 
@@ -81,6 +93,5 @@ public class AutoAligner extends Subsystem<AutoAlignerStates> {
                     return true;
                 }
         return false;
-
     }
 }

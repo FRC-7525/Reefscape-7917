@@ -43,6 +43,7 @@ public class Manager extends Subsystem<ManagerStates> {
         } catch (Exception e) {
             throw new RuntimeException("Failed to create SwerveDrive", e);
         }
+		
         swerveDrive.setHeadingCorrection(false);
         swerveDrive.setCosineCompensator(false);
 
@@ -92,12 +93,36 @@ public class Manager extends Subsystem<ManagerStates> {
 			ManagerStates.CLIMBING,
 			Controllers.OPERATOR_CONTROLLER::getRightBumperButtonPressed
 		);
-		addTrigger(ManagerStates.AUTO_ALIGNING_REEF, ManagerStates.IDLE, Controllers.DRIVER_CONTROLLER::getXButtonPressed);
-		addTrigger(ManagerStates.AUTO_ALIGNING_FEEDER, ManagerStates.IDLE, Controllers.DRIVER_CONTROLLER::getYButtonPressed);
-		addTrigger(ManagerStates.IDLE, ManagerStates.AUTO_ALIGNING_REEF, Controllers.DRIVER_CONTROLLER::getXButtonPressed);
-		addTrigger(ManagerStates.IDLE, ManagerStates.AUTO_ALIGNING_FEEDER, Controllers.DRIVER_CONTROLLER::getYButtonPressed);
-		addTrigger(ManagerStates.AUTO_ALIGNING_REEF, ManagerStates.IDLE, autoAligner::atSetPoint);
-		addTrigger(ManagerStates.AUTO_ALIGNING_FEEDER, ManagerStates.IDLE, autoAligner::atSetPoint);
+		addTrigger(
+			ManagerStates.AUTO_ALIGNING_REEF, 
+			ManagerStates.IDLE, 
+			Controllers.DRIVER_CONTROLLER::getXButtonPressed
+		);
+		addTrigger(
+			ManagerStates.AUTO_ALIGNING_FEEDER, 
+			ManagerStates.IDLE, 
+			Controllers.DRIVER_CONTROLLER::getYButtonPressed
+		);
+		addTrigger(
+			ManagerStates.IDLE, 
+			ManagerStates.AUTO_ALIGNING_REEF, 
+			Controllers.DRIVER_CONTROLLER::getXButtonPressed
+		);
+		addTrigger(
+			ManagerStates.IDLE, 
+			ManagerStates.AUTO_ALIGNING_FEEDER, 
+			Controllers.DRIVER_CONTROLLER::getYButtonPressed
+		);
+		addTrigger(
+			ManagerStates.AUTO_ALIGNING_REEF, 
+			ManagerStates.IDLE, 
+			autoAligner::atSetPoint
+		);
+		addTrigger(
+			ManagerStates.AUTO_ALIGNING_FEEDER, 
+			ManagerStates.IDLE, 
+			autoAligner::atSetPoint
+		);
     }
 
 	public void runState() {
