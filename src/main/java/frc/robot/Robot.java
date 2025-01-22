@@ -4,15 +4,36 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.Manager.Manager;
 
+import org.littletonrobotics.junction.LoggedRobot;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.NT4Publisher;
+import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 import org.team7525.misc.CommandsUtil;
 
-public class Robot extends TimedRobot {
+public class Robot extends LoggedRobot {
 	Manager manager;
 
-	public Robot() {
+	public Robot() {}
+
+	public void robotInit() {
+		switch (GlobalConstants.ROBOT_MODE) {
+			case REAL:
+				Logger.addDataReceiver(new NT4Publisher());
+				Logger.addDataReceiver(new WPILOGWriter());
+				break;
+			case SIM:
+				Logger.addDataReceiver(new NT4Publisher());
+				break;
+			case TESTING:
+				Logger.addDataReceiver(new NT4Publisher());
+				break;
+			case REPLAY:
+				Logger.addDataReceiver(new NT4Publisher());
+				break;
+		}
+		Logger.start();
 		CommandsUtil.logCommands();
 		manager = new Manager();
 	}
