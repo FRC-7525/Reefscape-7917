@@ -53,7 +53,7 @@ public class ClimberIOSim implements ClimberIO {
     }
 
     public boolean nearSetpoint() {
-        return (Math.abs(climberSim.getAngularPositionRotations() - climberSetpoint) < POSITION_TOLERANCE.in(Meters));
+        return pidController.atSetpoint();
     }
 
 }

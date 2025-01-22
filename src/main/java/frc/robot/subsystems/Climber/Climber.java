@@ -7,7 +7,6 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import static frc.robot.GlobalConstants.*;
 import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.littletonrobotics.junction.Logger;
@@ -55,13 +54,6 @@ public class Climber extends Subsystem<ClimberStates> {
 		io.updateInputs(inputs);
 		Logger.processInputs(ClimberConstants.SUBSYSTEM_NAME, inputs);
 
-
-		robotClimber.setVoltage(
-			pid.calculate(
-				Units.rotationsToDegrees(robotClimber.getEncoder().getPosition()) * GEAR_RATIO,
-				getState().getSetpoint().magnitude()
-			)
-		);
 		SmartDashboard.putString(CLIMBER_STATE_ID, getState().getStateString());
 	}
 

@@ -39,7 +39,9 @@ public class Robot extends LoggedRobot {
 	}
 
 	@Override
-	public void robotPeriodic() {}
+	public void robotPeriodic() {
+		manager.periodic();
+	}
 
 	@Override
 	public void autonomousInit() {}
@@ -51,9 +53,7 @@ public class Robot extends LoggedRobot {
 	public void teleopInit() {}
 
 	@Override
-	public void teleopPeriodic() {
-		manager.periodic();
-	}
+	public void teleopPeriodic() {}
 
 	@Override
 	public void disabledInit() {}

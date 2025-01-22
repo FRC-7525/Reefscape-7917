@@ -20,6 +20,7 @@ import swervelib.parser.SwerveParser;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 
+import org.littletonrobotics.junction.Logger;
 import org.team7525.subsystem.Subsystem;
 
 
@@ -123,9 +124,15 @@ public class Manager extends Subsystem<ManagerStates> {
 			ManagerStates.IDLE, 
 			autoAligner::atSetPoint
 		);
-    }
 
+		
+    }
+	@Override
 	public void runState() {
+
+		Logger.recordOutput(ManagerConstants.SUBSYSTEM_NAME + "/State Time", getStateTime());
+		Logger.recordOutput(ManagerConstants.SUBSYSTEM_NAME + "/State String", getState().getStateString());
+		
 		climber.setState(getState().getClimber());
 		algaeCorraler.setState(getState().getAlgaeCorraler());
 		drive.setState(getState().getDrive());
@@ -139,4 +146,6 @@ public class Manager extends Subsystem<ManagerStates> {
 		swerveDrive.updateOdometry();
 		SmartDashboard.putString(DASHBOARD_STRING, getState().getStateString());
 	}
+
+
 }
