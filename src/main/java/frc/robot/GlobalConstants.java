@@ -9,6 +9,8 @@ public final class GlobalConstants {
         SIM,
         REPLAY;
     }
+    
+    public static final double SIMULATION_PERIOD = 0.02;
 
     public static final RobotMode ROBOT_MODE = "Crash".equals(System.getenv("CI_NAME"))
         ? RobotMode.SIM
