@@ -24,7 +24,7 @@ public class AlgaeCorraler extends Subsystem<AlgaeCorralerStates> {
 			case TESTING -> new AlgaeCorralerIOReal(); 
 			case REPLAY -> new AlgaeCorralerIOSim(); 
 		}; 
-
+		
 		inputs = new AlgaeCorralerIOInputsAutoLogged(); 
 	}
 

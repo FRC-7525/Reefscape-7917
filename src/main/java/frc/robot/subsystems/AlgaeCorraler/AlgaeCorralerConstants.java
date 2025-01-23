@@ -3,10 +3,12 @@ package frc.robot.subsystems.AlgaeCorraler;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.DegreesPerSecond;
 import static edu.wpi.first.units.Units.KilogramSquareMeters;
+import static edu.wpi.first.units.Units.Meters;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.MomentOfInertia;
 
 import java.util.function.Supplier;
@@ -49,5 +51,11 @@ public final class AlgaeCorralerConstants {
 		public static final double PIVOT_GEARING = 25; 
 		public static final MomentOfInertia WHEEL_MOTOR_MOI = KilogramSquareMeters.of(1); //lol random value
 		public static final MomentOfInertia PIVOT_MOTOR_MOI = KilogramSquareMeters.of(1); 
+
+		public static final Distance PIVOT_ARM_LENGTH = Meters.of(.3);
+		public static final Angle MIN_PIVOT_ANGLE = Degrees.of(0);
+		public static final Angle MAX_PIVOT_ANGLE = Degrees.of(180);//idk
+		public static final Angle STARTING_PIVOT_ANGLE = Degrees.of(0);
+
 	}
 }

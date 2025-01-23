@@ -32,7 +32,7 @@ public class AlgaeCorralerIOReal implements AlgaeCorralerIO{
     private double wheelSpeedSetpoint; 
 
     public AlgaeCorralerIOReal() {
-
+        
         //Initiallize Things
         wheelsMotor = new SparkMax(SPEED_MOTOR_CANID, MotorType.kBrushless);
         rightPivotMotor = new SparkMax(RIGHT_PIVOT_MOTOR_CANID, MotorType.kBrushless);
