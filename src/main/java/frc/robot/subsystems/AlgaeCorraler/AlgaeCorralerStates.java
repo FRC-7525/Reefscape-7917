@@ -1,11 +1,10 @@
 package frc.robot.subsystems.AlgaeCorraler;
 
-import static edu.wpi.first.units.Units.Degrees;
-import static edu.wpi.first.units.Units.DegreesPerSecond;
-import static frc.robot.subsystems.AlgaeCorraler.AlageCorralerConstants.*;
+import static edu.wpi.first.units.Units.*;
+import static frc.robot.subsystems.AlgaeCorraler.AlgaeCorralerConstants.*;
 
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.*;
+
 import org.team7525.subsystem.SubsystemStates;
 
 public enum AlgaeCorralerStates implements SubsystemStates {
@@ -16,13 +15,13 @@ public enum AlgaeCorralerStates implements SubsystemStates {
 	ALGAEOUT("ALGAEOUT", ALGAE_OUT_SPEED, ALGAE_OUT_ANGLE);
 
 	private String stateString;
-	private AngularVelocity speed;
-	private Angle algaePosition;
+	private AngularVelocity wheelSpeed;
+	private Angle pivotSetpoint;
 
-	AlgaeCorralerStates(String stateString, AngularVelocity speed, Angle algaePosition) {
+	AlgaeCorralerStates(String stateString, AngularVelocity wheelSpeed, Angle pivotSetpoint) {
 		this.stateString = stateString;
-		this.algaePosition = algaePosition;
-		this.speed = speed;
+		this.pivotSetpoint = pivotSetpoint;
+		this.wheelSpeed = wheelSpeed;
 	}
 
 	@Override
@@ -31,10 +30,10 @@ public enum AlgaeCorralerStates implements SubsystemStates {
 	}
 
 	public AngularVelocity getWheelSpeed() {
-		return speed;
+		return wheelSpeed;
 	}
 
-	public Angle getAlgaePosition() {
-		return algaePosition;
+	public Angle getPivotSetpoint() {
+		return pivotSetpoint;
 	}
 }

@@ -11,7 +11,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.GlobalConstants.Controllers;
-import frc.robot.subsystems.AlgaeCorraler.AlageCorraler;
+import frc.robot.subsystems.AlgaeCorraler.AlgaeCorraler;
 import frc.robot.subsystems.AutoAligner.AutoAligner;
 import frc.robot.subsystems.Climber.Climber;
 import frc.robot.subsystems.Drive.Drive;
@@ -27,7 +27,7 @@ import org.team7525.subsystem.Subsystem;
 public class Manager extends Subsystem<ManagerStates> {
 
 	private Climber climber;
-	private AlageCorraler algaeCorraler;
+	private AlgaeCorraler algaeCorraler;
 	private AutoAligner autoAligner;
 	private SwerveDrive swerveDrive;
 	private Drive drive;
@@ -49,7 +49,7 @@ public class Manager extends Subsystem<ManagerStates> {
         swerveDrive.setCosineCompensator(false);
 
 		climber = new Climber();
-		algaeCorraler = new AlageCorraler();
+		algaeCorraler = new AlgaeCorraler();
 
 		drive = new Drive(swerveDrive);
 		autoAligner = new AutoAligner(swerveDrive);
