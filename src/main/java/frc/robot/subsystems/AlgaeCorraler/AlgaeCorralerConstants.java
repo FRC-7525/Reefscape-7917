@@ -45,7 +45,9 @@ public final class AlgaeCorralerConstants {
 	public static class Sim {
 		public static final int NUM_PIVOT_MOTORS = 2; 
 		public static final int NUM_SPEED_MOTORS = 1; 
-		public static final double MOTOR_GEARING = 0; //I'll do this later
+		public static final double WHEEL_GEARING = 25; //I'll do this later
+		public static final double PIVOT_GEARING = 25; 
 		public static final MomentOfInertia WHEEL_MOTOR_MOI = KilogramSquareMeters.of(1); //lol random value
+		public static final MomentOfInertia PIVOT_MOTOR_MOI = KilogramSquareMeters.of(1); 
 	}
 }

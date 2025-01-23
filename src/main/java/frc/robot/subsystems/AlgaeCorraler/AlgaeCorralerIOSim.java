@@ -39,7 +39,9 @@ public class AlgaeCorralerIOSim implements AlgaeCorralerIO {
 	private double pivotPosSetpoint;
 
     public AlgaeCorralerIOSim() {
-        wheelMotorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getNEO(Sim.NUM_SPEED_MOTORS), Sim.WHEEL_MOTOR_MOI.magnitude(), Sim.MOTOR_GEARING), DCMotor.getNEO(Sim.NUM_SPEED_MOTORS)); 
+        leftMotorSim = new DCMotorSim(LinearSystemId. createDCMotorSystem(DCMotor.getNEO(Sim.NUM_PIVOT_MOTORS), Sim.PIVOT_MOTOR_MOI.magnitude(), Sim.PIVOT_GEARING), DCMotor.getNEO(Sim.NUM_PIVOT_MOTORS)); 
+        rightMotorSim = new DCMotorSim(LinearSystemId. createDCMotorSystem(DCMotor.getNEO(Sim.NUM_PIVOT_MOTORS), Sim.PIVOT_MOTOR_MOI.magnitude(), Sim.PIVOT_GEARING), DCMotor.getNEO(Sim.NUM_PIVOT_MOTORS)); 
+        wheelMotorSim = new DCMotorSim(LinearSystemId.createDCMotorSystem(DCMotor.getNEO(Sim.NUM_SPEED_MOTORS), Sim.WHEEL_MOTOR_MOI.magnitude(), Sim.WHEEL_GEARING), DCMotor.getNEO(Sim.NUM_SPEED_MOTORS)); 
 
         dummyLeftPivotSpark = new SparkMax(Real.LEFT_PIVOT_MOTOR_CANID, MotorType.kBrushless); 
         dummyRightPivotSpark = new SparkMax(Real.RIGHT_PIVOT_MOTOR_CANID, MotorType.kBrushless);
