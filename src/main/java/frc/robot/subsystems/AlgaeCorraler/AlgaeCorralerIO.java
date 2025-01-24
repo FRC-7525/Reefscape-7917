@@ -10,8 +10,7 @@ public interface AlgaeCorralerIO {
     @AutoLog
     public static class AlgaeCorralerIOInputs {
         //Pivot
-        public double rightPivotPostition; 
-        public double leftPivotPosition; 
+        public double pivotPosition; 
         public double pivotSetpoint; 
 
         //Wheels
@@ -28,4 +27,5 @@ public interface AlgaeCorralerIO {
     public boolean nearTarget();
 
     public void stop(); 
+
 }

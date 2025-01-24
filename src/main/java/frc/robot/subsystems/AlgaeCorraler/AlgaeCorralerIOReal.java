@@ -20,7 +20,8 @@ import frc.robot.GlobalConstants;
 import frc.robot.GlobalConstants.RobotMode;
 
 public class AlgaeCorralerIOReal implements AlgaeCorralerIO{
-	private SparkMax wheelsMotor;
+	
+    private SparkMax wheelsMotor;
 	private SparkMax rightPivotMotor;
 	private SparkMax leftPivotMotor;
 
@@ -53,8 +54,7 @@ public class AlgaeCorralerIOReal implements AlgaeCorralerIO{
 
     @Override 
     public void updateInputs(AlgaeCorralerIOInputs inputs) {
-        inputs.rightPivotPostition = Units.rotationsToDegrees(rightPivotMotor.getEncoder().getPosition()); 
-        inputs.leftPivotPosition = Units.rotationsToDegrees(leftPivotMotor.getEncoder().getPosition());
+        inputs.pivotPosition = Units.rotationsToDegrees(rightPivotMotor.getEncoder().getPosition()); 
         inputs.pivotSetpoint = pivotPosSetpoint;
         inputs.wheelSpeed = wheelsMotor.getEncoder().getVelocity(); 
         inputs.wheelSpeedSetpoint = wheelSpeedSetpoint; 
@@ -65,7 +65,6 @@ public class AlgaeCorralerIOReal implements AlgaeCorralerIO{
 		}
     }
 
-    //lowkey should i just specify for right bc thats the leader and left is following??
     @Override
     public void setPivotSetpoint(Angle pivotSetpoint) {
         this.pivotPosSetpoint = pivotSetpoint.in(Degrees); 
@@ -82,16 +81,12 @@ public class AlgaeCorralerIOReal implements AlgaeCorralerIO{
 
     @Override
     public boolean nearTarget() {
-        return (
-            Math.abs(Units.rotationsToDegrees(rightPivotMotor.getEncoder().getPosition() - pivotPosSetpoint)) < PIVOT_TOLERANCE.in(Degrees) && 
-            Math.abs(Units.rotationsToDegrees(leftPivotMotor.getEncoder().getPosition() - pivotPosSetpoint)) < PIVOT_TOLERANCE.in(Degrees) && 
-            Math.abs(wheelsMotor.getEncoder().getVelocity() - wheelSpeedSetpoint) < SPEED_TOLERANCE.in(RotationsPerSecond)); 
+        return pivotController.atSetpoint() && speedController.atSetpoint();
     }
 
     @Override
     public void stop() {
-        rightPivotMotor.getEncoder().setPosition(0);
-        leftPivotMotor.getEncoder().setPosition(0);
-        wheelsMotor.set(0);
+        wheelsMotor.setVoltage(0);
     }
+
 }

@@ -57,11 +57,11 @@ public class Climber extends Subsystem<ClimberStates> {
 		SmartDashboard.putString(CLIMBER_STATE_ID, getState().getStateString());
 	}
 
-	public void stop() {
-		io.stop();
-	}
-
 	public boolean nearSetpoint() {
 		return io.nearSetpoint();
+	}
+	
+	public void stop() {
+		io.stop();
 	}
 }

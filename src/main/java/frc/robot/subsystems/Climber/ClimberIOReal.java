@@ -36,7 +36,7 @@ public class ClimberIOReal implements ClimberIO {
         
     @Override
     public void setClimberSetpoint(Distance setpoint) {
-         double height = setpoint.in(Meters);
+        double height = setpoint.in(Meters);
         this.setpoint = height;
 
         double voltage = pidController.calculate(motor.getEncoder().getPosition() * METERS_PER_ROTATION.in(Meters), height);

@@ -32,6 +32,7 @@ public class ClimberIOSim implements ClimberIO {
 
     }
 
+    @Override
     public void updateInputs(ClimberIOInputs inputs) {
         inputs.climberPos = climberSim.getAngularPositionRotations();
         inputs.climberSetpoint = climberSetpoint;
@@ -40,6 +41,7 @@ public class ClimberIOSim implements ClimberIO {
         climberSparkSim.setPosition(climberSim.getAngularPositionRotations());
     }
 
+    @Override
     public void setClimberSetpoint(Distance setpoint) {
         double height = setpoint.in(Meters);
 
@@ -48,12 +50,14 @@ public class ClimberIOSim implements ClimberIO {
         climberSim.setInputVoltage(voltage);
     }
 
-    public void stop() {
-        climberSim.setInputVoltage(0);
-    }
-
+    @Override
     public boolean nearSetpoint() {
         return pidController.atSetpoint();
+    }
+
+    @Override
+    public void stop() {
+        climberSim.setInputVoltage(0);
     }
 
 }

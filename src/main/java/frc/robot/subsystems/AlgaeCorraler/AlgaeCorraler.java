@@ -52,6 +52,7 @@ public class AlgaeCorraler extends Subsystem<AlgaeCorralerStates> {
 	}
 
 	public void stop() {
-		io.stop();
+		io.stop(); 
 	}
+
 }

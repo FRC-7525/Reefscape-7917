@@ -79,16 +79,15 @@ public class AlgaeCorralerIOSim implements AlgaeCorralerIO {
 
         pivotPosSetpoint = 0;
         wheelSpeedSetpoint = 0;
-
     }
 
+    @Override
     public void updateInputs(AlgaeCorralerIOInputs inputs) {
         leftPivotSim.update(SIMULATION_PERIOD);
         rightPivotSim.update(SIMULATION_PERIOD);
 		wheelMotorSim.update(SIMULATION_PERIOD);
 
-        inputs.rightPivotPostition = Units.rotationsToDegrees(rightPivotSim.getAngleRads());
-        inputs.leftPivotPosition = Units.rotationsToDegrees(rightPivotSim.getAngleRads()); 
+        inputs.pivotPosition = Units.rotationsToDegrees(rightPivotSim.getAngleRads());
         inputs.wheelSpeed = Units.radiansToDegrees(wheelMotorSim.getAngularAccelerationRadPerSecSq()); 
         inputs.pivotSetpoint = pivotPosSetpoint;
         inputs.wheelSpeedSetpoint = wheelSpeedSetpoint;
@@ -118,16 +117,12 @@ public class AlgaeCorralerIOSim implements AlgaeCorralerIO {
 
     @Override
 	public boolean nearTarget() {
-		return (
-            (Math.abs(Units.rotationsToDegrees(leftPivotSim.getAngleRads()) - pivotPosSetpoint) < PIVOT_TOLERANCE.in(Degrees)) && 
-            (Math.abs(Units.rotationsToDegrees(rightPivotSim.getAngleRads()) - pivotPosSetpoint) < PIVOT_TOLERANCE.in(Degrees)) && 
-            (Math.abs(Units.radiansToRotations(wheelMotorSim.getAngularVelocityRadPerSec()) - wheelSpeedSetpoint) < SPEED_TOLERANCE.in(RotationsPerSecond))
-        );
+		return pivotController.atSetpoint() && speedController.atSetpoint(); 
 	}
+
     @Override
     public void stop() {
-        rightPivotSparkSim.setPosition(0);
-        leftPivotSparkSim.setPosition(0);
-        wheelSparkSim.setVelocity(0);
+        wheelMotorSim.setInputVoltage(0);
     }
+    
 }
