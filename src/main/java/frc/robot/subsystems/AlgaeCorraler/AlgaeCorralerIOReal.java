@@ -39,8 +39,11 @@ public class AlgaeCorralerIOReal implements AlgaeCorralerIO{
         rightPivotMotor = new SparkMax(RIGHT_PIVOT_MOTOR_CANID, MotorType.kBrushless);
         leftPivotMotor = new SparkMax(LEFT_PIVOT_MOTOR_CANID, MotorType.kBrushless);
         
-        pivotController = PIVOT_CONTROLLER.get();
-        speedController = SPEED_CONTROLLER.get(); 
+        pivotController = new PIDController(PIVOT_PID_CONSTANTS.kP, PIVOT_PID_CONSTANTS.kI, PIVOT_PID_CONSTANTS.kD); 
+        speedController = new PIDController(SPEED_PID_CONSTANTS.kP, SPEED_PID_CONSTANTS.kI, SPEED_PID_CONSTANTS.kD); 
+
+        pivotController.setTolerance(PIVOT_TOLERANCE.magnitude());
+        speedController.setTolerance(SPEED_TOLERANCE.magnitude());
 
         //Motor Configs
         configuration = new SparkMaxConfig();

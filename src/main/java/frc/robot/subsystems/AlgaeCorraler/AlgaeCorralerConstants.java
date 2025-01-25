@@ -5,25 +5,17 @@ import static edu.wpi.first.units.Units.DegreesPerSecond;
 import static edu.wpi.first.units.Units.KilogramSquareMeters;
 import static edu.wpi.first.units.Units.Meters;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.MomentOfInertia;
 
-import java.util.function.Supplier;
+import com.pathplanner.lib.config.PIDConstants;
 
 public final class AlgaeCorralerConstants {
 
 	public static final String ALGAE_CORRALLER_ID = "Algae Corraler State";
-	
-	//PID
-	public static final Supplier<PIDController> PIVOT_CONTROLLER = () -> {
-		return new PIDController(1, 0, 0.1);
-	};
-	public static final Supplier<PIDController> SPEED_CONTROLLER = () -> {
-		return new PIDController(1, 0, 0.1);
-	};
+
 	public static final Angle PIVOT_TOLERANCE = Degrees.of(5);
 	public static final AngularVelocity SPEED_TOLERANCE = DegreesPerSecond.of(1); 
 
@@ -42,6 +34,9 @@ public final class AlgaeCorralerConstants {
 		public static final int LEFT_PIVOT_MOTOR_CANID = 0;
 		public static final int RIGHT_PIVOT_MOTOR_CANID = 34;
 		public static final int SPEED_MOTOR_CANID = 35;
+
+		public static final PIDConstants PIVOT_PID_CONSTANTS = new PIDConstants(0, 0, 0, 0);
+		public static final PIDConstants SPEED_PID_CONSTANTS = new PIDConstants(0, 0, 0, 0);
 	}
 
 	public static class Sim {
@@ -57,5 +52,7 @@ public final class AlgaeCorralerConstants {
 		public static final Angle MAX_PIVOT_ANGLE = Degrees.of(180);//idk
 		public static final Angle STARTING_PIVOT_ANGLE = Degrees.of(0);
 
+		public static final PIDConstants SPEED_PID_CONSTANTS = new PIDConstants(0, 0, 0, 0);
+		public static final PIDConstants PIVOT_PID_CONSTANTS = new PIDConstants(0, 0, 0, 0);
 	}
 }

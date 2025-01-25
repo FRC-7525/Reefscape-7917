@@ -12,12 +12,11 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
-import frc.robot.subsystems.AlgaeCorraler.AlgaeCorralerConstants.Real;
-import frc.robot.subsystems.AlgaeCorraler.AlgaeCorralerConstants.Sim;
 
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static frc.robot.subsystems.AlgaeCorraler.AlgaeCorralerConstants.*;
+import static frc.robot.subsystems.AlgaeCorraler.AlgaeCorralerConstants.Sim.*;
 import static frc.robot.GlobalConstants.*; 
 
 public class AlgaeCorralerIOSim implements AlgaeCorralerIO {
@@ -74,8 +73,11 @@ public class AlgaeCorralerIOSim implements AlgaeCorralerIO {
         rightPivotSparkSim = new SparkMaxSim(dummyRightPivotSpark, DCMotor.getNEO(Sim.NUM_PIVOT_MOTORS)); 
         wheelSparkSim = new SparkMaxSim(dummyWheelsSpark, DCMotor.getNEO(Sim.NUM_SPEED_MOTORS)); 
 
-        pivotController = PIVOT_CONTROLLER.get(); 
-        speedController = SPEED_CONTROLLER.get(); 
+        pivotController = new PIDController(PIVOT_PID_CONSTANTS.kP, PIVOT_PID_CONSTANTS.kI, PIVOT_PID_CONSTANTS.kP);
+        speedController = new PIDController(SPEED_PID_CONSTANTS.kP, PIVOT_PID_CONSTANTS.kI, SPEED_PID_CONSTANTS.kD);
+
+        pivotController.setTolerance(PIVOT_TOLERANCE.magnitude());
+        speedController.setTolerance(SPEED_TOLERANCE.magnitude()); 
 
         pivotPosSetpoint = 0;
         wheelSpeedSetpoint = 0;
@@ -124,5 +126,5 @@ public class AlgaeCorralerIOSim implements AlgaeCorralerIO {
     public void stop() {
         wheelMotorSim.setInputVoltage(0);
     }
-    
+
 }
