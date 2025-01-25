@@ -4,9 +4,8 @@ import static edu.wpi.first.units.Units.*;
 import static frc.robot.subsystems.AlgaeCorraler.AlgaeCorralerConstants.*;
 
 import edu.wpi.first.units.measure.*;
-
 import org.team7525.subsystem.SubsystemStates;
-	
+
 public enum AlgaeCorralerStates implements SubsystemStates {
 	IDLE("IDLE", DegreesPerSecond.of(0), ALGAE_IDLE_ANGLE),
 	CORALOUT("CORALOUT", CORAL_OUT_SPEED, Degrees.of(0)),

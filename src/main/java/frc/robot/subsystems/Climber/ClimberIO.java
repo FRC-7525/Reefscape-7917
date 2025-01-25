@@ -1,24 +1,21 @@
 package frc.robot.subsystems.Climber;
 
-import org.littletonrobotics.junction.AutoLog;
 import edu.wpi.first.units.measure.Distance;
+import org.littletonrobotics.junction.AutoLog;
 
 public interface ClimberIO {
-    @AutoLog
-    public static class ClimberIOInputs {
+	@AutoLog
+	public static class ClimberIOInputs {
 
-        public double climberPos;
-        public double climberSetpoint;
-        
-    }
+		public double climberPos;
+		public double climberSetpoint;
+	}
 
-    public void updateInputs(ClimberIOInputs input);
+	public void updateInputs(ClimberIOInputs input);
 
-    public void setClimberSetpoint(Distance setpoint);
-    
-    public boolean nearSetpoint();
+	public void setClimberSetpoint(Distance setpoint);
 
-    public void stop();
-    
+	public boolean nearSetpoint();
+
+	public void stop();
 }
-    

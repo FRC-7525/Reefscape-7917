@@ -4,15 +4,14 @@ import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.KilogramSquareMeters;
 import static edu.wpi.first.units.Units.Meters;
 
+import com.pathplanner.lib.config.PIDConstants;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.MomentOfInertia;
 
-import com.pathplanner.lib.config.PIDConstants;
-
 public final class ClimberConstants {
+
 	public static final String SUBSYSTEM_NAME = "Climber";
 
-	
 	public static final int DEVICE_ID = 16;
 	public static final Distance POSITION_TOLERANCE = Meters.of(0.1);
 
@@ -24,18 +23,19 @@ public final class ClimberConstants {
 	public static final Distance METERS_PER_ROTATION = Meters.of(.152); //6 inches tbd
 
 	public static final String CLIMBER_STATE_ID = "Climber State";
-	
+
 	public static class Real {
+
 		public static final int CLIMBER_CANID = 18;
 
 		public static final PIDConstants PID_CONSTANTS = new PIDConstants(0, 0, 0, 0);
 	}
 
 	public static class Sim {
+
 		public static final double MOTOR_GEARING = 25;
 		public static final MomentOfInertia MOTOR_MOI = KilogramSquareMeters.of(1);
 		public static final int NUM_MOTORS = 1;
 		public static final PIDConstants PID_CONSTANTS = new PIDConstants(0, 0, 0, 0);
 	}
 }
-

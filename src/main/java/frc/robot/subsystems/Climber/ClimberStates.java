@@ -2,8 +2,8 @@ package frc.robot.subsystems.Climber;
 
 import static frc.robot.subsystems.Climber.ClimberConstants.IDLE_POS;
 import static frc.robot.subsystems.Climber.ClimberConstants.ON_POS;
-import edu.wpi.first.units.measure.Distance;
 
+import edu.wpi.first.units.measure.Distance;
 import org.team7525.subsystem.SubsystemStates;
 
 public enum ClimberStates implements SubsystemStates {

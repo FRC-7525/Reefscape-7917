@@ -1,11 +1,9 @@
 package frc.robot.subsystems.Climber;
 
+import static frc.robot.GlobalConstants.*;
 import static frc.robot.subsystems.Climber.ClimberConstants.*;
 
-import static frc.robot.GlobalConstants.*;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import org.littletonrobotics.junction.Logger;
 import org.team7525.subsystem.Subsystem;
 
@@ -14,7 +12,6 @@ public class Climber extends Subsystem<ClimberStates> {
 	private static Climber instance;
 	private ClimberIO io;
 	private ClimberIOInputsAutoLogged inputs;
-
 
 	public Climber() {
 		super("Climber", ClimberStates.IDLE);
@@ -32,7 +29,6 @@ public class Climber extends Subsystem<ClimberStates> {
 			instance = new Climber();
 		}
 		return instance;
-
 	}
 
 	@Override
