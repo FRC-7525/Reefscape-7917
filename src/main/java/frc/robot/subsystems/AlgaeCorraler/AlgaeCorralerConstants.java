@@ -5,20 +5,19 @@ import static edu.wpi.first.units.Units.DegreesPerSecond;
 import static edu.wpi.first.units.Units.KilogramSquareMeters;
 import static edu.wpi.first.units.Units.Meters;
 
-import java.util.function.Supplier;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.MomentOfInertia;
+import java.util.function.Supplier;
 
 public final class AlgaeCorralerConstants {
 
 	public static final String SUBSYSTEM_NAME = "Algae Corraler";
 	public static final String ALGAE_CORRALER_STATE = "Algae Corraler State";
-	public static final String ALGAE_CORRALER_PIVOT_PID = "AlgaeCorraler Pivot PID"; 
-	public static final String ALGAE_CORRALER_SPEED_PID = "Algae Corraler Speed PID"; 
+	public static final String ALGAE_CORRALER_PIVOT_PID = "AlgaeCorraler Pivot PID";
+	public static final String ALGAE_CORRALER_SPEED_PID = "Algae Corraler Speed PID";
 
 	//CAN IDs - Random values
 	public static final int LEFT_PIVOT_MOTOR_CANID = 0;
@@ -41,7 +40,7 @@ public final class AlgaeCorralerConstants {
 	public static class Real {
 
 		public static final Supplier<PIDController> PIVOT_PID = () -> {
-		return new PIDController(0, 0, 0);
+			return new PIDController(0, 0, 0);
 		};
 
 		public static final Supplier<PIDController> SPEED_PID = () -> {
@@ -65,7 +64,7 @@ public final class AlgaeCorralerConstants {
 
 		public static final Supplier<PIDController> PIVOT_PID = () -> {
 			return new PIDController(0, 0, 0);
-		};		
+		};
 
 		public static final Supplier<PIDController> SPEED_PID = () -> {
 			return new PIDController(0, 0, 0);

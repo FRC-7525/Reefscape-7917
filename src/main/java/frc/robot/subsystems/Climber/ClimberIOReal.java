@@ -20,7 +20,7 @@ public class ClimberIOReal implements ClimberIO {
 
 	public ClimberIOReal() {
 		motor = new SparkMax(0, MotorType.kBrushless);
-		pidController = CLIMBER_CONTROLLER_PID.get(); 
+		pidController = CLIMBER_CONTROLLER_PID.get();
 		pidController.setTolerance(POSITION_TOLERANCE.magnitude());
 
 		if (ROBOT_MODE == RobotMode.TESTING) {

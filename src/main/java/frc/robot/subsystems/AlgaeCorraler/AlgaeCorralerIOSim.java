@@ -73,11 +73,14 @@ public class AlgaeCorralerIOSim implements AlgaeCorralerIO {
 		dummyRightPivotSpark = new SparkMax(RIGHT_PIVOT_MOTOR_CANID, MotorType.kBrushless);
 		dummyWheelsSpark = new SparkMax(SPEED_MOTOR_CANID, MotorType.kBrushless);
 
-		leftPivotSparkSim = new SparkMaxSim(dummyLeftPivotSpark,DCMotor.getNEO(NUM_PIVOT_MOTORS));
-		rightPivotSparkSim = new SparkMaxSim(dummyRightPivotSpark, DCMotor.getNEO(NUM_PIVOT_MOTORS));
+		leftPivotSparkSim = new SparkMaxSim(dummyLeftPivotSpark, DCMotor.getNEO(NUM_PIVOT_MOTORS));
+		rightPivotSparkSim = new SparkMaxSim(
+			dummyRightPivotSpark,
+			DCMotor.getNEO(NUM_PIVOT_MOTORS)
+		);
 		wheelSparkSim = new SparkMaxSim(dummyWheelsSpark, DCMotor.getNEO(NUM_SPEED_MOTORS));
 
-		pivotController = PIVOT_PID.get(); 
+		pivotController = PIVOT_PID.get();
 		speedController = SPEED_PID.get();
 
 		pivotController.setTolerance(PIVOT_TOLERANCE.magnitude());
@@ -94,7 +97,9 @@ public class AlgaeCorralerIOSim implements AlgaeCorralerIO {
 		wheelMotorSim.update(SIMULATION_PERIOD);
 
 		inputs.pivotPosition = Units.rotationsToDegrees(rightPivotSim.getAngleRads());
-		inputs.wheelSpeed = Units.radiansToDegrees(wheelMotorSim.getAngularAccelerationRadPerSecSq());
+		inputs.wheelSpeed = Units.radiansToDegrees(
+			wheelMotorSim.getAngularAccelerationRadPerSecSq()
+		);
 
 		inputs.pivotSetpoint = pivotPosSetpoint.in(Degree);
 		inputs.wheelSpeedSetpoint = wheelSpeedSetpoint.in(DegreesPerSecond);
@@ -112,8 +117,11 @@ public class AlgaeCorralerIOSim implements AlgaeCorralerIO {
 	@Override
 	public void setPivotSetpoint(Angle pivotSetpoint) {
 		this.pivotPosSetpoint = pivotSetpoint;
-		double voltage = pivotController.calculate(Units.radiansToDegrees(leftPivotSim.getAngleRads()), pivotSetpoint.in(Degree)); 
-		
+		double voltage = pivotController.calculate(
+			Units.radiansToDegrees(leftPivotSim.getAngleRads()),
+			pivotSetpoint.in(Degree)
+		);
+
 		leftPivotSim.setInputVoltage(voltage);
 		rightPivotSim.setInputVoltage(voltage);
 	}

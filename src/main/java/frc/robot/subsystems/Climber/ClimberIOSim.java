@@ -52,7 +52,10 @@ public class ClimberIOSim implements ClimberIO {
 	@Override
 	public void setClimberSetpoint(Distance setpoint) {
 		this.climberSetpoint = setpoint;
-		double voltage = pidController.calculate(climberSim.getAngularPositionRotations(), setpoint.in(Meters));
+		double voltage = pidController.calculate(
+			climberSim.getAngularPositionRotations(),
+			setpoint.in(Meters)
+		);
 		climberSim.setInputVoltage(voltage);
 	}
 
