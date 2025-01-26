@@ -3,13 +3,10 @@ package frc.robot.subsystems.AlgaeCorraler;
 import static frc.robot.GlobalConstants.*;
 import static frc.robot.subsystems.AlgaeCorraler.AlgaeCorralerConstants.*;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.littletonrobotics.junction.Logger;
 import org.team7525.subsystem.Subsystem;
 
 public class AlgaeCorraler extends Subsystem<AlgaeCorralerStates> {
-
-	private static AlgaeCorraler instance;
 
 	private AlgaeCorralerIO io;
 	private AlgaeCorralerIOInputsAutoLogged inputs;
@@ -27,23 +24,15 @@ public class AlgaeCorraler extends Subsystem<AlgaeCorralerStates> {
 		inputs = new AlgaeCorralerIOInputsAutoLogged();
 	}
 
-	//Instance
-	public static AlgaeCorraler getInstance() {
-		if (instance == null) {
-			instance = new AlgaeCorraler();
-		}
-		return instance;
-	}
-
 	@Override
 	public void runState() {
 		io.setPivotSetpoint(getState().getPivotSetpoint());
 		io.setWheelSpeed(getState().getWheelSpeed());
 
 		io.updateInputs(inputs);
-		Logger.processInputs("Algae Corraler", inputs);
+		Logger.processInputs(SUBSYSTEM_NAME, inputs);
 
-		SmartDashboard.putString(ALGAE_CORRALLER_ID, getState().getStateString());
+		Logger.recordOutput(ALGAE_CORRALER_STATE, getState().getStateString());
 	}
 
 	public boolean nearTarget() {

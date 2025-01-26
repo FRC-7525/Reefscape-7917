@@ -27,8 +27,8 @@ public class AlgaeCorralerIOReal implements AlgaeCorralerIO {
 	private PIDController speedController;
 	private SparkMaxConfig configuration;
 
-	private double pivotPosSetpoint;
-	private double wheelSpeedSetpoint;
+	private AngularVelocity wheelSpeedSetpoint;
+	private Angle pivotPosSetpoint;
 
 	public AlgaeCorralerIOReal() {
 		//Initiallize Things
@@ -36,16 +36,8 @@ public class AlgaeCorralerIOReal implements AlgaeCorralerIO {
 		rightPivotMotor = new SparkMax(RIGHT_PIVOT_MOTOR_CANID, MotorType.kBrushless);
 		leftPivotMotor = new SparkMax(LEFT_PIVOT_MOTOR_CANID, MotorType.kBrushless);
 
-		pivotController = new PIDController(
-			PIVOT_PID_CONSTANTS.kP,
-			PIVOT_PID_CONSTANTS.kI,
-			PIVOT_PID_CONSTANTS.kD
-		);
-		speedController = new PIDController(
-			SPEED_PID_CONSTANTS.kP,
-			SPEED_PID_CONSTANTS.kI,
-			SPEED_PID_CONSTANTS.kD
-		);
+		pivotController = PIVOT_PID.get(); 
+		speedController = SPEED_PID.get(); 
 
 		pivotController.setTolerance(PIVOT_TOLERANCE.magnitude());
 		speedController.setTolerance(SPEED_TOLERANCE.magnitude());
@@ -62,33 +54,33 @@ public class AlgaeCorralerIOReal implements AlgaeCorralerIO {
 
 	@Override
 	public void updateInputs(AlgaeCorralerIOInputs inputs) {
-		inputs.pivotPosition = Units.rotationsToDegrees(rightPivotMotor.getEncoder().getPosition());
-		inputs.pivotSetpoint = pivotPosSetpoint;
-		inputs.wheelSpeed = wheelsMotor.getEncoder().getVelocity();
-		inputs.wheelSpeedSetpoint = wheelSpeedSetpoint;
+		inputs.pivotPosition = rightPivotMotor.getEncoder().getPosition();
+		inputs.pivotSetpoint = pivotPosSetpoint.in(Degree);
+		inputs.wheelSpeed = (wheelsMotor.getEncoder().getVelocity()) / 60;
+		inputs.wheelSpeedSetpoint = wheelSpeedSetpoint.in(DegreesPerSecond);
 
 		if (GlobalConstants.ROBOT_MODE == RobotMode.TESTING) {
-			SmartDashboard.putData("AlgaeCorraler Pivot PID", pivotController);
-			SmartDashboard.putData("Algae Corraler Speed PID", speedController);
+			SmartDashboard.putData(ALGAE_CORRALER_PIVOT_PID, pivotController);
+			SmartDashboard.putData(ALGAE_CORRALER_SPEED_PID, speedController);
 		}
 	}
 
 	@Override
 	public void setPivotSetpoint(Angle pivotSetpoint) {
-		this.pivotPosSetpoint = pivotSetpoint.in(Degrees);
+		this.pivotPosSetpoint = pivotSetpoint;
 		double voltage = pivotController.calculate(
 			Units.rotationsToDegrees(rightPivotMotor.getEncoder().getPosition()),
-			pivotSetpoint.in(Degree)
+			pivotSetpoint.in(Rotations)
 		);
 		rightPivotMotor.setVoltage(voltage);
 	}
 
 	@Override
 	public void setWheelSpeed(AngularVelocity wheelSpeed) {
-		this.wheelSpeedSetpoint = wheelSpeed.in(RotationsPerSecond);
+		this.wheelSpeedSetpoint = wheelSpeed;
 		double voltage = speedController.calculate(
-			wheelsMotor.getEncoder().getVelocity(),
-			wheelSpeed.in(DegreesPerSecond)
+			(wheelsMotor.getEncoder().getVelocity()) / 60,
+			wheelSpeed.in(RotationsPerSecond)
 		);
 		wheelsMotor.setVoltage(voltage);
 	}

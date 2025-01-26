@@ -16,32 +16,30 @@ public class ClimberIOReal implements ClimberIO {
 
 	private SparkMax motor;
 	private PIDController pidController;
-	private double setpoint;
+	private Distance setpoint;
 
 	public ClimberIOReal() {
 		motor = new SparkMax(0, MotorType.kBrushless);
-		pidController = new PIDController(PID_CONSTANTS.kP, PID_CONSTANTS.kI, PID_CONSTANTS.kD);
+		pidController = CLIMBER_CONTROLLER_PID.get(); 
 		pidController.setTolerance(POSITION_TOLERANCE.magnitude());
 
 		if (ROBOT_MODE == RobotMode.TESTING) {
-			SmartDashboard.putData("Climber PID controller", pidController);
+			SmartDashboard.putData(CLIMBER_PID, pidController);
 		}
 	}
 
 	@Override
 	public void updateInputs(ClimberIOInputs inputs) {
 		inputs.climberPos = motor.getEncoder().getPosition() * METERS_PER_ROTATION.in(Meters);
-		inputs.climberSetpoint = setpoint;
+		inputs.climberSetpoint = setpoint.in(Meters);
 	}
 
 	@Override
 	public void setClimberSetpoint(Distance setpoint) {
-		double height = setpoint.in(Meters);
-		this.setpoint = height;
-
+		this.setpoint = setpoint;
 		double voltage = pidController.calculate(
 			motor.getEncoder().getPosition() * METERS_PER_ROTATION.in(Meters),
-			height
+			setpoint.in(Meters)
 		);
 		motor.setVoltage(voltage);
 	}

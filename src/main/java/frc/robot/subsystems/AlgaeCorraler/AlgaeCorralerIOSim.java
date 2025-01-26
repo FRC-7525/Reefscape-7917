@@ -1,7 +1,6 @@
 package frc.robot.subsystems.AlgaeCorraler;
 
-import static edu.wpi.first.units.Units.Degrees;
-import static edu.wpi.first.units.Units.RotationsPerSecond;
+import static edu.wpi.first.units.Units.*;
 import static frc.robot.GlobalConstants.*;
 import static frc.robot.subsystems.AlgaeCorraler.AlgaeCorralerConstants.*;
 import static frc.robot.subsystems.AlgaeCorraler.AlgaeCorralerConstants.Sim.*;
@@ -35,71 +34,57 @@ public class AlgaeCorralerIOSim implements AlgaeCorralerIO {
 	private PIDController pivotController;
 	private PIDController speedController;
 
-	private double wheelSpeedSetpoint;
-	private double pivotPosSetpoint;
+	private AngularVelocity wheelSpeedSetpoint;
+	private Angle pivotPosSetpoint;
 
 	public AlgaeCorralerIOSim() {
 		leftPivotSim = new SingleJointedArmSim(
-			DCMotor.getNEO(Sim.NUM_PIVOT_MOTORS),
-			Sim.PIVOT_GEARING,
-			Sim.PIVOT_MOTOR_MOI.magnitude(),
-			Sim.PIVOT_ARM_LENGTH.magnitude(),
-			Sim.MIN_PIVOT_ANGLE.magnitude(),
-			Sim.MAX_PIVOT_ANGLE.magnitude(),
+			DCMotor.getNEO(NUM_PIVOT_MOTORS),
+			PIVOT_GEARING,
+			PIVOT_MOTOR_MOI.magnitude(),
+			PIVOT_ARM_LENGTH.in(Meters),
+			MIN_PIVOT_ANGLE.in(Degree),
+			MAX_PIVOT_ANGLE.in(Degree),
 			false,
-			Sim.STARTING_PIVOT_ANGLE.magnitude()
+			STARTING_PIVOT_ANGLE.in(Degree)
 		);
 
 		rightPivotSim = new SingleJointedArmSim(
-			DCMotor.getNEO(Sim.NUM_PIVOT_MOTORS),
-			Sim.PIVOT_GEARING,
-			Sim.PIVOT_MOTOR_MOI.magnitude(),
-			Sim.PIVOT_ARM_LENGTH.magnitude(),
-			Sim.MIN_PIVOT_ANGLE.magnitude(),
-			Sim.MAX_PIVOT_ANGLE.magnitude(),
+			DCMotor.getNEO(NUM_PIVOT_MOTORS),
+			PIVOT_GEARING,
+			PIVOT_MOTOR_MOI.magnitude(),
+			PIVOT_ARM_LENGTH.in(Meters),
+			MIN_PIVOT_ANGLE.in(Degree),
+			MAX_PIVOT_ANGLE.in(Degree),
 			false,
-			Sim.STARTING_PIVOT_ANGLE.magnitude()
+			STARTING_PIVOT_ANGLE.in(Degree)
 		);
 
 		wheelMotorSim = new DCMotorSim(
 			LinearSystemId.createDCMotorSystem(
-				DCMotor.getNEO(Sim.NUM_SPEED_MOTORS),
-				Sim.WHEEL_MOTOR_MOI.magnitude(),
-				Sim.WHEEL_GEARING
+				DCMotor.getNEO(NUM_SPEED_MOTORS),
+				WHEEL_MOTOR_MOI.magnitude(),
+				WHEEL_GEARING
 			),
-			DCMotor.getNEO(Sim.NUM_SPEED_MOTORS)
+			DCMotor.getNEO(NUM_SPEED_MOTORS)
 		);
 
-		dummyLeftPivotSpark = new SparkMax(Real.LEFT_PIVOT_MOTOR_CANID, MotorType.kBrushless);
-		dummyRightPivotSpark = new SparkMax(Real.RIGHT_PIVOT_MOTOR_CANID, MotorType.kBrushless);
-		dummyWheelsSpark = new SparkMax(Real.SPEED_MOTOR_CANID, MotorType.kBrushless);
+		dummyLeftPivotSpark = new SparkMax(LEFT_PIVOT_MOTOR_CANID, MotorType.kBrushless);
+		dummyRightPivotSpark = new SparkMax(RIGHT_PIVOT_MOTOR_CANID, MotorType.kBrushless);
+		dummyWheelsSpark = new SparkMax(SPEED_MOTOR_CANID, MotorType.kBrushless);
 
-		leftPivotSparkSim = new SparkMaxSim(
-			dummyLeftPivotSpark,
-			DCMotor.getNEO(Sim.NUM_PIVOT_MOTORS)
-		);
-		rightPivotSparkSim = new SparkMaxSim(
-			dummyRightPivotSpark,
-			DCMotor.getNEO(Sim.NUM_PIVOT_MOTORS)
-		);
-		wheelSparkSim = new SparkMaxSim(dummyWheelsSpark, DCMotor.getNEO(Sim.NUM_SPEED_MOTORS));
+		leftPivotSparkSim = new SparkMaxSim(dummyLeftPivotSpark,DCMotor.getNEO(NUM_PIVOT_MOTORS));
+		rightPivotSparkSim = new SparkMaxSim(dummyRightPivotSpark, DCMotor.getNEO(NUM_PIVOT_MOTORS));
+		wheelSparkSim = new SparkMaxSim(dummyWheelsSpark, DCMotor.getNEO(NUM_SPEED_MOTORS));
 
-		pivotController = new PIDController(
-			PIVOT_PID_CONSTANTS.kP,
-			PIVOT_PID_CONSTANTS.kI,
-			PIVOT_PID_CONSTANTS.kP
-		);
-		speedController = new PIDController(
-			SPEED_PID_CONSTANTS.kP,
-			PIVOT_PID_CONSTANTS.kI,
-			SPEED_PID_CONSTANTS.kD
-		);
+		pivotController = PIVOT_PID.get(); 
+		speedController = SPEED_PID.get();
 
 		pivotController.setTolerance(PIVOT_TOLERANCE.magnitude());
 		speedController.setTolerance(SPEED_TOLERANCE.magnitude());
 
-		pivotPosSetpoint = 0;
-		wheelSpeedSetpoint = 0;
+		pivotPosSetpoint = Degrees.of(0);
+		wheelSpeedSetpoint = DegreesPerSecond.of(0);
 	}
 
 	@Override
@@ -109,11 +94,10 @@ public class AlgaeCorralerIOSim implements AlgaeCorralerIO {
 		wheelMotorSim.update(SIMULATION_PERIOD);
 
 		inputs.pivotPosition = Units.rotationsToDegrees(rightPivotSim.getAngleRads());
-		inputs.wheelSpeed = Units.radiansToDegrees(
-			wheelMotorSim.getAngularAccelerationRadPerSecSq()
-		);
-		inputs.pivotSetpoint = pivotPosSetpoint;
-		inputs.wheelSpeedSetpoint = wheelSpeedSetpoint;
+		inputs.wheelSpeed = Units.radiansToDegrees(wheelMotorSim.getAngularAccelerationRadPerSecSq());
+
+		inputs.pivotSetpoint = pivotPosSetpoint.in(Degree);
+		inputs.wheelSpeedSetpoint = wheelSpeedSetpoint.in(DegreesPerSecond);
 
 		leftPivotSparkSim.setPosition(leftPivotSim.getAngleRads());
 		leftPivotSparkSim.setVelocity(leftPivotSim.getVelocityRadPerSec());
@@ -122,29 +106,21 @@ public class AlgaeCorralerIOSim implements AlgaeCorralerIO {
 		rightPivotSparkSim.setVelocity(rightPivotSim.getVelocityRadPerSec());
 
 		wheelSparkSim.setPosition(wheelMotorSim.getAngularPositionRotations());
-		wheelSparkSim.setVelocity(wheelMotorSim.getAngularVelocityRPM());
+		wheelSparkSim.setVelocity(wheelMotorSim.getAngularVelocityRPM() / 60);
 	}
 
 	@Override
 	public void setPivotSetpoint(Angle pivotSetpoint) {
-		this.pivotPosSetpoint = pivotSetpoint.in(Degrees);
-		leftPivotSim.setInputVoltage(
-			pivotController.calculate(
-				Units.radiansToDegrees(leftPivotSim.getAngleRads()),
-				pivotSetpoint.in(Degrees)
-			)
-		);
-		rightPivotSim.setInputVoltage(
-			pivotController.calculate(
-				Units.radiansToDegrees(rightPivotSim.getAngleRads()),
-				pivotSetpoint.in(Degrees)
-			)
-		);
+		this.pivotPosSetpoint = pivotSetpoint;
+		double voltage = pivotController.calculate(Units.radiansToDegrees(leftPivotSim.getAngleRads()), pivotSetpoint.in(Degree)); 
+		
+		leftPivotSim.setInputVoltage(voltage);
+		rightPivotSim.setInputVoltage(voltage);
 	}
 
 	@Override
 	public void setWheelSpeed(AngularVelocity wheelSpeedSetpoint) {
-		this.wheelSpeedSetpoint = wheelSpeedSetpoint.in(RotationsPerSecond);
+		this.wheelSpeedSetpoint = wheelSpeedSetpoint;
 		wheelMotorSim.setInputVoltage(
 			speedController.calculate(
 				Units.radiansToRotations(wheelMotorSim.getAngularVelocityRadPerSec()),

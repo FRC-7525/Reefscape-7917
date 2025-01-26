@@ -1,13 +1,12 @@
 package frc.robot.subsystems.Manager;
 
-import static frc.robot.subsystems.Drive.DriveConstants.MAX_SPEED;
+import static frc.robot.subsystems.Drive.DriveConstants.*; 
 import static frc.robot.subsystems.Manager.ManagerConstants.*;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.GlobalConstants.Controllers;
 import frc.robot.subsystems.AlgaeCorraler.AlgaeCorraler;
 import frc.robot.subsystems.AutoAligner.AutoAligner;
@@ -113,17 +112,22 @@ public class Manager extends Subsystem<ManagerStates> {
 			ManagerStates.AUTO_ALIGNING_FEEDER,
 			Controllers.DRIVER_CONTROLLER::getYButtonPressed
 		);
-		addTrigger(ManagerStates.AUTO_ALIGNING_REEF, ManagerStates.IDLE, autoAligner::atSetPoint);
-		addTrigger(ManagerStates.AUTO_ALIGNING_FEEDER, ManagerStates.IDLE, autoAligner::atSetPoint);
+		addTrigger(
+			ManagerStates.AUTO_ALIGNING_REEF, 
+			ManagerStates.IDLE, 
+			autoAligner::atSetPoint
+		);
+		addTrigger(
+			ManagerStates.AUTO_ALIGNING_FEEDER, 
+			ManagerStates.IDLE, 
+			autoAligner::atSetPoint
+		);
 	}
 
 	@Override
 	public void runState() {
-		Logger.recordOutput(ManagerConstants.SUBSYSTEM_NAME + "/State Time", getStateTime());
-		Logger.recordOutput(
-			ManagerConstants.SUBSYSTEM_NAME + "/State String",
-			getState().getStateString()
-		);
+		Logger.recordOutput(SUBSYSTEM_NAME + "/State Time", getStateTime());
+		Logger.recordOutput(SUBSYSTEM_NAME + "/State String",getState().getStateString());
 
 		climber.setState(getState().getClimber());
 		algaeCorraler.setState(getState().getAlgaeCorraler());
@@ -136,6 +140,6 @@ public class Manager extends Subsystem<ManagerStates> {
 		autoAligner.periodic();
 
 		swerveDrive.updateOdometry();
-		SmartDashboard.putString(DASHBOARD_STRING, getState().getStateString());
+		Logger.recordOutput(DASHBOARD_STRING, getState().getStateString());
 	}
 }

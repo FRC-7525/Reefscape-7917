@@ -13,7 +13,7 @@ import org.team7525.misc.CommandsUtil;
 
 public class Robot extends LoggedRobot {
 
-	Manager manager;
+	private Manager manager;
 
 	public Robot() {}
 

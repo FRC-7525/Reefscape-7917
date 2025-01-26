@@ -13,12 +13,12 @@ import swervelib.SwerveDrive;
 
 public class AutoAligner extends Subsystem<AutoAlignerStates> {
 
-	SwerveDrive swerveDrive;
-	PIDController xPID;
-	PIDController yPID;
-	PIDController rotationPID;
-	Pose2d currentTarget;
-	double maxRotationSpeed;
+	private SwerveDrive swerveDrive;
+	private PIDController xPID;
+	private PIDController yPID;
+	private PIDController rotationPID;
+	private Pose2d currentTarget;
+	private double maxRotationSpeed;
 
 	public AutoAligner(SwerveDrive swerveDrive) {
 		super("AutoAligner", AutoAlignerStates.OFF);
