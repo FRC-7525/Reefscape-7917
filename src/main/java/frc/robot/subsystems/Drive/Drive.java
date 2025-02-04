@@ -9,7 +9,7 @@ import swervelib.SwerveDrive;
 
 public class Drive extends Subsystem<DriveStates> {
 
-	SwerveDrive swerveDrive;
+	private SwerveDrive swerveDrive;
 
 	public Drive(SwerveDrive swerveDrive) {
 		super("Drive", DriveStates.MANUAL);
