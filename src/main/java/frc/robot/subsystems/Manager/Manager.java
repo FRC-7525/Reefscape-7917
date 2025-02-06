@@ -22,9 +22,9 @@ import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 
 public class Manager extends Subsystem<ManagerStates> {
 
-	private Climber climber;
-	private AlgaeCorraler algaeCorraler;
-	private AutoAligner autoAligner;
+	//private Climber climber;
+	//private AlgaeCorraler algaeCorraler;
+	//private AutoAligner autoAligner;
 	private SwerveDrive swerveDrive;
 	private Drive drive;
 
@@ -46,11 +46,11 @@ public class Manager extends Subsystem<ManagerStates> {
 		swerveDrive.setHeadingCorrection(false);
 		swerveDrive.setCosineCompensator(false);
 
-		climber = new Climber();
-		algaeCorraler = new AlgaeCorraler();
+		//climber = new Climber();
+		//algaeCorraler = new AlgaeCorraler();
 
 		drive = new Drive(swerveDrive);
-		autoAligner = new AutoAligner(swerveDrive);
+		//autoAligner = new AutoAligner(swerveDrive);
 
 		addTrigger(
 			ManagerStates.IDLE,
@@ -112,8 +112,8 @@ public class Manager extends Subsystem<ManagerStates> {
 			ManagerStates.AUTO_ALIGNING_FEEDER,
 			Controllers.DRIVER_CONTROLLER::getYButtonPressed
 		);
-		addTrigger(ManagerStates.AUTO_ALIGNING_REEF, ManagerStates.IDLE, autoAligner::atSetPoint);
-		addTrigger(ManagerStates.AUTO_ALIGNING_FEEDER, ManagerStates.IDLE, autoAligner::atSetPoint);
+		//addTrigger(ManagerStates.AUTO_ALIGNING_REEF, ManagerStates.IDLE, autoAligner::atSetPoint);
+		//addTrigger(ManagerStates.AUTO_ALIGNING_FEEDER, ManagerStates.IDLE, autoAligner::atSetPoint);
 	}
 
 	@Override
@@ -121,15 +121,15 @@ public class Manager extends Subsystem<ManagerStates> {
 		Logger.recordOutput(SUBSYSTEM_NAME + "/State Time", getStateTime());
 		Logger.recordOutput(SUBSYSTEM_NAME + "/State String", getState().getStateString());
 
-		climber.setState(getState().getClimber());
-		algaeCorraler.setState(getState().getAlgaeCorraler());
+		// climber.setState(getState().getClimber());
+		//algaeCorraler.setState(getState().getAlgaeCorraler());
 		drive.setState(getState().getDrive());
-		autoAligner.setState(getState().getAutoAligner());
+		// autoAligner.setState(getState().getAutoAligner());
 
-		climber.periodic();
-		algaeCorraler.periodic();
+		// climber.periodic();
+		//algaeCorraler.periodic();
 		drive.periodic();
-		autoAligner.periodic();
+		// autoAligner.periodic();
 
 		swerveDrive.updateOdometry();
 		Logger.recordOutput(DASHBOARD_STRING, getState().getStateString());
