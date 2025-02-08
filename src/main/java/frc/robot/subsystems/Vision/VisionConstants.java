@@ -14,21 +14,37 @@ import edu.wpi.first.math.util.Units;
 
 //TODO: replace values with actual values!
 public class VisionConstants {
-    public static final Translation3d ROBOT_TO_CAMERA_TRANSLATION = new Translation3d(
+    public static final Translation3d ROBOT_TO_FRONT_CAMERA_TRANSLATION = new Translation3d(
+        Units.inchesToMeters(11.5), Units.inchesToMeters(-11.5), Units.inchesToMeters(9)
+    );
+    public static final Translation3d ROBOT_TO_BACK_CAMERA_TRANSLATION = new Translation3d(
         Units.inchesToMeters(-11.5), Units.inchesToMeters(11.5), Units.inchesToMeters(9)
     );
-    public static final Rotation3d ROBOT_TO_CAMERA_ROTATION = new Rotation3d(
+    public static final Rotation3d ROBOT_TO_FRONT_CAMERA_ROTATION = new Rotation3d(
+        0,
+        Math.toRadians(-10),
+        Math.toRadians(-15)
+    );
+    public static final Rotation3d ROBOT_TO_BACK_CAMERA_ROTATION = new Rotation3d(
         0,
         Math.toRadians(-10),
         Math.toRadians(-10)
     );
-    public static final Transform3d ROBOT_TO_CAMERA = new Transform3d(
-        ROBOT_TO_CAMERA_TRANSLATION, ROBOT_TO_CAMERA_ROTATION
+    
+    
+    
+    public static final Transform3d ROBOT_TO_FRONT_CAMERA = new Transform3d(
+        ROBOT_TO_FRONT_CAMERA_TRANSLATION, ROBOT_TO_FRONT_CAMERA_ROTATION
+    );
+    public static final Transform3d ROBOT_TO_BACK_CAMERA = new Transform3d(
+        ROBOT_TO_BACK_CAMERA_TRANSLATION, ROBOT_TO_BACK_CAMERA_ROTATION
     );
 
     public static final double CAMERA_DEBOUNCE_TIME = 0.5;
 
-    public static final CameraResolution CAMERA_RESOLUTION = CameraResolution.HIGH_RES;
+    public static final CameraResolution FRONT_RESOLUTION = CameraResolution.HIGH_RES;
+    public static final CameraResolution BACK_RESOLUTION = CameraResolution.HIGH_RES;
+
 
     public static final AprilTagFieldLayout APRIL_TAG_FIELD_LAYOUT;
 

@@ -10,20 +10,28 @@ import edu.wpi.first.math.geometry.Pose2d;
 
 public interface VisionIO {
     @AutoLog
-    public class VIsionIOInputs {
-        Pose2d VisionPose;
-        boolean hasVision = false;
-        boolean cameraConnected = false;
-        int targetCount = 0;
+    public class VisionIOInputs {
+        Pose2d backVisionPose;
+        Pose2d frontVisionPose;
+        boolean hasBackVision = false;
+        boolean hasFrontVision = false;
+        boolean frontCameraConnected = false;
+        boolean backCameraConnected = false;
+        int backTargetCount = 0;
+        int frontTargetCount = 0;
     }
     
-    public default void updateInputs(VIsionIOInputs inputs) {}
+    public default void updateInputs(VisionIOInputs inputs) {}
 
     public default void updateRobotPose(Pose2d robotPose) {}
 
     public default void setStrategy(PoseStrategy strategy) {}
 
-    public default Optional<EstimatedRobotPose> getPoseEstimation() {
+    public default Optional<EstimatedRobotPose> getBackPoseEstimation() {
+        return Optional.empty();
+    }
+
+    public default Optional<EstimatedRobotPose> getFrontPoseEstimation() {
         return Optional.empty();
     }
 }

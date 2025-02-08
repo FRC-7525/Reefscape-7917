@@ -14,25 +14,38 @@ import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.math.geometry.Pose2d;
 
 public class VisionIOReal implements VisionIO {
-    private PhotonCamera camera;
-    private PhotonPoseEstimator estimator;
-    private Debouncer debouncer;
+    private PhotonCamera frontCamera;
+    private PhotonCamera backCamera;
+    private PhotonPoseEstimator frontEstimator;
+    private PhotonPoseEstimator backEstimator;
+    private Debouncer frontDebouncer;
+    private Debouncer backDebouncer;
     
     public VisionIOReal() {
-        camera = new PhotonCamera("Main Camera");
-        estimator = new PhotonPoseEstimator(APRIL_TAG_FIELD_LAYOUT, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, ROBOT_TO_CAMERA);
-        debouncer = new Debouncer(CAMERA_DEBOUNCE_TIME, DebounceType.kFalling);
+        frontCamera = new PhotonCamera("Front Camera");
+        backCamera = new PhotonCamera("Back Camera");
+        frontEstimator = new PhotonPoseEstimator(APRIL_TAG_FIELD_LAYOUT, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, ROBOT_TO_FRONT_CAMERA);
+        backEstimator = new PhotonPoseEstimator(APRIL_TAG_FIELD_LAYOUT, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, ROBOT_TO_BACK_CAMERA);
+        frontDebouncer = new Debouncer(CAMERA_DEBOUNCE_TIME, DebounceType.kFalling);
+        backDebouncer = new Debouncer(CAMERA_DEBOUNCE_TIME, DebounceType.kFalling);
     }
 
     @Override
-    public void updateInputs(VIsionIOInputs inputs) {
-        Optional<EstimatedRobotPose> pose = getPoseEstimation();
+    public void updateInputs(VisionIOInputs inputs) {
+        Optional<EstimatedRobotPose> frontPose = getFrontPoseEstimation();
+        Optional<EstimatedRobotPose> backPose = getBackPoseEstimation();
         
-        inputs.hasVision = debouncer.calculate(pose.isPresent());
-        inputs.cameraConnected = camera.isConnected();
-        inputs.targetCount = pose.get().targetsUsed.size();
+        inputs.hasFrontVision = frontDebouncer.calculate(frontPose.isPresent());
+        inputs.hasBackVision = backDebouncer.calculate(backPose.isPresent());
+       
+        inputs.frontCameraConnected = frontCamera.isConnected();
+        inputs.backCameraConnected = backCamera.isConnected();
+        
+        inputs.backTargetCount = backPose.get().targetsUsed.size();
+        inputs.frontTargetCount = frontPose.get().targetsUsed.size();
 
-        if (inputs.hasVision) inputs.VisionPose = pose.get().estimatedPose.toPose2d();
+        if (inputs.hasFrontVision) inputs.frontVisionPose = frontPose.get().estimatedPose.toPose2d();
+        if (inputs.hasBackVision) inputs.backVisionPose = backPose.get().estimatedPose.toPose2d();
     }
 
     @Override
@@ -42,16 +55,26 @@ public class VisionIOReal implements VisionIO {
 
     @Override
     public void setStrategy(PoseStrategy strategy) {
-        if (strategy != estimator.getPrimaryStrategy()) {
-            estimator.setPrimaryStrategy(strategy);
+        if (strategy != frontEstimator.getPrimaryStrategy()) {
+            frontEstimator.setPrimaryStrategy(strategy);
+            backEstimator.setPrimaryStrategy(strategy);
         }
     }
 
     @Override
-    public Optional<EstimatedRobotPose> getPoseEstimation() {
+    public Optional<EstimatedRobotPose> getBackPoseEstimation() {
         Optional<EstimatedRobotPose> pose = Optional.empty();
-        for (var change : camera.getAllUnreadResults()) {
-            pose = estimator.update(change);
+        for (var change : backCamera.getAllUnreadResults()) {
+            pose = backEstimator.update(change);
+        }
+        return pose;
+    }
+
+    @Override
+    public Optional<EstimatedRobotPose> getFrontPoseEstimation() {
+        Optional<EstimatedRobotPose> pose = Optional.empty();
+        for (var change : frontCamera.getAllUnreadResults()) {
+            pose = frontEstimator.update(change);
         }
         return pose;
     }

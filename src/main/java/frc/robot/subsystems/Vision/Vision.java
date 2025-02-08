@@ -32,13 +32,17 @@ public class Vision extends Subsystem<VisionStates> {
             io.setStrategy(getState().getStrategy());
             io.updateRobotPose(drive.getPose());
 
-            Optional<EstimatedRobotPose> frontPose = io.getPoseEstimation();
+            Optional<EstimatedRobotPose> frontPose = io.getFrontPoseEstimation();
             if (frontPose.isPresent()) {
-                drive.addVisionMeasurement(frontPose.get().estimatedPose.toPose2d(), frontPose.get().timestampSeconds, VisionUtil.getEstimationStdDevs(frontPose.get(), CAMERA_RESOLUTION));
+                drive.addVisionMeasurement(frontPose.get().estimatedPose.toPose2d(), frontPose.get().timestampSeconds, VisionUtil.getEstimationStdDevs(frontPose.get(), FRONT_RESOLUTION));
             }
+            Optional<EstimatedRobotPose> backPose = io.getBackPoseEstimation();
+            if (backPose.isPresent()) {
+                drive.addVisionMeasurement(backPose.get().estimatedPose.toPose2d(), backPose.get().timestampSeconds, VisionUtil.getEstimationStdDevs(backPose.get(), BACK_RESOLUTION));
 
             
-        }
-    }
+         }
+     }
+ }
 
 }
