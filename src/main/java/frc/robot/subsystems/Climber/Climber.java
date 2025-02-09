@@ -1,38 +1,41 @@
 package frc.robot.subsystems.Climber;
 
-import static edu.wpi.first.units.Units.Degrees;
+import static frc.robot.GlobalConstants.*;
 import static frc.robot.subsystems.Climber.ClimberConstants.*;
 
-import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.SparkMax;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.littletonrobotics.junction.Logger;
 import org.team7525.subsystem.Subsystem;
 
 public class Climber extends Subsystem<ClimberStates> {
 
-	PIDController pid;
-	SparkMax robotClimber;
+	private ClimberIO io;
+	private ClimberIOInputsAutoLogged inputs;
 
 	public Climber() {
 		super("Climber", ClimberStates.IDLE);
-		pid = CLIMBER_CONTROLLER.get();
-		robotClimber = new SparkMax(DEVICE_ID, MotorType.kBrushless);
-
-		pid.setTolerance(ERROR_TOLERANCE.in(Degrees));
-
-		robotClimber.getEncoder().setPosition(0);
+		this.io = switch (ROBOT_MODE) {
+			case SIM -> new ClimberIOSim();
+			case REAL -> new ClimberIOReal();
+			case TESTING -> new ClimberIOReal();
+			case REPLAY -> new ClimberIOSim();
+		};
+		inputs = new ClimberIOInputsAutoLogged();
 	}
 
 	@Override
 	public void runState() {
-		robotClimber.setVoltage(
-			pid.calculate(
-				Units.rotationsToDegrees(robotClimber.getEncoder().getPosition()) * GEAR_RATIO,
-				getState().getPosition().in(Degrees)
-			)
-		);
-		SmartDashboard.putString(CLIMBER_STATE_ID, getState().getStateString());
+		io.setClimberSetpoint(getState().getSetpoint());
+		io.updateInputs(inputs);
+
+		Logger.processInputs(SUBSYSTEM_NAME, inputs);
+		Logger.recordOutput(CLIMBER_STATE, getState().getStateString());
+	}
+
+	public boolean nearSetpoint() {
+		return io.nearSetpoint();
+	}
+
+	public void stop() {
+		io.stop();
 	}
 }
