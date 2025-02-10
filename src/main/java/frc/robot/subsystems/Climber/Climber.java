@@ -34,8 +34,4 @@ public class Climber extends Subsystem<ClimberStates> {
 	public boolean nearSetpoint() {
 		return io.nearSetpoint();
 	}
-
-	public void stop() {
-		io.stop();
-	}
 }

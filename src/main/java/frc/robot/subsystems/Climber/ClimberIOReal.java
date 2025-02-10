@@ -19,9 +19,8 @@ public class ClimberIOReal implements ClimberIO {
 	private Distance setpoint;
 
 	public ClimberIOReal() {
-		motor = new SparkMax(0, MotorType.kBrushless);
-		pidController = CLIMBER_CONTROLLER_PID.get();
-		pidController.setTolerance(POSITION_TOLERANCE.magnitude());
+		motor = new SparkMax(CLIMBER_CANID, MotorType.kBrushless);
+		pidController = new PIDController(CLIMBER_CONTROLLER_PID.kP, CLIMBER_CONTROLLER_PID.kI, CLIMBER_CONTROLLER_PID.kP);
 
 		if (ROBOT_MODE == RobotMode.TESTING) {
 			SmartDashboard.putData(CLIMBER_PID, pidController);
@@ -46,11 +45,7 @@ public class ClimberIOReal implements ClimberIO {
 
 	@Override
 	public boolean nearSetpoint() {
-		return pidController.atSetpoint();
+		return (Math.abs(motor.getEncoder().getPosition() * METERS_PER_ROTATION.in(Meters) - setpoint.in(Meters)) < POSITION_TOLERANCE.in(Meters));
 	}
 
-	@Override
-	public void stop() {
-		motor.setVoltage(0);
-	}
 }

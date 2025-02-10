@@ -17,5 +17,4 @@ public interface ClimberIO {
 
 	public boolean nearSetpoint();
 
-	public void stop();
 }
