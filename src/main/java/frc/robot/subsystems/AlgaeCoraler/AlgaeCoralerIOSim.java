@@ -1,9 +1,9 @@
-package frc.robot.subsystems.AlgaeCorraler;
+package frc.robot.subsystems.AlgaeCoraler;
 
 import static edu.wpi.first.units.Units.*;
 import static frc.robot.GlobalConstants.*;
-import static frc.robot.subsystems.AlgaeCorraler.AlgaeCorralerConstants.*;
-import static frc.robot.subsystems.AlgaeCorraler.AlgaeCorralerConstants.Sim.*;
+import static frc.robot.subsystems.AlgaeCoraler.AlgaeCoralerConstants.*;
+import static frc.robot.subsystems.AlgaeCoraler.AlgaeCoralerConstants.Sim.*;
 
 import com.revrobotics.sim.SparkMaxSim;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -17,7 +17,7 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 
-public class AlgaeCorralerIOSim implements AlgaeCorralerIO {
+public class AlgaeCoralerIOSim implements AlgaeCoralerIO {
 
 	private SingleJointedArmSim leftPivotSim;
 	private SingleJointedArmSim rightPivotSim;
@@ -37,11 +37,11 @@ public class AlgaeCorralerIOSim implements AlgaeCorralerIO {
 	private AngularVelocity wheelSpeedSetpoint;
 	private Angle pivotPosSetpoint;
 
-	public AlgaeCorralerIOSim() {
+	public AlgaeCoralerIOSim() {
 		leftPivotSim = new SingleJointedArmSim(
 			DCMotor.getNEO(NUM_PIVOT_MOTORS),
 			PIVOT_GEARING,
-			PIVOT_MOTOR_MOI.magnitude(),
+			PIVOT_MOTOR_MOI.in(KilogramSquareMeters),
 			PIVOT_ARM_LENGTH.in(Meters),
 			MIN_PIVOT_ANGLE.in(Degree),
 			MAX_PIVOT_ANGLE.in(Degree),
@@ -52,7 +52,7 @@ public class AlgaeCorralerIOSim implements AlgaeCorralerIO {
 		rightPivotSim = new SingleJointedArmSim(
 			DCMotor.getNEO(NUM_PIVOT_MOTORS),
 			PIVOT_GEARING,
-			PIVOT_MOTOR_MOI.magnitude(),
+			PIVOT_MOTOR_MOI.in(KilogramSquareMeters),
 			PIVOT_ARM_LENGTH.in(Meters),
 			MIN_PIVOT_ANGLE.in(Degree),
 			MAX_PIVOT_ANGLE.in(Degree),
@@ -63,7 +63,7 @@ public class AlgaeCorralerIOSim implements AlgaeCorralerIO {
 		wheelMotorSim = new DCMotorSim(
 			LinearSystemId.createDCMotorSystem(
 				DCMotor.getNEO(NUM_SPEED_MOTORS),
-				WHEEL_MOTOR_MOI.magnitude(),
+				WHEEL_MOTOR_MOI.in(KilogramSquareMeters),
 				WHEEL_GEARING
 			),
 			DCMotor.getNEO(NUM_SPEED_MOTORS)
@@ -80,11 +80,8 @@ public class AlgaeCorralerIOSim implements AlgaeCorralerIO {
 		);
 		wheelSparkSim = new SparkMaxSim(dummyWheelsSpark, DCMotor.getNEO(NUM_SPEED_MOTORS));
 
-		pivotController = PIVOT_PID.get();
-		speedController = SPEED_PID.get();
-
-		pivotController.setTolerance(PIVOT_TOLERANCE.magnitude());
-		speedController.setTolerance(SPEED_TOLERANCE.magnitude());
+		pivotController = new PIDController(PIVOT_PID.kP, PIVOT_PID.kI, PIVOT_PID.kD); 
+		speedController = new PIDController(SPEED_PID.kP, SPEED_PID.kI, SPEED_PID.kD); 
 
 		pivotPosSetpoint = Degrees.of(0);
 		wheelSpeedSetpoint = DegreesPerSecond.of(0);
@@ -98,7 +95,7 @@ public class AlgaeCorralerIOSim implements AlgaeCorralerIO {
 
 		inputs.pivotPosition = Units.rotationsToDegrees(rightPivotSim.getAngleRads());
 		inputs.wheelSpeed = Units.radiansToDegrees(
-			wheelMotorSim.getAngularAccelerationRadPerSecSq()
+			wheelMotorSim.getAngularVelocityRPM() / 60
 		);
 
 		inputs.pivotSetpoint = pivotPosSetpoint.in(Degree);
@@ -111,7 +108,7 @@ public class AlgaeCorralerIOSim implements AlgaeCorralerIO {
 		rightPivotSparkSim.setVelocity(rightPivotSim.getVelocityRadPerSec());
 
 		wheelSparkSim.setPosition(wheelMotorSim.getAngularPositionRotations());
-		wheelSparkSim.setVelocity(wheelMotorSim.getAngularVelocityRPM() / 60);
+		wheelSparkSim.setVelocity(wheelMotorSim.getAngularAccelerationRadPerSecSq() / 60);
 	}
 
 	@Override
@@ -139,11 +136,9 @@ public class AlgaeCorralerIOSim implements AlgaeCorralerIO {
 
 	@Override
 	public boolean nearTarget() {
-		return pivotController.atSetpoint() && speedController.atSetpoint();
+		return ((Math.abs(Units.radiansToDegrees(leftPivotSim.getAngleRads()) - pivotPosSetpoint.in(Degree)) < PIVOT_TOLERANCE.in(Degrees)) 
+		&& (Math.abs(Units.radiansToDegrees(rightPivotSim.getAngleRads()) - pivotPosSetpoint.in(Degree)) < PIVOT_TOLERANCE.in(Degrees))
+		&& (Math.abs(Units.radiansToRotations(wheelMotorSim.getAngularVelocityRadPerSec()) - wheelSpeedSetpoint.in(DegreesPerSecond)) < SPEED_TOLERANCE.in(RotationsPerSecond)));
 	}
 
-	@Override
-	public void stop() {
-		wheelMotorSim.setInputVoltage(0);
-	}
 }

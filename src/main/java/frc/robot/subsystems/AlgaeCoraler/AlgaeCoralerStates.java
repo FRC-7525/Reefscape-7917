@@ -1,12 +1,12 @@
-package frc.robot.subsystems.AlgaeCorraler;
+package frc.robot.subsystems.AlgaeCoraler;
 
 import static edu.wpi.first.units.Units.*;
-import static frc.robot.subsystems.AlgaeCorraler.AlgaeCorralerConstants.*;
+import static frc.robot.subsystems.AlgaeCoraler.AlgaeCoralerConstants.*;
 
 import edu.wpi.first.units.measure.*;
 import org.team7525.subsystem.SubsystemStates;
 
-public enum AlgaeCorralerStates implements SubsystemStates {
+public enum AlgaeCoralerStates implements SubsystemStates {
 	IDLE("IDLE", DegreesPerSecond.of(0), ALGAE_IDLE_ANGLE),
 	CORALOUT("CORALOUT", CORAL_OUT_SPEED, Degrees.of(0)),
 	ALGAEIN("ALGAEIN", ALGAE_IN_SPEED, ALGAE_OUT_ANGLE),
@@ -17,7 +17,7 @@ public enum AlgaeCorralerStates implements SubsystemStates {
 	private AngularVelocity wheelSpeed;
 	private Angle pivotSetpoint;
 
-	AlgaeCorralerStates(String stateString, AngularVelocity wheelSpeed, Angle pivotSetpoint) {
+	AlgaeCoralerStates(String stateString, AngularVelocity wheelSpeed, Angle pivotSetpoint) {
 		this.stateString = stateString;
 		this.pivotSetpoint = pivotSetpoint;
 		this.wheelSpeed = wheelSpeed;
