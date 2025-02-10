@@ -133,5 +133,7 @@ public class Manager extends Subsystem<ManagerStates> {
 
 		swerveDrive.updateOdometry();
 		Logger.recordOutput(DASHBOARD_STRING, getState().getStateString());
+		Logger.recordOutput(DASHBOARD_STRING_COLOR, getState().getStateColor());
+		
 	}
 }

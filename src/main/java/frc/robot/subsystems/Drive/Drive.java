@@ -29,7 +29,7 @@ public class Drive extends Subsystem<DriveStates> {
 						-1 * Controllers.DRIVER_CONTROLLER.getLeftY() * MAX_SPEED.magnitude()
 					),
 					Controllers.DRIVER_CONTROLLER.getRightX(),
-					true,
+					false,
 					false
 				);
 				break;
