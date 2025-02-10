@@ -8,7 +8,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Filesystem;
 import frc.robot.GlobalConstants.Controllers;
-import frc.robot.subsystems.AlgaeCorraler.AlgaeCorraler;
+import frc.robot.subsystems.AlgaeCoraler.AlgaeCoraler;
 import frc.robot.subsystems.AutoAligner.AutoAligner;
 import frc.robot.subsystems.Climber.Climber;
 import frc.robot.subsystems.Drive.Drive;
@@ -23,7 +23,7 @@ import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 public class Manager extends Subsystem<ManagerStates> {
 
 	private Climber climber;
-	private AlgaeCorraler algaeCorraler;
+	private AlgaeCoraler algaeCoraler;
 	private AutoAligner autoAligner;
 	private SwerveDrive swerveDrive;
 	private Drive drive;
@@ -47,7 +47,7 @@ public class Manager extends Subsystem<ManagerStates> {
 		swerveDrive.setCosineCompensator(false);
 
 		climber = new Climber();
-		algaeCorraler = new AlgaeCorraler();
+		algaeCoraler = new AlgaeCoraler();
 
 		drive = new Drive(swerveDrive);
 		autoAligner = new AutoAligner(swerveDrive);
@@ -122,12 +122,12 @@ public class Manager extends Subsystem<ManagerStates> {
 		Logger.recordOutput(SUBSYSTEM_NAME + "/State String", getState().getStateString());
 
 		climber.setState(getState().getClimber());
-		algaeCorraler.setState(getState().getAlgaeCorraler());
+		algaeCoraler.setState(getState().getAlgaeCoraler());
 		drive.setState(getState().getDrive());
 		autoAligner.setState(getState().getAutoAligner());
 
 		climber.periodic();
-		algaeCorraler.periodic();
+		algaeCoraler.periodic();
 		drive.periodic();
 		autoAligner.periodic();
 

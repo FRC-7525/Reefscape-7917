@@ -1,6 +1,6 @@
 package frc.robot.subsystems.Manager;
 
-import frc.robot.subsystems.AlgaeCorraler.AlgaeCorralerStates;
+import frc.robot.subsystems.AlgaeCoraler.AlgaeCoralerStates;
 import frc.robot.subsystems.AutoAligner.AutoAlignerStates;
 import frc.robot.subsystems.Climber.ClimberStates;
 import frc.robot.subsystems.Drive.DriveStates;
@@ -9,83 +9,83 @@ import org.team7525.subsystem.SubsystemStates;
 public enum ManagerStates implements SubsystemStates {
 	IDLE(
 		"IDLE",
-		AlgaeCorralerStates.IDLE,
+		AlgaeCoralerStates.IDLE,
 		ClimberStates.IDLE,
 		AutoAlignerStates.OFF,
 		DriveStates.MANUAL
 	),
 	CORAL_OUT(
 		"CORAL OUT",
-		AlgaeCorralerStates.CORALOUT,
+		AlgaeCoralerStates.CORALOUT,
 		ClimberStates.IDLE,
 		AutoAlignerStates.OFF,
 		DriveStates.MANUAL
 	),
 	ALGAE_IN(
 		"ALGAE IN",
-		AlgaeCorralerStates.ALGAEIN,
+		AlgaeCoralerStates.ALGAEIN,
 		ClimberStates.IDLE,
 		AutoAlignerStates.OFF,
 		DriveStates.MANUAL
 	),
 	HOLDING(
 		"HOLDING",
-		AlgaeCorralerStates.HOLDING,
+		AlgaeCoralerStates.HOLDING,
 		ClimberStates.IDLE,
 		AutoAlignerStates.OFF,
 		DriveStates.MANUAL
 	),
 	ALGAE_OUT(
 		"ALGAE OUT",
-		AlgaeCorralerStates.ALGAEOUT,
+		AlgaeCoralerStates.ALGAEOUT,
 		ClimberStates.IDLE,
 		AutoAlignerStates.OFF,
 		DriveStates.MANUAL
 	),
 	CLIMBING(
 		"CLIMBING",
-		AlgaeCorralerStates.IDLE,
+		AlgaeCoralerStates.IDLE,
 		ClimberStates.ON,
 		AutoAlignerStates.OFF,
 		DriveStates.MANUAL
 	),
 	AUTO_ALIGNING_REEF(
 		"AUTO_ALIGNING_REEF",
-		AlgaeCorralerStates.IDLE,
+		AlgaeCoralerStates.IDLE,
 		ClimberStates.IDLE,
 		AutoAlignerStates.NEAREST_REEF,
 		DriveStates.AUTO_ALIGNING
 	),
 	AUTO_ALIGNING_FEEDER(
 		"AUTO_ALIGNING_FEEDER",
-		AlgaeCorralerStates.IDLE,
+		AlgaeCoralerStates.IDLE,
 		ClimberStates.IDLE,
 		AutoAlignerStates.NEAREST_FEEDER,
 		DriveStates.AUTO_ALIGNING
 	),
 	LOCKED(
 		"LOCKED",
-		AlgaeCorralerStates.IDLE,
+		AlgaeCoralerStates.IDLE,
 		ClimberStates.IDLE,
 		AutoAlignerStates.OFF,
 		DriveStates.LOCKED
 	);
 
 	private String stateString;
-	private AlgaeCorralerStates algaeCorraler;
+	private AlgaeCoralerStates algaeCoraler;
 	private ClimberStates climber;
 	private AutoAlignerStates autoAlign;
 	private DriveStates drive;
 
 	ManagerStates(
 		String stateString,
-		AlgaeCorralerStates algaeCorraler,
+		AlgaeCoralerStates algaeCoraler,
 		ClimberStates climber,
 		AutoAlignerStates autoAlign,
 		DriveStates drive
 	) {
 		this.stateString = stateString;
-		this.algaeCorraler = algaeCorraler;
+		this.algaeCoraler = algaeCoraler;
 		this.climber = climber;
 		this.autoAlign = autoAlign;
 		this.drive = drive;
@@ -96,8 +96,8 @@ public enum ManagerStates implements SubsystemStates {
 		return stateString;
 	}
 
-	public AlgaeCorralerStates getAlgaeCorraler() {
-		return algaeCorraler;
+	public AlgaeCoralerStates getAlgaeCoraler() {
+		return algaeCoraler;
 	}
 
 	public ClimberStates getClimber() {
