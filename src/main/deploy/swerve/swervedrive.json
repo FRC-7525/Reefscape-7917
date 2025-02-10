@@ -8,7 +8,7 @@
   "modules": [
     "frontleft.json", 
     "frontright.json", 
-    "backright.json",
-    "backleft.json"
+    "backleft.json",
+    "backright.json"
   ]
 }
