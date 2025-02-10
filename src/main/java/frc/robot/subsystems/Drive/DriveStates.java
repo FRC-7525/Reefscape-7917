@@ -4,9 +4,7 @@ import org.team7525.subsystem.SubsystemStates;
 
 public enum DriveStates implements SubsystemStates {
 	AUTO_ALIGNING("AUTO_ALIGNING"),
-	MANUAL("MANUAL"),
-	LOCKED("LOCKED"),
-	SLOW("SLOW");
+	MANUAL("MANUAL");
 
 	private final String stateString;
 

@@ -1,5 +1,7 @@
 package frc.robot.subsystems.Drive;
 
+import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static frc.robot.GlobalConstants.*;
 import static frc.robot.subsystems.Drive.DriveConstants.*;
 
@@ -23,26 +25,13 @@ public class Drive extends Subsystem<DriveStates> {
 				// DO NOTHING!
 				break;
 			case MANUAL:
+			
 				swerveDrive.drive(
 					new Translation2d(
 						Controllers.DRIVER_CONTROLLER.getLeftX() * MAX_SPEED.magnitude(),
 						-1 * Controllers.DRIVER_CONTROLLER.getLeftY() * MAX_SPEED.magnitude()
 					),
-					Controllers.DRIVER_CONTROLLER.getRightX(),
-					false,
-					false
-				);
-				break;
-			case LOCKED:
-				swerveDrive.lockPose();
-				break;
-			case SLOW:
-				swerveDrive.drive(
-					new Translation2d(
-						Controllers.DRIVER_CONTROLLER.getLeftX() * SLOW_SPEED.magnitude(),
-						-1 * Controllers.DRIVER_CONTROLLER.getLeftY() * SLOW_SPEED.magnitude()
-					),
-					Controllers.DRIVER_CONTROLLER.getRightX(),
+					Controllers.DRIVER_CONTROLLER.getRightX() * MAX_ANGULAR_VELOCIT.in(RadiansPerSecond),
 					true,
 					false
 				);

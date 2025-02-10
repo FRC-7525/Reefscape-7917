@@ -77,7 +77,7 @@ public enum ManagerStates implements SubsystemStates {
 		AlgaeCorralerStates.IDLE,
 		ClimberStates.IDLE,
 		AutoAlignerStates.OFF,
-		DriveStates.LOCKED,
+		DriveStates.MANUAL,
 		GREEN
 	);
 
