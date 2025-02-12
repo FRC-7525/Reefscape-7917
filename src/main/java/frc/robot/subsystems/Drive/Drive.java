@@ -16,24 +16,27 @@ public class Drive extends Subsystem<DriveStates> {
 
 	private SwerveDrive swerveDrive;
 
+	private FaultManager faultManager = FaultManager.getInstance();
+
+
 	public Drive(SwerveDrive swerveDrive) {
 		super("Drive", DriveStates.MANUAL);
 		this.swerveDrive = swerveDrive;
 	}
 
 	//Add Devices to Fault Manager
-		faultManager.addDevice(driveIO.getDrive().getModule(0).getDriveMotor(), "Front Left Drive Spark", "CANivore");
-		faultManager.addDevice(driveIO.getDrive().getModule(0).getSteerMotor(), "Front Left Turn Spark", "CANivore");
-		faultManager.addDevice(driveIO.getDrive().getModule(0).getEncoder(), "Front Left CANcoder", "CANivore");
-		faultManager.addDevice(driveIO.getDrive().getModule(1).getDriveMotor(), "Front Right Drive Spark", "CANivore");
-		faultManager.addDevice(driveIO.getDrive().getModule(1).getSteerMotor(), "Front Right Turn Spark", "CANivore");
-		faultManager.addDevice(driveIO.getDrive().getModule(1).getEncoder(), "Front Right CANcoder", "CANivore");
-		faultManager.addDevice(driveIO.getDrive().getModule(2).getDriveMotor(), "Back Left Drive Spark", "CANivore");
-		faultManager.addDevice(driveIO.getDrive().getModule(2).getSteerMotor(), "Back Left Turn Spark", "CANivore");
-		faultManager.addDevice(driveIO.getDrive().getModule(2).getEncoder(), "Back Left CANcoder", "CANivore");
-		faultManager.addDevice(driveIO.getDrive().getModule(3).getDriveMotor(), "Back Right Drive Spark", "CANivore");
-		faultManager.addDevice(driveIO.getDrive().getModule(3).getSteerMotor(), "Back Right Turn Spark", "CANivore");
-		faultManager.addDevice(driveIO.getDrive().getModule(3).getEncoder(), "Back Right CANcoder", "CANivore");
+	faultManager.addDevice(driveIO.getDrive().getModule(0).getDriveMotor(), "Front Left Drive Spark", "CANivore");
+	faultManager.addDevice(driveIO.getDrive().getModule(0).getSteerMotor(), "Front Left Turn Spark", "CANivore");
+	faultManager.addDevice(driveIO.getDrive().getModule(0).getEncoder(), "Front Left CANcoder", "CANivore");
+	faultManager.addDevice(driveIO.getDrive().getModule(1).getDriveMotor(), "Front Right Drive Spark", "CANivore");
+	faultManager.addDevice(driveIO.getDrive().getModule(1).getSteerMotor(), "Front Right Turn Spark", "CANivore");
+	faultManager.addDevice(driveIO.getDrive().getModule(1).getEncoder(), "Front Right CANcoder", "CANivore");
+	faultManager.addDevice(driveIO.getDrive().getModule(2).getDriveMotor(), "Back Left Drive Spark", "CANivore");
+	faultManager.addDevice(driveIO.getDrive().getModule(2).getSteerMotor(), "Back Left Turn Spark", "CANivore");
+	faultManager.addDevice(driveIO.getDrive().getModule(2).getEncoder(), "Back Left CANcoder", "CANivore");
+	faultManager.addDevice(driveIO.getDrive().getModule(3).getDriveMotor(), "Back Right Drive Spark", "CANivore");
+	faultManager.addDevice(driveIO.getDrive().getModule(3).getSteerMotor(), "Back Right Turn Spark", "CANivore");
+	faultManager.addDevice(driveIO.getDrive().getModule(3).getEncoder(), "Back Right CANcoder", "CANivore");
 
 	@Override
 	public void runState() {
