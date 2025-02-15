@@ -62,13 +62,6 @@ public enum ManagerStates implements SubsystemStates {
 		ClimberStates.IDLE,
 		AutoAlignerStates.NEAREST_FEEDER,
 		GREEN
-	),
-	LOCKED(
-		"LOCKED",
-		AlgaeCorralerStates.IDLE,
-		ClimberStates.IDLE,
-		AutoAlignerStates.OFF,
-		GREEN
 	);
 
 	private String stateString;
