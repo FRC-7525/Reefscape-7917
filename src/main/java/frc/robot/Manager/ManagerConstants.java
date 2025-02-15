@@ -1,4 +1,4 @@
-package frc.robot.subsystems.Manager;
+package frc.robot.Manager;
 
 public final class ManagerConstants {
 

@@ -1,10 +1,12 @@
-package frc.robot.subsystems.Manager;
+package frc.robot.Manager;
 
-import static frc.robot.subsystems.Manager.ManagerConstants.*;
 import frc.robot.GlobalConstants.Controllers;
 import frc.robot.subsystems.AlgaeCoraler.AlgaeCoraler;
 import frc.robot.subsystems.Climber.Climber;
 import frc.robot.subsystems.Drive.Drive;
+
+import static frc.robot.Manager.ManagerConstants.*;
+
 import org.littletonrobotics.junction.Logger;
 import org.team7525.subsystem.Subsystem;
 import swervelib.SwerveDrive;

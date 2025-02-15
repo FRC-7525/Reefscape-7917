@@ -1,4 +1,4 @@
-package frc.robot.subsystems.Manager;
+package frc.robot.Manager;
 
 import frc.robot.subsystems.AlgaeCoraler.AlgaeCoralerStates;
 import frc.robot.subsystems.Climber.ClimberStates;
