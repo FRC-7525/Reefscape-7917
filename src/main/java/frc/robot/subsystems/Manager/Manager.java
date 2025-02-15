@@ -123,7 +123,6 @@ public class Manager extends Subsystem<ManagerStates> {
 
 		// climber.setState(getState().getClimber());
 		//algaeCorraler.setState(getState().getAlgaeCorraler());
-		drive.setState(getState().getDrive());
 		// autoAligner.setState(getState().getAutoAligner());
 
 		// climber.periodic();

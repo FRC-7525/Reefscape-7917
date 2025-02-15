@@ -3,7 +3,6 @@ package frc.robot.subsystems.Manager;
 import frc.robot.subsystems.AlgaeCorraler.AlgaeCorralerStates;
 import frc.robot.subsystems.AutoAligner.AutoAlignerStates;
 import frc.robot.subsystems.Climber.ClimberStates;
-import frc.robot.subsystems.Drive.DriveStates;
 import org.team7525.subsystem.SubsystemStates;
 import static frc.robot.subsystems.Manager.ManagerConstants.*;
 
@@ -13,7 +12,6 @@ public enum ManagerStates implements SubsystemStates {
 		AlgaeCorralerStates.IDLE,
 		ClimberStates.IDLE,
 		AutoAlignerStates.OFF,
-		DriveStates.MANUAL,
 		GREEN
 	),
 	CORAL_OUT(
@@ -21,7 +19,6 @@ public enum ManagerStates implements SubsystemStates {
 		AlgaeCorralerStates.CORALOUT,
 		ClimberStates.IDLE,
 		AutoAlignerStates.OFF,
-		DriveStates.MANUAL,
 		GREEN
 	),
 	ALGAE_IN(
@@ -29,7 +26,6 @@ public enum ManagerStates implements SubsystemStates {
 		AlgaeCorralerStates.ALGAEIN,
 		ClimberStates.IDLE,
 		AutoAlignerStates.OFF,
-		DriveStates.MANUAL,
 		GREEN
 	),
 	HOLDING(
@@ -37,7 +33,6 @@ public enum ManagerStates implements SubsystemStates {
 		AlgaeCorralerStates.HOLDING,
 		ClimberStates.IDLE,
 		AutoAlignerStates.OFF,
-		DriveStates.MANUAL,
 		ORANGE
 	),
 	ALGAE_OUT(
@@ -45,7 +40,6 @@ public enum ManagerStates implements SubsystemStates {
 		AlgaeCorralerStates.ALGAEOUT,
 		ClimberStates.IDLE,
 		AutoAlignerStates.OFF,
-		DriveStates.MANUAL,
 		GREEN
 	),
 	CLIMBING(
@@ -53,7 +47,6 @@ public enum ManagerStates implements SubsystemStates {
 		AlgaeCorralerStates.IDLE,
 		ClimberStates.ON,
 		AutoAlignerStates.OFF,
-		DriveStates.MANUAL,
 		GREEN
 	),
 	AUTO_ALIGNING_REEF(
@@ -61,7 +54,6 @@ public enum ManagerStates implements SubsystemStates {
 		AlgaeCorralerStates.IDLE,
 		ClimberStates.IDLE,
 		AutoAlignerStates.NEAREST_REEF,
-		DriveStates.AUTO_ALIGNING,
 		GREEN
 	),
 	AUTO_ALIGNING_FEEDER(
@@ -69,7 +61,6 @@ public enum ManagerStates implements SubsystemStates {
 		AlgaeCorralerStates.IDLE,
 		ClimberStates.IDLE,
 		AutoAlignerStates.NEAREST_FEEDER,
-		DriveStates.AUTO_ALIGNING,
 		GREEN
 	),
 	LOCKED(
@@ -77,7 +68,6 @@ public enum ManagerStates implements SubsystemStates {
 		AlgaeCorralerStates.IDLE,
 		ClimberStates.IDLE,
 		AutoAlignerStates.OFF,
-		DriveStates.MANUAL,
 		GREEN
 	);
 
@@ -85,7 +75,6 @@ public enum ManagerStates implements SubsystemStates {
 	private AlgaeCorralerStates algaeCorraler;
 	private ClimberStates climber;
 	private AutoAlignerStates autoAlign;
-	private DriveStates drive;
 	private String stateColor;
 
 	ManagerStates(
@@ -93,14 +82,12 @@ public enum ManagerStates implements SubsystemStates {
 		AlgaeCorralerStates algaeCorraler,
 		ClimberStates climber,
 		AutoAlignerStates autoAlign,
-		DriveStates drive,
 		String stateColor
 	) {
 		this.stateString = stateString;
 		this.algaeCorraler = algaeCorraler;
 		this.climber = climber;
 		this.autoAlign = autoAlign;
-		this.drive = drive;
 		this.stateColor = stateColor;
 	}
 
@@ -119,10 +106,6 @@ public enum ManagerStates implements SubsystemStates {
 
 	public AutoAlignerStates getAutoAligner() {
 		return autoAlign;
-	}
-
-	public DriveStates getDrive() {
-		return drive;
 	}
 
 	public String getStateColor() {
