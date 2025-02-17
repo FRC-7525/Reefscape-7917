@@ -4,25 +4,27 @@ import frc.robot.GlobalConstants.Controllers;
 import frc.robot.subsystems.AlgaeCoraler.AlgaeCoraler;
 import frc.robot.subsystems.Climber.Climber;
 import frc.robot.subsystems.Drive.Drive;
+//import frc.robot.subsystems.Vision.Vision;
 
 import static frc.robot.Manager.ManagerConstants.*;
 
 import org.littletonrobotics.junction.Logger;
 import org.team7525.subsystem.Subsystem;
-import swervelib.SwerveDrive;
 
 public class Manager extends Subsystem<ManagerStates> {
 
 	private Climber climber;
 	private AlgaeCoraler algaeCoraler;
-	private SwerveDrive swerveDrive;
 	private Drive drive;
+	//private Vision vision;
 
 	public Manager() {
 		super("Manager", ManagerStates.IDLE);
 
 		climber = new Climber();
 		algaeCoraler = new AlgaeCoraler();
+		drive = new Drive();
+		//vision = new Vision(drive.getSwerveDrive());
 
 		addTrigger(
 			ManagerStates.IDLE,
@@ -43,31 +45,12 @@ public class Manager extends Subsystem<ManagerStates> {
 			ManagerStates.ALGAE_IN,
 			ManagerStates.IDLE,
 			Controllers.OPERATOR_CONTROLLER::getBButtonPressed
-		);
-		addTrigger(
-			ManagerStates.ALGAE_IN,
-			ManagerStates.HOLDING,
-			Controllers.OPERATOR_CONTROLLER::getAButtonPressed
-		);
-		addTrigger(
-			ManagerStates.HOLDING,
-			ManagerStates.ALGAE_OUT,
-			Controllers.OPERATOR_CONTROLLER::getXButtonPressed
-		);
-		addTrigger(
-			ManagerStates.ALGAE_OUT,
-			ManagerStates.IDLE,
-			Controllers.OPERATOR_CONTROLLER::getXButtonPressed
-		);
-		addTrigger(
-			ManagerStates.IDLE,
-			ManagerStates.CLIMBING,
-			Controllers.OPERATOR_CONTROLLER::getRightBumperButtonPressed
 		);
 	}
 
 	@Override
-	public void runState() {
+	public void runState() {Controllers.OPERATOR_CONTROLLER.getAButtonPressed();
+		
 		Logger.recordOutput(SUBSYSTEM_NAME + "/State Time", getStateTime());
 		Logger.recordOutput(SUBSYSTEM_NAME + "/State String", getState().getStateString());
 
@@ -77,8 +60,10 @@ public class Manager extends Subsystem<ManagerStates> {
 		climber.periodic();
 		algaeCoraler.periodic();
 		drive.periodic();
+		//vision.periodic();
 
-		swerveDrive.updateOdometry();
 		Logger.recordOutput(DASHBOARD_STRING, getState().getStateString());
+		
+
 	}
 }

@@ -60,22 +60,7 @@ public class Drive extends Subsystem<DriveStates> {
 		if (swerveDrive != null) {
 			return swerveDrive;
 		} else {
-			SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
-
-			// Sim SwerveDrive Configs:
-			try {
-				File swerveJsonDirectory = new File(Filesystem.getDeployDirectory(), "swerve");
-				swerveDrive = new SwerveParser(swerveJsonDirectory).createSwerveDrive(
-					MAX_SPEED.magnitude(),
-					new Pose2d(new Translation2d(6, 6), Rotation2d.fromDegrees(0))
-				);
-			} catch (Exception e) {
-				throw new RuntimeException("Failed to create SwerveDrive", e);
-			}
-
-			//swerveDrive.setHeadingCorrection(false);
-			//swerveDrive.setCosineCompensator(false);
-			return swerveDrive;
+			throw new Error("Initiialize drive before using it");
 		}
 	}
 
@@ -91,7 +76,6 @@ public class Drive extends Subsystem<DriveStates> {
 		ChassisSpeeds speeds = new ChassisSpeeds(xOutput, yOutput, rotationOutput);
 
 		swerveDrive.driveFieldOriented(speeds);
-		swerveDrive.updateOdometry();
 	}
 
 	private Pose2d getNearestTargetPose() {
@@ -209,5 +193,6 @@ public class Drive extends Subsystem<DriveStates> {
 				);
 				break;
 		}
+		swerveDrive.updateOdometry();
 	}
 }
