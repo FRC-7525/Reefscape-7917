@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.robot.GlobalConstants.Controllers;
 import frc.robot.subsystems.Manager.Manager;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
@@ -41,6 +42,11 @@ public class Robot extends LoggedRobot {
 	@Override
 	public void robotPeriodic() {
 		manager.periodic();
+		Controllers.OPERATOR_CONTROLLER.getAButtonPressed();
+		Controllers.OPERATOR_CONTROLLER.getBButtonPressed();
+		Controllers.OPERATOR_CONTROLLER.getXButtonPressed();
+		Controllers.OPERATOR_CONTROLLER.getYButtonPressed();
+		
 	}
 
 	@Override

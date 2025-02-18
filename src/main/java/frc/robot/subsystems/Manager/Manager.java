@@ -22,8 +22,8 @@ import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 
 public class Manager extends Subsystem<ManagerStates> {
 
-	//private Climber climber;
-	//private AlgaeCorraler algaeCorraler;
+	private Climber climber;
+	private AlgaeCorraler algaeCorraler;
 	//private AutoAligner autoAligner;
 	private SwerveDrive swerveDrive;
 	private Drive drive;
@@ -43,11 +43,8 @@ public class Manager extends Subsystem<ManagerStates> {
 			throw new RuntimeException("Failed to create SwerveDrive", e);
 		}
 
-		swerveDrive.setHeadingCorrection(false);
-		swerveDrive.setCosineCompensator(false);
-
-		//climber = new Climber();
-		//algaeCorraler = new AlgaeCorraler();
+		climber = new Climber();
+		algaeCorraler = new AlgaeCorraler();
 
 		drive = new Drive(swerveDrive);
 		//autoAligner = new AutoAligner(swerveDrive);
@@ -121,12 +118,12 @@ public class Manager extends Subsystem<ManagerStates> {
 		Logger.recordOutput(SUBSYSTEM_NAME + "/State Time", getStateTime());
 		Logger.recordOutput(SUBSYSTEM_NAME + "/State String", getState().getStateString());
 
-		// climber.setState(getState().getClimber());
-		//algaeCorraler.setState(getState().getAlgaeCorraler());
+	    climber.setState(getState().getClimber());
+		algaeCorraler.setState(getState().getAlgaeCorraler());
 		// autoAligner.setState(getState().getAutoAligner());
 
-		// climber.periodic();
-		//algaeCorraler.periodic();
+		climber.periodic();
+		algaeCorraler.periodic();
 		drive.periodic();
 		// autoAligner.periodic();
 

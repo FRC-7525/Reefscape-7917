@@ -20,17 +20,16 @@ public final class AlgaeCorralerConstants {
 	public static final String ALGAE_CORRALER_SPEED_PID = "Algae Corraler Speed PID";
 
 	//CAN IDs - Random values
-	public static final int LEFT_PIVOT_MOTOR_CANID = 0;
-	public static final int RIGHT_PIVOT_MOTOR_CANID = 34;
-	public static final int SPEED_MOTOR_CANID = 35;
+	public static final int PIVOT_MOTOR_CANID = 15;
+	public static final int SPEED_MOTOR_CANID = 5;
 
 	public static final Angle PIVOT_TOLERANCE = Degrees.of(5);
-	public static final AngularVelocity SPEED_TOLERANCE = DegreesPerSecond.of(1);
+	public static final AngularVelocity SPEED_TOLERANCE = DegreesPerSecond.of(400);
 
 	//Speeds
-	public static final AngularVelocity ALGAE_IN_SPEED = DegreesPerSecond.of(0.3);
-	public static final AngularVelocity ALGAE_OUT_SPEED = DegreesPerSecond.of(0.7);
-	public static final AngularVelocity CORAL_OUT_SPEED = DegreesPerSecond.of(0.7);
+	public static final AngularVelocity ALGAE_IN_SPEED = DegreesPerSecond.of(360);
+	public static final AngularVelocity ALGAE_OUT_SPEED = DegreesPerSecond.of(360);
+	public static final AngularVelocity CORAL_OUT_SPEED = DegreesPerSecond.of(360);
 
 	//Angles
 	public static final Angle ALGAE_IDLE_ANGLE = Degrees.of(180);

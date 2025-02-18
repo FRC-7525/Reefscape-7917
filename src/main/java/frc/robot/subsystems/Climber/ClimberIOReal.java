@@ -23,9 +23,10 @@ public class ClimberIOReal implements ClimberIO {
 		pidController = CLIMBER_CONTROLLER_PID.get();
 		pidController.setTolerance(POSITION_TOLERANCE.magnitude());
 
-		if (ROBOT_MODE == RobotMode.TESTING) {
+		//Remove if statement later
+		//if (ROBOT_MODE == RobotMode.TESTING) {
 			SmartDashboard.putData(CLIMBER_PID, pidController);
-		}
+		//}
 	}
 
 	@Override

@@ -20,11 +20,10 @@ import frc.robot.GlobalConstants.RobotMode;
 public class AlgaeCorralerIOReal implements AlgaeCorralerIO {
 
 	private SparkMax wheelsMotor;
-	private SparkMax rightPivotMotor;
-	private SparkMax leftPivotMotor;
+	private SparkMax pivotMotor;
 
 	private PIDController pivotController;
-	private PIDController speedController;
+	//private PIDController speedController;
 	private SparkMaxConfig configuration;
 
 	private AngularVelocity wheelSpeedSetpoint;
@@ -33,19 +32,17 @@ public class AlgaeCorralerIOReal implements AlgaeCorralerIO {
 	public AlgaeCorralerIOReal() {
 		//Initiallize Things
 		wheelsMotor = new SparkMax(SPEED_MOTOR_CANID, MotorType.kBrushless);
-		rightPivotMotor = new SparkMax(RIGHT_PIVOT_MOTOR_CANID, MotorType.kBrushless);
-		leftPivotMotor = new SparkMax(LEFT_PIVOT_MOTOR_CANID, MotorType.kBrushless);
+		pivotMotor = new SparkMax(PIVOT_MOTOR_CANID, MotorType.kBrushless);
 
 		pivotController = PIVOT_PID.get();
-		speedController = SPEED_PID.get();
+		//speedController = SPEED_PID.get();
 
 		pivotController.setTolerance(PIVOT_TOLERANCE.magnitude());
-		speedController.setTolerance(SPEED_TOLERANCE.magnitude());
+		//speedController.setTolerance(SPEED_TOLERANCE.magnitude());
 
 		//Motor Configs
 		configuration = new SparkMaxConfig();
-		configuration.follow(RIGHT_PIVOT_MOTOR_CANID);
-		leftPivotMotor.configure(
+		pivotMotor.configure(
 			configuration,
 			ResetMode.kResetSafeParameters,
 			PersistMode.kPersistParameters
@@ -54,40 +51,43 @@ public class AlgaeCorralerIOReal implements AlgaeCorralerIO {
 
 	@Override
 	public void updateInputs(AlgaeCorralerIOInputs inputs) {
-		inputs.pivotPosition = rightPivotMotor.getEncoder().getPosition();
+		inputs.pivotPosition = pivotMotor.getEncoder().getPosition();
 		inputs.pivotSetpoint = pivotPosSetpoint.in(Degree);
 		inputs.wheelSpeed = (wheelsMotor.getEncoder().getVelocity()) / 60;
 		inputs.wheelSpeedSetpoint = wheelSpeedSetpoint.in(DegreesPerSecond);
 
-		if (GlobalConstants.ROBOT_MODE == RobotMode.TESTING) {
+		//Remove if statement later
+		//if (GlobalConstants.ROBOT_MODE == RobotMode.TESTING) {
 			SmartDashboard.putData(ALGAE_CORRALER_PIVOT_PID, pivotController);
-			SmartDashboard.putData(ALGAE_CORRALER_SPEED_PID, speedController);
-		}
+			//SmartDashboard.putData(ALGAE_CORRALER_SPEED_PID, speedController);
+		//}
 	}
 
 	@Override
 	public void setPivotSetpoint(Angle pivotSetpoint) {
 		this.pivotPosSetpoint = pivotSetpoint;
 		double voltage = pivotController.calculate(
-			Units.rotationsToDegrees(rightPivotMotor.getEncoder().getPosition()),
+			Units.rotationsToDegrees(pivotMotor.getEncoder().getPosition()),
 			pivotSetpoint.in(Rotations)
 		);
-		rightPivotMotor.setVoltage(voltage);
+		pivotMotor.setVoltage(voltage);
 	}
 
 	@Override
 	public void setWheelSpeed(AngularVelocity wheelSpeed) {
 		this.wheelSpeedSetpoint = wheelSpeed;
-		double voltage = speedController.calculate(
-			(wheelsMotor.getEncoder().getVelocity()) / 60,
-			wheelSpeed.in(RotationsPerSecond)
-		);
-		wheelsMotor.setVoltage(voltage);
+		// //double voltage = speedController.calculate(
+		// //	(wheelsMotor.getEncoder().getVelocity()) / 60,
+		// 	wheelSpeed.in(RotationsPerSecond)
+		// );
+		// wheelsMotor.setVoltage(wheelSpeed.in(DegreesPerSecond));
+		wheelsMotor.set(1);
 	}
 
 	@Override
 	public boolean nearTarget() {
-		return pivotController.atSetpoint() && speedController.atSetpoint();
+		return pivotController.atSetpoint();
+		// && speedController.atSetpoint()
 	}
 
 	@Override
