@@ -20,8 +20,7 @@ import frc.robot.GlobalConstants.RobotMode;
 public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 
 	private SparkMax wheelsMotor;
-	private SparkMax rightPivotMotor;
-	private SparkMax leftPivotMotor;
+	private SparkMax pivotMotor;
 
 	private PIDController pivotController;
 	private PIDController speedController;
@@ -33,16 +32,14 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 	public AlgaeCoralerIOReal() {
 		//Initiallize Things
 		wheelsMotor = new SparkMax(SPEED_MOTOR_CANID, MotorType.kBrushless);
-		rightPivotMotor = new SparkMax(RIGHT_PIVOT_MOTOR_CANID, MotorType.kBrushless);
-		leftPivotMotor = new SparkMax(LEFT_PIVOT_MOTOR_CANID, MotorType.kBrushless);
+		pivotMotor = new SparkMax(PIVOT_MOTOR_CANID, MotorType.kBrushless);
 
 		pivotController = new PIDController(PIVOT_PID.kP, PIVOT_PID.kI, PIVOT_PID.kD);
 		speedController = new PIDController(SPEED_PID.kP, SPEED_PID.kI, SPEED_PID.kD); 
 
 		//Motor Configs
 		configuration = new SparkMaxConfig();
-		configuration.follow(RIGHT_PIVOT_MOTOR_CANID);
-		leftPivotMotor.configure(
+		pivotMotor.configure(
 			configuration,
 			ResetMode.kResetSafeParameters,
 			PersistMode.kPersistParameters
@@ -51,7 +48,7 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 
 	@Override
 	public void updateInputs(AlgaeCorralerIOInputs inputs) {
-		inputs.pivotPosition = rightPivotMotor.getEncoder().getPosition();
+		inputs.pivotPosition = pivotMotor.getEncoder().getPosition();
 		inputs.pivotSetpoint = pivotPosSetpoint.in(Degree);
 		inputs.wheelSpeed = (wheelsMotor.getEncoder().getVelocity()) / 60;
 		inputs.wheelSpeedSetpoint = wheelSpeedSetpoint.in(DegreesPerSecond);
@@ -66,10 +63,10 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 	public void setPivotSetpoint(Angle pivotSetpoint) {
 		this.pivotPosSetpoint = pivotSetpoint;
 		double voltage = pivotController.calculate(
-			Units.rotationsToDegrees(rightPivotMotor.getEncoder().getPosition()),
+			pivotMotor.getEncoder().getPosition(),
 			pivotSetpoint.in(Rotations)
 		);
-		rightPivotMotor.setVoltage(voltage);
+		pivotMotor.setVoltage(voltage);
 	}
 
 	@Override
@@ -84,7 +81,7 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 
 	@Override
 	public boolean nearTarget() {
-		return (Math.abs(Units.rotationsToDegrees(rightPivotMotor.getEncoder().getPosition()) - pivotPosSetpoint.in(Degree)) < PIVOT_TOLERANCE.in(Degrees)
+		return (Math.abs(Units.rotationsToDegrees(pivotMotor.getEncoder().getPosition()) - pivotPosSetpoint.in(Degree)) < PIVOT_TOLERANCE.in(Degrees)
 		&& Math.abs(wheelsMotor.getEncoder().getVelocity() / 60 - wheelSpeedSetpoint.in(RotationsPerSecond)) < SPEED_TOLERANCE.in(RotationsPerSecond));
 	}
 }

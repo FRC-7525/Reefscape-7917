@@ -2,6 +2,7 @@ package frc.robot.subsystems.Drive;
 
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.Radians;
+import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static frc.robot.subsystems.Drive.DriveConstants.*;
 
 import java.io.File;
@@ -109,10 +110,6 @@ public class Drive extends Subsystem<DriveStates> {
 		return false;
 	}
 
-	private void lockPose() {
-		swerveDrive.lockPose();
-	}
-
 	private void establishTriggers() {
 		addTrigger(
 			DriveStates.MANUAL,
@@ -172,6 +169,10 @@ public class Drive extends Subsystem<DriveStates> {
 		swerveDrive.zeroGyro();
 	}
 
+	private void lockPose() {
+		swerveDrive.lockPose();
+	}
+
 	@Override
 	public void runState() {
 		switch (getState()) {
@@ -185,14 +186,15 @@ public class Drive extends Subsystem<DriveStates> {
 				swerveDrive.drive(
 					new Translation2d(
 						Controllers.DRIVER_CONTROLLER.getLeftX() * MAX_SPEED.magnitude(),
-						-1 * Controllers.DRIVER_CONTROLLER.getLeftY() * MAX_SPEED.magnitude()
+						Controllers.DRIVER_CONTROLLER.getLeftY() * -1 * MAX_SPEED.magnitude()
 					),
-					Controllers.DRIVER_CONTROLLER.getRightX(),
+					Controllers.DRIVER_CONTROLLER.getRightX() * MAX_ANGULAR_VELOCITY.in(RadiansPerSecond) * -1,
 					true,
 					false
 				);
 				break;
 		}
+
 		swerveDrive.updateOdometry();
 	}
 }

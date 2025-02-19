@@ -1,9 +1,9 @@
 package frc.robot.subsystems.AlgaeCoraler;
 
 import static edu.wpi.first.units.Units.Degrees;
-import static edu.wpi.first.units.Units.DegreesPerSecond;
 import static edu.wpi.first.units.Units.KilogramSquareMeters;
 import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
 
 import com.pathplanner.lib.config.PIDConstants;
 
@@ -20,17 +20,16 @@ public final class AlgaeCoralerConstants {
 	public static final String ALGAE_CORALER_SPEED_PID = "Algae Coraler Speed PID";
 
 	//CAN IDs - Random values
-	public static final int LEFT_PIVOT_MOTOR_CANID = 28;
-	public static final int RIGHT_PIVOT_MOTOR_CANID = 29;
-	public static final int SPEED_MOTOR_CANID = 30;
+	public static final int PIVOT_MOTOR_CANID = 15;
+	public static final int SPEED_MOTOR_CANID = 5;
 
 	public static final Angle PIVOT_TOLERANCE = Degrees.of(5);
-	public static final AngularVelocity SPEED_TOLERANCE = DegreesPerSecond.of(1);
+	public static final AngularVelocity SPEED_TOLERANCE = RotationsPerSecond.of(1);
 
 	//Speeds
-	public static final AngularVelocity ALGAE_IN_SPEED = DegreesPerSecond.of(0.3);
-	public static final AngularVelocity ALGAE_OUT_SPEED = DegreesPerSecond.of(0.7);
-	public static final AngularVelocity CORAL_OUT_SPEED = DegreesPerSecond.of(0.7);
+	public static final AngularVelocity ALGAE_IN_SPEED = RotationsPerSecond.of(6); 
+	public static final AngularVelocity ALGAE_OUT_SPEED = RotationsPerSecond.of(6);
+	public static final AngularVelocity CORAL_OUT_SPEED = RotationsPerSecond.of(5);
 
 	//Angles
 	public static final Angle ALGAE_IDLE_ANGLE = Degrees.of(180);

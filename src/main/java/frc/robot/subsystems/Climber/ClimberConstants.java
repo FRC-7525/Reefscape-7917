@@ -15,7 +15,7 @@ public final class ClimberConstants {
 	public static final String CLIMBER_STATE = "Climber State";
 	public static final String CLIMBER_PID = "Climber PID Controller";
 
-	public static final int CLIMBER_CANID = 17;
+	public static final int CLIMBER_CANID = 16;
 	public static final Distance POSITION_TOLERANCE = Meters.of(0.1);
 
 	public static final Distance IDLE_POS = Inches.of(2);
