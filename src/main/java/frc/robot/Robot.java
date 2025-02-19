@@ -10,7 +10,6 @@ import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 import org.team7525.misc.CommandsUtil;
 
-import frc.robot.GlobalConstants.Controllers;
 import frc.robot.Manager.Manager;
 
 public class Robot extends LoggedRobot {
@@ -43,10 +42,6 @@ public class Robot extends LoggedRobot {
 	@Override
 	public void robotPeriodic() {
 		manager.periodic();
-		Controllers.OPERATOR_CONTROLLER.getAButtonPressed();
-		Controllers.OPERATOR_CONTROLLER.getBButtonPressed();
-		Controllers.OPERATOR_CONTROLLER.getXButtonPressed();
-		Controllers.OPERATOR_CONTROLLER.getYButtonPressed();
 	}
 
 	@Override
