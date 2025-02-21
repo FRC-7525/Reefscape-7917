@@ -17,7 +17,7 @@ public final class ClimberConstants {
 	public static final Angle IN_POSITION = Degrees.of(0);
 	public static final Angle OUT_POSITION = Degrees.of(90);
 
-	public static final double GEAR_RATIO = 56;
+	public static final double GEAR_RATIO = 100;
 
 	// public static final Distance METERS_PER_ROTATION = Meters.of(.152); //6 inches tbd
 
