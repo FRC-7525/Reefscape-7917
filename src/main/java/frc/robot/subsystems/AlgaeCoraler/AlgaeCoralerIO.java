@@ -1,7 +1,6 @@
-package frc.robot.subsystems.AlgaeCoraler;
+package frc.robot.Subsystems.AlgaeCoraler;
 
 import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.AngularVelocity;
 import org.littletonrobotics.junction.AutoLog;
 
 public interface AlgaeCoralerIO {
@@ -21,7 +20,7 @@ public interface AlgaeCoralerIO {
 
 	public void setPivotSetpoint(Angle pivotSetpoint);
 
-	public void setWheelSpeed(AngularVelocity wheelSpeed);
+	public void setWheelSpeed(double wheelSpeed);
 
 	public boolean nearTarget();
 }

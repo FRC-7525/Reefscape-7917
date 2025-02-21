@@ -1,7 +1,7 @@
-package frc.robot.subsystems.AlgaeCoraler;
+package frc.robot.Subsystems.AlgaeCoraler;
 
 import static frc.robot.GlobalConstants.*;
-import static frc.robot.subsystems.AlgaeCoraler.AlgaeCoralerConstants.*;
+import static frc.robot.Subsystems.AlgaeCoraler.AlgaeCoralerConstants.*;
 
 import org.littletonrobotics.junction.Logger;
 import org.team7525.subsystem.Subsystem;
@@ -13,7 +13,7 @@ public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 
 	public AlgaeCoraler() {
 		//IO stuff
-		super("Algae Coraler", AlgaeCoralerStates.IDLE);
+		super(SUBSYSTEM_NAME, AlgaeCoralerStates.IDLE);
 		this.io = switch (ROBOT_MODE) {
 			case SIM -> new AlgaeCoralerIOSim();
 			case REAL -> new AlgaeCoralerIOReal();
@@ -32,7 +32,7 @@ public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 		io.updateInputs(inputs);
 		Logger.processInputs(SUBSYSTEM_NAME, inputs);
 
-		Logger.recordOutput(ALGAE_CORALER_STATE, getState().getStateString());
+		Logger.recordOutput(SUBSYSTEM_NAME + "/State", getState().getStateString());
 	}
 
 	public boolean nearTarget() {

@@ -1,39 +1,40 @@
 package frc.robot.Manager;
 
-import frc.robot.subsystems.AlgaeCoraler.AlgaeCoralerStates;
-import frc.robot.subsystems.Climber.ClimberStates;
 import org.team7525.subsystem.SubsystemStates;
+
+import frc.robot.Subsystems.AlgaeCoraler.AlgaeCoralerStates;
+import frc.robot.Subsystems.Climber.ClimberStates;
 
 public enum ManagerStates implements SubsystemStates {
 	IDLE(
 		"IDLE",
 		AlgaeCoralerStates.IDLE,
-		ClimberStates.IDLE
+		ClimberStates.IN
 	),
 	CORAL_OUT(
 		"CORAL OUT",
 		AlgaeCoralerStates.CORALOUT,
-		ClimberStates.IDLE
+		ClimberStates.IN
 	),
 	ALGAE_IN(
 		"ALGAE IN",
 		AlgaeCoralerStates.ALGAEIN,
-		ClimberStates.IDLE
+		ClimberStates.IN
 	),
 	HOLDING(
 		"HOLDING",
 		AlgaeCoralerStates.HOLDING,
-		ClimberStates.IDLE
+		ClimberStates.IN
 	),
 	ALGAE_OUT(
 		"ALGAE OUT",
 		AlgaeCoralerStates.ALGAEOUT,
-		ClimberStates.IDLE
+		ClimberStates.IN
 	),
 	CLIMBING(
 		"CLIMBING",
 		AlgaeCoralerStates.IDLE,
-		ClimberStates.ON
+		ClimberStates.OUT
 	);
 
 	private String stateString;

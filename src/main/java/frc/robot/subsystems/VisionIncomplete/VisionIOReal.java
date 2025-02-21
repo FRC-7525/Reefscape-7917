@@ -1,6 +1,6 @@
-package frc.robot.subsystems.VisionIncomplete;
+package frc.robot.Subsystems.VisionIncomplete;
 
-import static frc.robot.subsystems.VisionIncomplete.VisionConstants.*;
+import static frc.robot.Subsystems.VisionIncomplete.VisionConstants.*;
 
 import java.util.Optional;
 

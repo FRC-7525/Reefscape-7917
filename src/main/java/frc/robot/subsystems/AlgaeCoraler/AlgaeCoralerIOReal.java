@@ -1,8 +1,8 @@
-package frc.robot.subsystems.AlgaeCoraler;
+package frc.robot.Subsystems.AlgaeCoraler;
 
 import static edu.wpi.first.units.Units.*;
-import static frc.robot.subsystems.AlgaeCoraler.AlgaeCoralerConstants.*;
-import static frc.robot.subsystems.AlgaeCoraler.AlgaeCoralerConstants.Real.*;
+import static frc.robot.Subsystems.AlgaeCoraler.AlgaeCoralerConstants.*;
+import static frc.robot.Subsystems.AlgaeCoraler.AlgaeCoralerConstants.Real.*;
 
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -12,7 +12,6 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.GlobalConstants;
 import frc.robot.GlobalConstants.RobotMode;
@@ -23,11 +22,10 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 	private SparkMax pivotMotor;
 
 	private PIDController pivotController;
-	private PIDController speedController;
 	private SparkMaxConfig configuration;
 
-	private AngularVelocity wheelSpeedSetpoint;
 	private Angle pivotPosSetpoint;
+	private double wheelSpeedSetpoint;
 
 	public AlgaeCoralerIOReal() {
 		//Initiallize Things
@@ -35,7 +33,6 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 		pivotMotor = new SparkMax(PIVOT_MOTOR_CANID, MotorType.kBrushless);
 
 		pivotController = new PIDController(PIVOT_PID.kP, PIVOT_PID.kI, PIVOT_PID.kD);
-		speedController = new PIDController(SPEED_PID.kP, SPEED_PID.kI, SPEED_PID.kD); 
 
 		//Motor Configs
 		configuration = new SparkMaxConfig();
@@ -51,11 +48,10 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 		inputs.pivotPosition = pivotMotor.getEncoder().getPosition();
 		inputs.pivotSetpoint = pivotPosSetpoint.in(Degree);
 		inputs.wheelSpeed = (wheelsMotor.getEncoder().getVelocity()) / 60;
-		inputs.wheelSpeedSetpoint = wheelSpeedSetpoint.in(DegreesPerSecond);
+		inputs.wheelSpeedSetpoint = wheelSpeedSetpoint;
 
 		if (GlobalConstants.ROBOT_MODE == RobotMode.TESTING) {
-			SmartDashboard.putData(ALGAE_CORALER_PIVOT_PID, pivotController);
-			SmartDashboard.putData(ALGAE_CORALER_SPEED_PID, speedController);
+			SmartDashboard.putData(SUBSYSTEM_NAME + "/Pivot PID", pivotController);
 		}
 	}
 
@@ -63,25 +59,20 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 	public void setPivotSetpoint(Angle pivotSetpoint) {
 		this.pivotPosSetpoint = pivotSetpoint;
 		double voltage = pivotController.calculate(
-			pivotMotor.getEncoder().getPosition(),
+			pivotMotor.getEncoder().getPosition() * PIVOT_GEARING,
 			pivotSetpoint.in(Rotations)
 		);
 		pivotMotor.setVoltage(voltage);
 	}
 
 	@Override
-	public void setWheelSpeed(AngularVelocity wheelSpeed) {
+	public void setWheelSpeed(double wheelSpeed) {
 		this.wheelSpeedSetpoint = wheelSpeed;
-		double voltage = speedController.calculate(
-			(wheelsMotor.getEncoder().getVelocity()) / 60,
-			wheelSpeed.in(RotationsPerSecond)
-		);
-		wheelsMotor.setVoltage(voltage);
+		wheelsMotor.set(wheelSpeed);
 	}
 
 	@Override
 	public boolean nearTarget() {
-		return (Math.abs(Units.rotationsToDegrees(pivotMotor.getEncoder().getPosition()) - pivotPosSetpoint.in(Degree)) < PIVOT_TOLERANCE.in(Degrees)
-		&& Math.abs(wheelsMotor.getEncoder().getVelocity() / 60 - wheelSpeedSetpoint.in(RotationsPerSecond)) < SPEED_TOLERANCE.in(RotationsPerSecond));
+		return (Math.abs(Units.rotationsToDegrees(pivotMotor.getEncoder().getPosition()) - pivotPosSetpoint.in(Degree)) < PIVOT_TOLERANCE.in(Degrees));
 	}
 }

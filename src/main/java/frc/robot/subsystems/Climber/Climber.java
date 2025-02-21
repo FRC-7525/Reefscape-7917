@@ -1,7 +1,7 @@
-package frc.robot.subsystems.Climber;
+package frc.robot.Subsystems.Climber;
 
 import static frc.robot.GlobalConstants.*;
-import static frc.robot.subsystems.Climber.ClimberConstants.*;
+import static frc.robot.Subsystems.Climber.ClimberConstants.*;
 
 import org.littletonrobotics.junction.Logger;
 import org.team7525.subsystem.Subsystem;
@@ -12,7 +12,7 @@ public class Climber extends Subsystem<ClimberStates> {
 	private ClimberIOInputsAutoLogged inputs;
 
 	public Climber() {
-		super("Climber", ClimberStates.IDLE);
+		super("Climber", ClimberStates.IN);
 		this.io = switch (ROBOT_MODE) {
 			case SIM -> new ClimberIOSim();
 			case REAL -> new ClimberIOReal();
@@ -28,7 +28,7 @@ public class Climber extends Subsystem<ClimberStates> {
 		io.updateInputs(inputs);
 
 		Logger.processInputs(SUBSYSTEM_NAME, inputs);
-		Logger.recordOutput(CLIMBER_STATE, getState().getStateString());
+		Logger.recordOutput(SUBSYSTEM_NAME + "/State", getState().getStateString());
 	}
 
 	public boolean nearSetpoint() {
