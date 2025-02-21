@@ -15,8 +15,8 @@ public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 		//IO stuff
 		super(SUBSYSTEM_NAME, AlgaeCoralerStates.IDLE);
 		this.io = switch (ROBOT_MODE) {
-			case SIM -> new AlgaeCoralerIOSim();
 			case REAL -> new AlgaeCoralerIOReal();
+			case SIM -> new AlgaeCoralerIOSim();
 			case TESTING -> new AlgaeCoralerIOReal();
 			case REPLAY -> new AlgaeCoralerIOSim();
 		};

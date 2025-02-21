@@ -21,6 +21,8 @@ public class ClimberIOReal implements ClimberIO {
 	public ClimberIOReal() {
 		motor = new SparkMax(CLIMBER_CANID, MotorType.kBrushless);
 		pidController = new PIDController(CLIMBER_CONTROLLER_PID.kP, CLIMBER_CONTROLLER_PID.kI, CLIMBER_CONTROLLER_PID.kP);
+		
+		motor.getEncoder().setPosition(0);
 
 		if (ROBOT_MODE == RobotMode.TESTING) {
 			SmartDashboard.putData(SUBSYSTEM_NAME + "/Position PID", pidController);

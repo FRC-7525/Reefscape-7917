@@ -4,6 +4,8 @@ import static edu.wpi.first.units.Units.*;
 import static frc.robot.Subsystems.AlgaeCoraler.AlgaeCoralerConstants.*;
 import static frc.robot.Subsystems.AlgaeCoraler.AlgaeCoralerConstants.Real.*;
 
+import org.littletonrobotics.junction.Logger;
+
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -32,6 +34,7 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 		wheelsMotor = new SparkMax(SPEED_MOTOR_CANID, MotorType.kBrushless);
 		pivotMotor = new SparkMax(PIVOT_MOTOR_CANID, MotorType.kBrushless);
 
+		pivotMotor.getEncoder().setPosition(0);
 		pivotController = new PIDController(PIVOT_PID.kP, PIVOT_PID.kI, PIVOT_PID.kD);
 
 		//Motor Configs
@@ -45,10 +48,12 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 
 	@Override
 	public void updateInputs(AlgaeCorralerIOInputs inputs) {
-		inputs.pivotPosition = pivotMotor.getEncoder().getPosition();
+		inputs.pivotPosition = pivotMotor.getEncoder().getPosition() * PIVOT_GEARING;
 		inputs.pivotSetpoint = pivotPosSetpoint.in(Degree);
 		inputs.wheelSpeed = (wheelsMotor.getEncoder().getVelocity()) / 60;
 		inputs.wheelSpeedSetpoint = wheelSpeedSetpoint;
+
+		Logger.recordOutput("Pivot Position", pivotMotor.getEncoder().getPosition());
 
 		if (GlobalConstants.ROBOT_MODE == RobotMode.TESTING) {
 			SmartDashboard.putData(SUBSYSTEM_NAME + "/Pivot PID", pivotController);

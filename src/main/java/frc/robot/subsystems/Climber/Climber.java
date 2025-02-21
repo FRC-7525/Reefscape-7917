@@ -14,8 +14,8 @@ public class Climber extends Subsystem<ClimberStates> {
 	public Climber() {
 		super("Climber", ClimberStates.IN);
 		this.io = switch (ROBOT_MODE) {
-			case SIM -> new ClimberIOSim();
 			case REAL -> new ClimberIOReal();
+			case SIM -> new ClimberIOSim();
 			case TESTING -> new ClimberIOReal();
 			case REPLAY -> new ClimberIOSim();
 		};

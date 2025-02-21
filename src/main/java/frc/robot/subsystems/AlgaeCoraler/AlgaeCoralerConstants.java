@@ -29,15 +29,15 @@ public final class AlgaeCoralerConstants {
 	//Speeds
 	public static final double ALGAE_IN_SPEED = -0.5; 
 	public static final double ALGAE_OUT_SPEED = 0.5;
-	public static final double CORAL_OUT_SPEED = 0.3;
+	public static final double CORAL_OUT_SPEED = -1;
 
 	//Angles
 	public static final Angle ALGAE_IDLE_ANGLE = Degrees.of(0);
-	public static final Angle ALGAE_OUT_ANGLE = Degrees.of(30);
-	public static final Angle ALGAE_HOLDING_ANGLE = Degrees.of(50);
+	public static final Angle ALGAE_OUT_ANGLE = Degrees.of(-30);
+	public static final Angle ALGAE_HOLDING_ANGLE = Degrees.of(-50);
 
 	public static class Real {
-		public static final PIDConstants PIVOT_PID = new PIDConstants(0.2, 0, 0.1); 
+		public static final PIDConstants PIVOT_PID = new PIDConstants(0, 0, 0); 
 	}
 
 	public static class Sim {
