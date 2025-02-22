@@ -73,7 +73,7 @@ public class AlgaeCoralerIOSim implements AlgaeCoralerIO {
 		pivotSim.update(SIMULATION_PERIOD);
 		wheelMotorSim.update(SIMULATION_PERIOD);
 
-		inputs.pivotPosition = Units.rotationsToDegrees(pivotSim.getAngleRads());
+		inputs.pivotPosition = Units.radiansToDegrees(pivotSim.getAngleRads());
 		inputs.wheelSpeed = Units.radiansToDegrees(
 			wheelMotorSim.getAngularVelocityRPM() / 60
 		);
@@ -93,7 +93,7 @@ public class AlgaeCoralerIOSim implements AlgaeCoralerIO {
 		this.pivotPosSetpoint = pivotSetpoint;
 		double voltage = pivotController.calculate(
 			Units.radiansToDegrees(pivotSim.getAngleRads()),
-			pivotSetpoint.in(Degree)
+			pivotSetpoint.in(Degrees)
 		);
 
 		pivotSim.setInputVoltage(voltage);

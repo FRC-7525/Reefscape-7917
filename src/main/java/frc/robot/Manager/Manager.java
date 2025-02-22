@@ -15,35 +15,31 @@ public class Manager extends Subsystem<ManagerStates> {
 
 	private Climber climber;
 	private AlgaeCoraler algaeCoraler;
-	// private Drive drive;
-	// private Vision vision;
+	private Drive drive;
 
 	public Manager() {
 		super("Manager", ManagerStates.IDLE);
-
+		super.setControllerSupplier(() -> OPERATOR_CONTROLLER);
 		super.setClearControllerCacheEachLoop(true);
-		super.setControllerSupplier(() -> DRIVER_CONTROLLER);
 		climber = new Climber();
 		algaeCoraler = new AlgaeCoraler();
-		// drive = new Drive();
-		// vision = new Vision(drive.getSwerveDrive());
+		drive = new Drive();
 
 		// Scoring/intaking Coral
-		addTrigger(IDLE, CORAL_OUT, DRIVER_CONTROLLER::getYButtonPressed);
-		addTrigger(CORAL_OUT, IDLE, DRIVER_CONTROLLER::getYButtonPressed);
+		addTrigger(IDLE, CORAL_OUT, OPERATOR_CONTROLLER::getYButtonPressed);
+		addTrigger(CORAL_OUT, IDLE, OPERATOR_CONTROLLER::getYButtonPressed);
 
 		// Scoring/intaking Algae
-		addTrigger(IDLE, ALGAE_IN, DRIVER_CONTROLLER::getBButtonPressed);
-		addTrigger(ALGAE_IN, IDLE, DRIVER_CONTROLLER::getBButtonPressed);
+		addTrigger(IDLE, ALGAE_IN, OPERATOR_CONTROLLER::getBButtonPressed);
+		addTrigger(ALGAE_IN, IDLE, OPERATOR_CONTROLLER::getBButtonPressed);
 
 		// Climbing
-		addTrigger(IDLE, CLIMBING, DRIVER_CONTROLLER::getAButtonPressed);
-		addTrigger(CLIMBING, IDLE, DRIVER_CONTROLLER::getAButtonPressed);
+		addTrigger(IDLE, CLIMBING, OPERATOR_CONTROLLER::getAButtonPressed);
+		addTrigger(CLIMBING, IDLE, OPERATOR_CONTROLLER::getAButtonPressed);
 	}
 
 	@Override
 	public void runState() {
-		DRIVER_CONTROLLER.getAButtonPressed();
 
 		Logger.recordOutput(SUBSYSTEM_NAME + "/State Time", getStateTime());
 		Logger.recordOutput(SUBSYSTEM_NAME + "/State String", getState().getStateString());
@@ -53,10 +49,8 @@ public class Manager extends Subsystem<ManagerStates> {
 
 		climber.periodic();
 		algaeCoraler.periodic();
-		// drive.periodic();
-		// vision.periodic();
+		drive.periodic();
 
 		Logger.recordOutput(DASHBOARD_STRING, getState().getStateString());
-
 	}
 }

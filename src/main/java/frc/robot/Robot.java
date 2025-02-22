@@ -37,7 +37,7 @@ public class Robot extends LoggedRobot {
 		}
 		Logger.start();
 		CommandsUtil.logCommands();
-		DriverStation.silenceJoystickConnectionWarning(true);
+		DriverStation.silenceJoystickConnectionWarning(false);
 		manager = new Manager();
 	}
 

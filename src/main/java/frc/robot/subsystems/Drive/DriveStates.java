@@ -9,7 +9,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 public enum DriveStates implements SubsystemStates {
 	AUTO_ALIGNING_REEF("AUTO ALIGNING REEF", DriveConstants.NEAREST_REEFS),
 	AUTO_ALIGNING_FEEDER("AUTO ALIGNING FEEDER", DriveConstants.NEAREST_FEEDERS),
-	AUTO_ALIGNING_PROCESSOR("AUTO ALIGNING PROCESSOR", null), // TODO Add pose
+	AUTO_ALIGNING_PROCESSOR("AUTO ALIGNING PROCESSOR", null),
 	MANUAL("MANUAL", null),;
 
 	private final String stateString;

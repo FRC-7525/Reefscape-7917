@@ -37,7 +37,7 @@ public final class AlgaeCoralerConstants {
 	public static final Angle ALGAE_HOLDING_ANGLE = Degrees.of(-50);
 
 	public static class Real {
-		public static final PIDConstants PIVOT_PID = new PIDConstants(0, 0, 0); 
+		public static final PIDConstants PIVOT_PID = new PIDConstants(0.1, 0, 0); 
 	}
 
 	public static class Sim {
@@ -48,11 +48,11 @@ public final class AlgaeCoralerConstants {
 		public static final MomentOfInertia PIVOT_MOTOR_MOI = KilogramSquareMeters.of(1);
 
 		public static final Distance PIVOT_ARM_LENGTH = Meters.of(.3);
-		public static final Angle MIN_PIVOT_ANGLE = Degrees.of(0);
-		public static final Angle MAX_PIVOT_ANGLE = Degrees.of(180); //idk
+		public static final Angle MIN_PIVOT_ANGLE = Degrees.of(-180);
+		public static final Angle MAX_PIVOT_ANGLE = Degrees.of(180);
 		public static final Angle STARTING_PIVOT_ANGLE = Degrees.of(0);
 
-		public static final PIDConstants PIVOT_PID = new PIDConstants(0, 0, 0); 
-		public static final PIDConstants SPEED_PID = new PIDConstants(0, 0, 0); 
+		public static final PIDConstants PIVOT_PID = new PIDConstants(0.4, 0, 0.001); 
+		public static final PIDConstants SPEED_PID = new PIDConstants(0.05, 0, 0.001); 
 	}
 }

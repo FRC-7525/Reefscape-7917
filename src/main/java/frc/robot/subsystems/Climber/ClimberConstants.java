@@ -31,6 +31,6 @@ public final class ClimberConstants {
 		public static final MomentOfInertia MOTOR_MOI = KilogramSquareMeters.of(1);
 		public static final int NUM_MOTORS = 1;
 
-		public static final PIDConstants CLIMBER_CONTROLLER_PID = new PIDConstants(0, 0, 0); 
+		public static final PIDConstants CLIMBER_CONTROLLER_PID = new PIDConstants(0.05, 0, 0.001); 
 	}
 }
