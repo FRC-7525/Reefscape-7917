@@ -1,14 +1,12 @@
 package frc.robot.Subsystems.AlgaeCoraler;
-
-import static edu.wpi.first.units.Units.*;
 import static frc.robot.Subsystems.AlgaeCoraler.AlgaeCoralerConstants.*;
 
 import edu.wpi.first.units.measure.*;
 import org.team7525.subsystem.SubsystemStates;
 
 public enum AlgaeCoralerStates implements SubsystemStates {
-	IDLE("IDLE", (double) 0, ALGAE_IDLE_ANGLE),
-	CORALOUT("CORALOUT", CORAL_OUT_SPEED, Degrees.of(0)),
+	IDLE("IDLE", (double) 0, IDLE_ANGLE),
+	CORALOUT("CORALOUT", CORAL_OUT_SPEED, IDLE_ANGLE),
 	ALGAEIN("ALGAEIN", ALGAE_IN_SPEED, ALGAE_OUT_ANGLE),
 	HOLDING("HOLDING", (double) 0, ALGAE_HOLDING_ANGLE),
 	ALGAEOUT("ALGAEOUT", ALGAE_OUT_SPEED, ALGAE_OUT_ANGLE);

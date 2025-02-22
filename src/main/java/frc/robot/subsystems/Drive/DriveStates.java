@@ -17,7 +17,7 @@ public enum DriveStates implements SubsystemStates {
 
 	DriveStates(String stateString, List<Pose2d> targetPoses) {
 		this.stateString = stateString;
-		this.targetPoses = targetPoses;
+		this.targetPoses = targetPoses; 
 	}
 	
 	public List<Pose2d> getTargetPoses() {

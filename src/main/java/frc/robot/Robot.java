@@ -37,13 +37,14 @@ public class Robot extends LoggedRobot {
 		}
 		Logger.start();
 		CommandsUtil.logCommands();
-		DriverStation.silenceJoystickConnectionWarning(false);
+		DriverStation.silenceJoystickConnectionWarning(true);
 		manager = new Manager();
 	}
 
 	@Override
 	public void robotPeriodic() {
 		manager.periodic();
+		Utilitys.controllers.clearCache();
 	}
 
 	@Override

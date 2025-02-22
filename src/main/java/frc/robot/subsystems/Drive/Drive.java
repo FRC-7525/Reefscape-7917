@@ -22,12 +22,9 @@ public class Drive extends Subsystem<DriveStates> {
 
 	public Drive() {
 		super("Drive", DriveStates.MANUAL);
-		super.setControllerSupplier(() -> Controllers.DRIVER_CONTROLLER);
-		super.setClearControllerCacheEachLoop(true);
 		
 		SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
 
-		// Sim SwerveDrive Configs:
 		try {
 			File swerveJsonDirectory = new File(Filesystem.getDeployDirectory(), "swerve");
 			swerveDrive = new SwerveParser(swerveJsonDirectory).createSwerveDrive(
@@ -38,15 +35,12 @@ public class Drive extends Subsystem<DriveStates> {
 			throw new RuntimeException("Failed to create SwerveDrive", e);
 		}
 
-		//swerveDrive.setHeadingCorrection(false);
-		//swerveDrive.setCosineCompensator(false);
-
 		establishTriggers();
 	}
 
 
 	private void establishTriggers() {
-		// Add autoalign stuff
+		// Add autoalign stuff here later
 		addRunnableTrigger(
 			this::lockPose,
 			Controllers.DRIVER_CONTROLLER::getLeftBumperButtonPressed
@@ -55,6 +49,7 @@ public class Drive extends Subsystem<DriveStates> {
 			this::zeroGyro,
 			Controllers.DRIVER_CONTROLLER::getRightBumperButtonPressed
 		);
+		// TODO: Remove zeroGyro. It is run on init of robot irl.
 	}
 	public void zeroGyro() {
 		swerveDrive.zeroGyro();
