@@ -41,12 +41,22 @@ public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 		return io.nearTarget();
 	}
 
-	public boolean hasAlgea() {
-		return io.hasAlgea();
+	public boolean hasAlgae() {
+		return io.hasAlgae();
 	}
 
 	public boolean hasCoral() {
 		return io.hasCoral();
+	}
+
+	public void zeroed() {}
+
+	public boolean motorsZeroed() {
+		return io.motorsZeroed(); 
+	}
+
+	public void resetMotorsZeroed() {
+		io.resetMotorsZeroed();
 	}
 
 }

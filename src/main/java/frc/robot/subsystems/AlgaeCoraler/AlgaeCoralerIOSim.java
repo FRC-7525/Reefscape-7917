@@ -66,6 +66,7 @@ public class AlgaeCoralerIOSim implements AlgaeCoralerIO {
 
 		pivotPosSetpoint = Degrees.of(0);
 		wheelSpeedSetpoint = 0;
+
 	}
 
 	@Override
@@ -117,9 +118,20 @@ public class AlgaeCoralerIOSim implements AlgaeCoralerIO {
 	}
 
 	@Override
-	public boolean hasAlgea() {
+	public boolean hasAlgae() {
 		return false;
 		// Same here
 	}
+
+	@Override
+	public void zeroed() {}
+
+	@Override
+	public boolean motorsZeroed() {
+		return false; 
+	}
+
+	@Override
+	public void resetMotorsZeroed() {}
 
 }

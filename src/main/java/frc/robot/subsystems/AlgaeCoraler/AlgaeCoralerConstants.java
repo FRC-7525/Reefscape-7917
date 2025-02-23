@@ -1,5 +1,6 @@
 package frc.robot.Subsystems.AlgaeCoraler;
 
+import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.KilogramSquareMeters;
 import static edu.wpi.first.units.Units.Meters;
@@ -7,6 +8,7 @@ import static edu.wpi.first.units.Units.Meters;
 import org.team7525.controlConstants.PIDConstants;
 
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.MomentOfInertia;
 
@@ -27,20 +29,27 @@ public final class AlgaeCoralerConstants {
 	public static final Angle PIVOT_TOLERANCE = Degrees.of(1);
 
 	//Speeds
-	public static final double ALGAE_IN_SPEED = -0.5; 
+	public static final double ALGAE_IN_SPEED = -1; 
 	public static final double ALGAE_OUT_SPEED = 1;
 	public static final double CORAL_OUT_SPEED = -1;
+	public static final double HOLDING_SPEED = -0.1;
+
+	//Zeroing
+	public static final double ZEROING_SPEED = 0.3; 
+	public static final Current ZEROING_CURRENT_LIMIT = Amps.of(10); 
+
 	//TODO: Add controlls to tune these values ^
 
 	//Angles
-	public static final Angle IDLE_ANGLE = Degrees.of(5);
-	public static final Angle ALGAE_IN_ANGLE = Degrees.of(-95);
-	public static final Angle ALGAE_HOLDING_ANGLE = Degrees.of(-20);
-	public static final Angle ALGAE_OUT_ANGLE = Degrees.of(-20);
+	public static final Angle IDLE_ANGLE = Degrees.of(22);
+	public static final Angle ALGAE_IN_ANGLE = Degrees.of(-115);
+	public static final Angle ALGAE_HOLDING_ANGLE = Degrees.of(-25);
+	public static final Angle ALGAE_OUT_ANGLE = Degrees.of(-25);
 	//TODO: Obtain correct values from Everybot docs ^
 
 	public static class Real {
-		public static final PIDConstants PIVOT_PID = new PIDConstants(0.85, 0, 0.025); 
+		public static final PIDConstants DOWN_PIVOT_PID = new PIDConstants(0.6, 0, 0.025); 
+		public static final PIDConstants UP_PIVOT_PID = new PIDConstants(0.7, 0, 0.025);
 	}
 
 	public static class Sim {

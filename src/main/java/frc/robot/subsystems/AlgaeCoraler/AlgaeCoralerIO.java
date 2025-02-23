@@ -3,7 +3,7 @@ package frc.robot.Subsystems.AlgaeCoraler;
 import edu.wpi.first.units.measure.Angle;
 import org.littletonrobotics.junction.AutoLog;
 
-public interface AlgaeCoralerIO {
+public interface AlgaeCoralerIO  {
 	@AutoLog
 	public static class AlgaeCorralerIOInputs {
 
@@ -14,6 +14,8 @@ public interface AlgaeCoralerIO {
 		//Wheels
 		public double wheelSpeed;
 		public double wheelSpeedSetpoint;
+
+		public AlgaeCoralerStates state;
 	}
 
 	public void updateInputs(AlgaeCorralerIOInputs input);
@@ -26,5 +28,12 @@ public interface AlgaeCoralerIO {
 
 	public boolean hasCoral();
 
-	public boolean hasAlgea();
+	public boolean hasAlgae();
+
+	public void zeroed(); 
+
+	public boolean motorsZeroed(); 
+
+	public void resetMotorsZeroed(); 
+	
 }

@@ -8,12 +8,13 @@ public enum AlgaeCoralerStates implements SubsystemStates {
 	IDLE("IDLE", (double) 0, IDLE_ANGLE),
 	CORALOUT("CORALOUT", CORAL_OUT_SPEED, IDLE_ANGLE),
 	ALGAEIN("ALGAEIN", ALGAE_IN_SPEED, ALGAE_IN_ANGLE),
-	HOLDING("HOLDING", (double) 0, ALGAE_HOLDING_ANGLE),
+	HOLDING("HOLDING", HOLDING_SPEED, ALGAE_HOLDING_ANGLE),
 	ALGAEOUT("ALGAEOUT", ALGAE_OUT_SPEED, ALGAE_OUT_ANGLE);
 
 	private String stateString;
 	private double wheelSpeed;
 	private Angle pivotSetpoint;
+
 
 	AlgaeCoralerStates(String stateString, Double wheelSpeed, Angle pivotSetpoint) {
 		this.stateString = stateString;

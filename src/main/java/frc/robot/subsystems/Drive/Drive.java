@@ -47,10 +47,10 @@ public class Drive extends Subsystem<DriveStates> {
 
 	private void establishTriggers() {
 		// Add autoalign stuff here later
-		addRunnableTrigger(
-			this::lockPose,
-			Controllers.DRIVER_CONTROLLER::getLeftBumperButtonPressed
-		);
+		// addRunnableTrigger(
+		// 	this::lockPose,
+		// 	Controllers.DRIVER_CONTROLLER::getLeftBumperButtonPressed
+		// );
 		addRunnableTrigger(
 			this::zeroGyro,
 			Controllers.DRIVER_CONTROLLER::getRightBumperButtonPressed
