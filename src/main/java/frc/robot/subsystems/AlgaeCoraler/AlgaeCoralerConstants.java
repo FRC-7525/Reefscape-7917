@@ -12,10 +12,13 @@ import edu.wpi.first.units.measure.MomentOfInertia;
 
 public final class AlgaeCoralerConstants {
 
+	public static final int DIO_PORT = 9;
+
 	public static final String SUBSYSTEM_NAME = "Algae Coraler";
 
 	public static final double WHEEL_GEARING = 25; 
 	public static final double PIVOT_GEARING = 25;
+	// TODO: Values Might be swaped ^
 
 	//CAN IDs - Correct Values
 	public static final int PIVOT_MOTOR_CANID = 15;
@@ -30,13 +33,14 @@ public final class AlgaeCoralerConstants {
 	//TODO: Add controlls to tune these values ^
 
 	//Angles
-	public static final Angle IDLE_ANGLE = Degrees.of(0);
-	public static final Angle ALGAE_OUT_ANGLE = Degrees.of(-30);
-	public static final Angle ALGAE_HOLDING_ANGLE = Degrees.of(-50);
+	public static final Angle IDLE_ANGLE = Degrees.of(5);
+	public static final Angle ALGAE_IN_ANGLE = Degrees.of(-95);
+	public static final Angle ALGAE_HOLDING_ANGLE = Degrees.of(-20);
+	public static final Angle ALGAE_OUT_ANGLE = Degrees.of(-20);
 	//TODO: Obtain correct values from Everybot docs ^
 
 	public static class Real {
-		public static final PIDConstants PIVOT_PID = new PIDConstants(0.05, 0, 0.001); 
+		public static final PIDConstants PIVOT_PID = new PIDConstants(0.85, 0, 0.025); 
 	}
 
 	public static class Sim {

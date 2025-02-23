@@ -4,6 +4,8 @@ import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static frc.robot.Subsystems.Drive.DriveConstants.*;
 
 import java.io.File;
+
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -19,9 +21,13 @@ import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 public class Drive extends Subsystem<DriveStates> {
 
 	private SwerveDrive swerveDrive;
+	private SlewRateLimiter Xlimiter;
+	private SlewRateLimiter Ylimiter;
 
 	public Drive() {
 		super("Drive", DriveStates.MANUAL);
+		Xlimiter = new SlewRateLimiter(6);
+		Ylimiter = new SlewRateLimiter(6);
 		
 		SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
 
@@ -70,8 +76,8 @@ public class Drive extends Subsystem<DriveStates> {
 			case MANUAL:
 				swerveDrive.drive(
 					new Translation2d(
-						Controllers.DRIVER_CONTROLLER.getLeftX() * MAX_SPEED.magnitude(),
-						Controllers.DRIVER_CONTROLLER.getLeftY() * -1 * MAX_SPEED.magnitude()
+						Xlimiter.calculate(Controllers.DRIVER_CONTROLLER.getLeftX() * MAX_SPEED.magnitude()),
+						Ylimiter.calculate(Controllers.DRIVER_CONTROLLER.getLeftY() * -1 * MAX_SPEED.magnitude())
 					),
 					Controllers.DRIVER_CONTROLLER.getRightX() * MAX_ANGULAR_VELOCITY.in(RadiansPerSecond) * -1,
 					true,

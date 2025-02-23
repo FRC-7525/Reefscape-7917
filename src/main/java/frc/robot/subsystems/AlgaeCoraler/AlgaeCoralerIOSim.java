@@ -110,4 +110,16 @@ public class AlgaeCoralerIOSim implements AlgaeCoralerIO {
 		return ((Math.abs(Units.radiansToDegrees(pivotSim.getAngleRads()) - pivotPosSetpoint.in(Degree)) < PIVOT_TOLERANCE.in(Degrees))); 
 	}
 
+	@Override
+	public boolean hasCoral() {
+		return false;
+		// IDK how to sim this
+	}
+
+	@Override
+	public boolean hasAlgea() {
+		return false;
+		// Same here
+	}
+
 }

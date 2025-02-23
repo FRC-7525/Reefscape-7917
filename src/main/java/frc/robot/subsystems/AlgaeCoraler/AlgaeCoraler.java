@@ -6,6 +6,8 @@ import static frc.robot.Subsystems.AlgaeCoraler.AlgaeCoralerConstants.*;
 import org.littletonrobotics.junction.Logger;
 import org.team7525.subsystem.Subsystem;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 
 	private AlgaeCoralerIO io;
@@ -31,12 +33,20 @@ public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 
 		io.updateInputs(inputs);
 		Logger.processInputs(SUBSYSTEM_NAME, inputs);
-
+		SmartDashboard.putNumber("Coral Out", CORAL_OUT_SPEED);
 		Logger.recordOutput(SUBSYSTEM_NAME + "/State", getState().getStateString());
 	}
 
 	public boolean nearTarget() {
 		return io.nearTarget();
+	}
+
+	public boolean hasAlgea() {
+		return io.hasAlgea();
+	}
+
+	public boolean hasCoral() {
+		return io.hasCoral();
 	}
 
 }

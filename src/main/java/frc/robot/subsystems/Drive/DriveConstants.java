@@ -47,7 +47,8 @@ public final class DriveConstants {
 	);
 
 	
-	public static final LinearVelocity MAX_SPEED = MetersPerSecond.of(5);
+	public static final LinearVelocity MAX_SPEED = MetersPerSecond.of(4.6);
 	public static final LinearVelocity SLOW_SPEED = MetersPerSecond.of(MAX_SPEED.magnitude() * 0.2);
 	public static final AngularVelocity MAX_ANGULAR_VELOCITY = RotationsPerSecond.of(3); 
 }
+ 

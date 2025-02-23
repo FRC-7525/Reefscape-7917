@@ -5,6 +5,8 @@ import static frc.robot.GlobalConstants.Controllers.*;
 import static frc.robot.Manager.ManagerStates.*;
 import org.littletonrobotics.junction.Logger;
 import org.team7525.subsystem.Subsystem;
+
+import frc.robot.GlobalConstants.Controllers;
 import frc.robot.Subsystems.AlgaeCoraler.AlgaeCoraler;
 import frc.robot.Subsystems.Climber.Climber;
 import frc.robot.Subsystems.Drive.Drive;
@@ -18,29 +20,26 @@ public class Manager extends Subsystem<ManagerStates> {
 
 	public Manager() {
 		super("Manager", ManagerStates.IDLE);
-		Manager.setControllerSupplier(() -> OPERATOR_CONTROLLER);
-		Manager.setClearControllerCacheEachLoop(true);
 
 		climber = new Climber();
 		algaeCoraler = new AlgaeCoraler();
 		drive = new Drive();
 
 		// Scoring/intaking Coral
-		addTrigger(IDLE, CORAL_OUT, OPERATOR_CONTROLLER::getYButtonPressed);
+		addTrigger(IDLE, CORAL_OUT, DRIVER_CONTROLLER::getYButtonPressed);
 		
 		// Scoring/intaking Algae
-		addTrigger(IDLE, ALGAE_IN, OPERATOR_CONTROLLER::getBButtonPressed);
-		addTrigger(ALGAE_IN, HOLDING, OPERATOR_CONTROLLER::getBButtonPressed);
-		addTrigger(HOLDING, ALGAE_OUT, OPERATOR_CONTROLLER::getBButtonPressed);
+		addTrigger(IDLE, ALGAE_IN, DRIVER_CONTROLLER::getBButtonPressed);
+		addTrigger(ALGAE_IN, HOLDING, DRIVER_CONTROLLER::getBButtonPressed);
+		addTrigger(HOLDING, ALGAE_OUT, DRIVER_CONTROLLER::getBButtonPressed);
+
+		// Auto stop scoring corral:
+		addTrigger(CORAL_OUT, IDLE, () -> !algaeCoraler.hasCoral());
 		
 		// Climbing
-		addTrigger(IDLE, CLIMBING, OPERATOR_CONTROLLER::getAButtonPressed);
+		addTrigger(IDLE, CLIMBING, DRIVER_CONTROLLER::getAButtonPressed);
 
-		// Return to Idle
-		addTrigger(CORAL_OUT, IDLE, OPERATOR_CONTROLLER::getXButtonPressed);
-		addTrigger(CLIMBING, IDLE, OPERATOR_CONTROLLER::getXButtonPressed);
-		addTrigger(ALGAE_IN, IDLE, OPERATOR_CONTROLLER::getXButtonPressed);
-		addTrigger(ALGAE_OUT, IDLE, OPERATOR_CONTROLLER::getXButtonPressed);
+		// Back to IDLE button is handled by if statement in run  vstate.
 	}
 
 	@Override
@@ -55,6 +54,10 @@ public class Manager extends Subsystem<ManagerStates> {
 		climber.periodic();
 		algaeCoraler.periodic();
 		drive.periodic();
+
+		if (Controllers.DRIVER_CONTROLLER.getXButtonPressed() && getState() != ManagerStates.HOLDING) {
+			setState(ManagerStates.IDLE);
+		}
 
 		Logger.recordOutput(DASHBOARD_STRING, getState().getStateString());
 	}

@@ -23,4 +23,8 @@ public interface AlgaeCoralerIO {
 	public void setWheelSpeed(double wheelSpeed);
 
 	public boolean nearTarget();
+
+	public boolean hasCoral();
+
+	public boolean hasAlgea();
 }
