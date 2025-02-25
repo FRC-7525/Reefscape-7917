@@ -23,9 +23,8 @@ public final class DriveConstants {
 	// AUTO ALIGN STUFF:
 	// TODO: Tune values
 
-	public static final PIDConstants ROTATION_PID = new PIDConstants(3.5, 0, 0);
-	public static final PIDConstants X_PID = new PIDConstants(6, 0, 0);
-	public static final PIDConstants Y_PID = new PIDConstants(6, 0, 0); 
+	public static final PIDConstants ROTATION_PID = new PIDConstants(3.5, 0, 0.15);
+	public static final PIDConstants TRANSLATION_PID = new PIDConstants(10, 0, 0.1);
 
 
 	//Tolerances
@@ -44,6 +43,9 @@ public final class DriveConstants {
 		new Pose2d(new Translation2d(3.8, 2.7), Rotation2d.fromDegrees(60)),
 		new Pose2d(new Translation2d(3, 4), Rotation2d.fromDegrees(0)),
 		new Pose2d(new Translation2d(3.85, 5.2), Rotation2d.fromDegrees(-60))
+	);
+	public static final List<Pose2d> NEAREST_PROCESSOR = Arrays.asList(
+		new Pose2d(new Translation2d(0,0), Rotation2d.fromDegrees(0))
 	);
 
 	
