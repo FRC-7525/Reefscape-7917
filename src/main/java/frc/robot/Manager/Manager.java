@@ -27,18 +27,22 @@ public class Manager extends Subsystem<ManagerStates> {
 
 		// Scoring/intaking Coral
 		addTrigger(IDLE, CORAL_OUT, DRIVER_CONTROLLER::getYButtonPressed);
+
+		// Auto stop scoring corral:
+		addTrigger(CORAL_OUT, IDLE, () -> !algaeCoraler.hasCoral());
 		
 		// Scoring/intaking Algae
 		addTrigger(IDLE, ALGAE_IN, DRIVER_CONTROLLER::getBButtonPressed);
 		addTrigger(ALGAE_IN, HOLDING, DRIVER_CONTROLLER::getBButtonPressed);
 		addTrigger(HOLDING, ALGAE_OUT, DRIVER_CONTROLLER::getBButtonPressed);
 		addTrigger(ALGAE_IN, IDLE, DRIVER_CONTROLLER::getXButtonPressed);
+		
+		//Auto hold algae
+		addTrigger(ALGAE_IN, HOLDING, () -> algaeCoraler.hasAlgae()); 
 
-		addRunnableTrigger(algaeCoraler::zeroed, () -> getState() == ManagerStates.IDLE);
+		//Zero Motors auto and manually
+		addRunnableTrigger(algaeCoraler::zero, () -> getState() == ManagerStates.IDLE && !algaeCoraler.motorZeroed());
 		addRunnableTrigger(algaeCoraler::resetMotorsZeroed, DRIVER_CONTROLLER::getAButtonPressed);
-
-		// Auto stop scoring corral:
-		addTrigger(CORAL_OUT, IDLE, () -> !algaeCoraler.hasCoral());
 		
 		// Climbing
 		//addTrigger(IDLE, CLIMBING, DRIVER_CONTROLLER::getAButtonPressed);

@@ -16,8 +16,6 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.GlobalConstants;
-import frc.robot.GlobalConstants.Controllers;
 
 // TODO: Implement Current sensing for detection of algae
 
@@ -29,11 +27,11 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 	private PIDController downPivotController;
 	private ProfiledPIDController upPivotController;
 
-
 	private Angle pivotPosSetpoint;
 	private double wheelSpeedSetpoint;
 	private DigitalInput beamBreak;
-	private boolean motorsZeroed; 
+	private boolean motorZeroed; 
+	private Constraints constraints; 
 	
 	public AlgaeCoralerIOReal() {
 		//Initiallize Things
@@ -41,11 +39,14 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 		pivotMotor = new SparkMax(PIVOT_MOTOR_CANID, MotorType.kBrushless);
 
 		pivotMotor.getEncoder().setPosition(0); // Zeroing the encoder
+		
 		downPivotController = new PIDController(DOWN_PIVOT_PID.kP, DOWN_PIVOT_PID.kI, DOWN_PIVOT_PID.kD);
 		downPivotController.setTolerance(Units.degreesToRotations(1));
-		Constraints constraints = new Constraints(0.5, 1);
+		constraints = new Constraints(0.5, 1);
 		upPivotController = new ProfiledPIDController(UP_PIVOT_PID.kP, UP_PIVOT_PID.kI, UP_PIVOT_PID.kD, constraints);
 		beamBreak = new DigitalInput(DIO_PORT);
+
+		motorZeroed = false; 
 	}
 
 	@Override
@@ -56,7 +57,8 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 		inputs.wheelSpeedSetpoint = wheelSpeedSetpoint;
 
 		Logger.recordOutput("Pivot Position (Deg)", inputs.pivotPosition * 360);
-		Logger.recordOutput("Motors Zeroed", motorsZeroed);
+		Logger.recordOutput("Motors Zeroed", motorZeroed);
+		Logger.recordOutput("Algae Current", wheelsMotor.getOutputCurrent());
 
 		if (DriverStation.isTest()) {
 			SmartDashboard.putData(SUBSYSTEM_NAME + "/Pivot up PID", upPivotController);
@@ -102,29 +104,29 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 
 	@Override
 	public boolean hasAlgae() {
-		return (wheelsMotor.getOutputCurrent() <= 12); // TODO: Set actuall value by usng smartdasboard graph and looking a values. Ensure you log it.
+		return (wheelsMotor.getOutputCurrent() <= ALGAE_CURRENT_LIMIT.in(Amp)); // TODO: Set actuall value by usng smartdasboard graph and looking a values. Ensure you log it.
 	}
 
 	@Override
-	public void zeroed() {
+	public void zero() {
 	    double zeroingSpeed = -ZEROING_SPEED;  
         if (pivotMotor.getOutputCurrent() > ZEROING_CURRENT_LIMIT.in(Amps)) {
             zeroingSpeed = 0; 
-            if (!motorsZeroed){
+            if (!motorZeroed){
                 pivotMotor.getEncoder().setPosition(0); 
-                motorsZeroed = true; 
+                motorZeroed = true; 
             }
         }
         pivotMotor.set(zeroingSpeed); 
 	}
 
 	@Override
-	public boolean motorsZeroed() {
-		return motorsZeroed; 
+	public boolean motorZeroed() {
+		return motorZeroed; 
 	}
 
 	@Override
 	public void resetMotorsZeroed() {
-		pivotMotor.getEncoder().setPosition(0);
+		motorZeroed = false; 
 	}
 }
