@@ -109,7 +109,7 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 
 	@Override
 	public void zero() {
-	    double zeroingSpeed = -ZEROING_SPEED;  
+	    double zeroingSpeed = ZEROING_SPEED;  
         if (pivotMotor.getOutputCurrent() > ZEROING_CURRENT_LIMIT.in(Amps)) {
             zeroingSpeed = 0; 
             if (!motorZeroed){
