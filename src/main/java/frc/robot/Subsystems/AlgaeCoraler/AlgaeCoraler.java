@@ -28,6 +28,7 @@ public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 
 	@Override
 	public void runState() {
+
 		io.setPivotSetpoint(getState().getPivotSetpoint());
 		io.setWheelSpeed(getState().getWheelSpeed());
 
@@ -49,10 +50,12 @@ public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 		return io.hasCoral();
 	}
 
-	public void zeroed() {}
+	public void zero() {
+		io.zero();
+	}
 
-	public boolean motorsZeroed() {
-		return io.motorsZeroed(); 
+	public boolean motorZeroed() {
+		return io.motorZeroed(); 
 	}
 
 	public void resetMotorsZeroed() {

@@ -34,6 +34,9 @@ public final class AlgaeCoralerConstants {
 	public static final double CORAL_OUT_SPEED = -1;
 	public static final double HOLDING_SPEED = -0.1;
 
+	//Currents
+	public static final Current ALGAE_CURRENT_LIMIT = Amps.of(12); 
+
 	//Zeroing
 	public static final double ZEROING_SPEED = 0.3; 
 	public static final Current ZEROING_CURRENT_LIMIT = Amps.of(10); 
@@ -45,6 +48,7 @@ public final class AlgaeCoralerConstants {
 	public static final Angle ALGAE_IN_ANGLE = Degrees.of(-115);
 	public static final Angle ALGAE_HOLDING_ANGLE = Degrees.of(-25);
 	public static final Angle ALGAE_OUT_ANGLE = Degrees.of(-25);
+	
 	//TODO: Obtain correct values from Everybot docs ^
 
 	public static class Real {

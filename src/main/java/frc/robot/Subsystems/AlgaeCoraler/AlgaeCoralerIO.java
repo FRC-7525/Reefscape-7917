@@ -30,9 +30,9 @@ public interface AlgaeCoralerIO  {
 
 	public boolean hasAlgae();
 
-	public void zeroed(); 
+	public void zero(); 
 
-	public boolean motorsZeroed(); 
+	public boolean motorZeroed(); 
 
 	public void resetMotorsZeroed(); 
 	
