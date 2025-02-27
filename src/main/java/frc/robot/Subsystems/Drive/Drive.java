@@ -37,6 +37,9 @@ public class Drive extends Subsystem<DriveStates> {
 				MAX_SPEED.magnitude(),
 				new Pose2d(new Translation2d(6, 6), Rotation2d.fromDegrees(0))
 			);
+			swerveDrive.setMotorIdleMode(true);
+			swerveDrive.setCosineCompensator(true);
+			// swerveDrive.angularVelocitySkewCorrection(null)
 		} catch (Exception e) {
 			throw new RuntimeException("Failed to create SwerveDrive", e);
 		}

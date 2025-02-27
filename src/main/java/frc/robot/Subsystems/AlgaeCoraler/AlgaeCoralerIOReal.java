@@ -58,11 +58,13 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 
 		Logger.recordOutput("Pivot Position (Deg)", inputs.pivotPosition * 360);
 		Logger.recordOutput("Motors Zeroed", motorZeroed);
-		Logger.recordOutput("Algae Current", wheelsMotor.getOutputCurrent());
-
+		
 		if (DriverStation.isTest()) {
 			SmartDashboard.putData(SUBSYSTEM_NAME + "/Pivot up PID", upPivotController);
 			SmartDashboard.putData(SUBSYSTEM_NAME + "/Pivot down PID", downPivotController);
+			Logger.recordOutput("Wheels Current", wheelsMotor.getOutputCurrent());
+			Logger.recordOutput("Pivot Current", pivotMotor.getOutputCurrent());
+
 		}
 	}
 

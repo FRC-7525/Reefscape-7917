@@ -53,7 +53,7 @@ public final class AlgaeCoralerConstants {
 
 	public static class Real {
 		public static final PIDConstants DOWN_PIVOT_PID = new PIDConstants(0.6, 0, 0.025); 
-		public static final PIDConstants UP_PIVOT_PID = new PIDConstants(0.7, 0, 0.025);
+		public static final PIDConstants UP_PIVOT_PID = new PIDConstants(0.9, 0, 0.025);
 	}
 
 	public static class Sim {
