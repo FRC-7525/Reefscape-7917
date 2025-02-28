@@ -41,6 +41,8 @@ public class Manager extends Subsystem<ManagerStates> {
 		addTrigger(ALGAE_IN, HOLDING, () -> algaeCoraler.hasAlgae()); 
 
 		//Zero Motors auto and manually
+		addTrigger(IDLE, ZEROING, DRIVER_CONTROLLER::getAButtonPressed);
+		addTrigger(ZEROING, IDLE, DRIVER_CONTROLLER::getAButtonPressed); 
 		
 		// addRunnableTrigger(algaeCoraler::zero, () -> getState() == ManagerStates.IDLE && !algaeCoraler.motorZeroed());
 		// addRunnableTrigger(algaeCoraler::resetMotorsZeroed, () ->  getState() != ManagerStates.IDLE && algaeCoraler.motorZeroed());
