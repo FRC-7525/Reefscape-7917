@@ -41,16 +41,14 @@ public class Manager extends Subsystem<ManagerStates> {
 		addTrigger(ALGAE_IN, HOLDING, () -> algaeCoraler.hasAlgae()); 
 
 		//Zero Motors auto and manually
+		
 		// addRunnableTrigger(algaeCoraler::zero, () -> getState() == ManagerStates.IDLE && !algaeCoraler.motorZeroed());
-		addRunnableTrigger(algaeCoraler::resetMotorsZeroed, DRIVER_CONTROLLER::getAButtonPressed);
+		// addRunnableTrigger(algaeCoraler::resetMotorsZeroed, () ->  getState() != ManagerStates.IDLE && algaeCoraler.motorZeroed());
 		
 		// Climbing
 		//addTrigger(IDLE, CLIMBING, DRIVER_CONTROLLER::getAButtonPressed);
 
-		//addTrigger(ALGAE_OUT, ALGAE_IN, DRIVER_CONTROLLER::getLeftBumperButton);
-		//addTrigger(ALGAE_IN, ALGAE_OUT, () -> !algaeCoraler.zeroed());
-		//addTrigger(ALGAE_OUT, IDLE, () -> !algaeCoraler.zeroed());
-		// Back to IDLE button is handled by if statement in run  vstate.
+		//addTrigger(ALGAE_OUT, IDLE, () -> !algaeCoraler.motorZeroed());
 	}
 
 	@Override
@@ -64,7 +62,7 @@ public class Manager extends Subsystem<ManagerStates> {
 
 		climber.periodic();
 		algaeCoraler.periodic();
-		drive.periodic();
+		// drive.periodic();
 
 		if (Controllers.DRIVER_CONTROLLER.getXButtonPressed() && getState() != ManagerStates.HOLDING) {
 			setState(ManagerStates.IDLE);

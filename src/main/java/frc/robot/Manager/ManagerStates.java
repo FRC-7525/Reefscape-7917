@@ -31,11 +31,16 @@ public enum ManagerStates implements SubsystemStates {
 		AlgaeCoralerStates.ALGAEOUT,
 		ClimberStates.IN
 	),
+	ZEROING(
+		"ZEROING", 
+		AlgaeCoralerStates.ZEROING, 
+		ClimberStates.IN
+	),
 	CLIMBING(
 		"CLIMBING",
 		AlgaeCoralerStates.IDLE,
 		ClimberStates.OUT
-	);
+	); 
 
 	private String stateString;
 	private AlgaeCoralerStates algaeCoraler;
