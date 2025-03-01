@@ -71,8 +71,7 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 	@Override
 	public void setPivotSetpoint(Angle pivotSetpoint) {
 		this.pivotPosSetpoint = pivotSetpoint;
-
-		//add an if zeroing, then just return to return
+		
 		if(pivotSetpoint.magnitude() > -30) {
 			double voltage = upPivotController.calculate(
 			pivotMotor.getEncoder().getPosition() / PIVOT_GEARING,

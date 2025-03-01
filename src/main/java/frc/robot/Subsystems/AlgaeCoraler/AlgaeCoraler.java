@@ -30,10 +30,13 @@ public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 	public void runState() {
 		if (getState() == AlgaeCoralerStates.ZEROING ) {
 			io.zero();
+			return; 
 		}
 
-		io.setPivotSetpoint(getState().getPivotSetpoint());
-		io.setWheelSpeed(getState().getWheelSpeed());
+		if (getState() != AlgaeCoralerStates.ZEROING) {
+			io.setPivotSetpoint(getState().getPivotSetpoint());
+			io.setWheelSpeed(getState().getWheelSpeed());
+		}
 
 		io.updateInputs(inputs);
 		Logger.processInputs(SUBSYSTEM_NAME, inputs);
