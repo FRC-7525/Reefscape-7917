@@ -1,10 +1,12 @@
-package frc.robot.subsystems.AlgaeCoraler;
+package frc.robot.Subsystems.AlgaeCoraler;
 
 import static frc.robot.GlobalConstants.*;
-import static frc.robot.subsystems.AlgaeCoraler.AlgaeCoralerConstants.*;
+import static frc.robot.Subsystems.AlgaeCoraler.AlgaeCoralerConstants.*;
 
 import org.littletonrobotics.junction.Logger;
 import org.team7525.subsystem.Subsystem;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 
@@ -13,10 +15,10 @@ public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 
 	public AlgaeCoraler() {
 		//IO stuff
-		super("Algae Coraler", AlgaeCoralerStates.IDLE);
+		super(SUBSYSTEM_NAME, AlgaeCoralerStates.IDLE);
 		this.io = switch (ROBOT_MODE) {
-			case SIM -> new AlgaeCoralerIOSim();
 			case REAL -> new AlgaeCoralerIOReal();
+			case SIM -> new AlgaeCoralerIOSim();
 			case TESTING -> new AlgaeCoralerIOReal();
 			case REPLAY -> new AlgaeCoralerIOSim();
 		};
@@ -31,12 +33,30 @@ public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 
 		io.updateInputs(inputs);
 		Logger.processInputs(SUBSYSTEM_NAME, inputs);
-
-		Logger.recordOutput(ALGAE_CORALER_STATE, getState().getStateString());
+		SmartDashboard.putNumber("Coral Out", CORAL_OUT_SPEED);
+		Logger.recordOutput(SUBSYSTEM_NAME + "/State", getState().getStateString());
 	}
 
 	public boolean nearTarget() {
 		return io.nearTarget();
+	}
+
+	public boolean hasAlgae() {
+		return io.hasAlgae();
+	}
+
+	public boolean hasCoral() {
+		return io.hasCoral();
+	}
+
+	public void zeroed() {}
+
+	public boolean motorsZeroed() {
+		return io.motorsZeroed(); 
+	}
+
+	public void resetMotorsZeroed() {
+		io.resetMotorsZeroed();
 	}
 
 }

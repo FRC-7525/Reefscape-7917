@@ -1,4 +1,4 @@
-package frc.robot.subsystems.FaultManager;
+package frc.robot.Subsystems.FaultManager;
 
 public enum CANDeviceTypes {
     SPARK,

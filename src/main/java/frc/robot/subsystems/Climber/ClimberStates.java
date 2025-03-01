@@ -1,19 +1,20 @@
-package frc.robot.subsystems.Climber;
+package frc.robot.Subsystems.Climber;
 
-import static frc.robot.subsystems.Climber.ClimberConstants.IDLE_POS;
-import static frc.robot.subsystems.Climber.ClimberConstants.ON_POS;
+import edu.wpi.first.units.measure.Angle;
 
-import edu.wpi.first.units.measure.Distance;
+import static frc.robot.Subsystems.Climber.ClimberConstants.IN_POSITION;
+import static frc.robot.Subsystems.Climber.ClimberConstants.OUT_POSITION;
+
 import org.team7525.subsystem.SubsystemStates;
 
 public enum ClimberStates implements SubsystemStates {
-	IDLE("IDLE", IDLE_POS),
-	ON("OFF", ON_POS);
+	IN("IDLE", IN_POSITION),
+	OUT("OFF", OUT_POSITION);
 
 	private String stateString;
-	private Distance position;
+	private Angle position;
 
-	ClimberStates(String stateString, Distance position) {
+	ClimberStates(String stateString, Angle position) {
 		this.stateString = stateString;
 		this.position = position;
 	}
@@ -23,7 +24,7 @@ public enum ClimberStates implements SubsystemStates {
 		return stateString;
 	}
 
-	protected Distance getSetpoint() {
+	protected Angle getSetpoint() {
 		return position;
 	}
 }

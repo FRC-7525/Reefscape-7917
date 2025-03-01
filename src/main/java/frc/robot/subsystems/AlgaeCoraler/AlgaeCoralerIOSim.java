@@ -1,9 +1,9 @@
-package frc.robot.subsystems.AlgaeCoraler;
+package frc.robot.Subsystems.AlgaeCoraler;
 
 import static edu.wpi.first.units.Units.*;
 import static frc.robot.GlobalConstants.*;
-import static frc.robot.subsystems.AlgaeCoraler.AlgaeCoralerConstants.*;
-import static frc.robot.subsystems.AlgaeCoraler.AlgaeCoralerConstants.Sim.*;
+import static frc.robot.Subsystems.AlgaeCoraler.AlgaeCoralerConstants.*;
+import static frc.robot.Subsystems.AlgaeCoraler.AlgaeCoralerConstants.Sim.*;
 
 import com.revrobotics.sim.SparkMaxSim;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -13,43 +13,27 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 
 public class AlgaeCoralerIOSim implements AlgaeCoralerIO {
 
-	private SingleJointedArmSim leftPivotSim;
-	private SingleJointedArmSim rightPivotSim;
+	private SingleJointedArmSim pivotSim;
 	private DCMotorSim wheelMotorSim;
 
-	private SparkMax dummyLeftPivotSpark;
-	private SparkMax dummyRightPivotSpark;
+	private SparkMax dummyPivotSpark;
 	private SparkMax dummyWheelsSpark;
 
-	private SparkMaxSim leftPivotSparkSim;
-	private SparkMaxSim rightPivotSparkSim;
+	private SparkMaxSim pivotSparkSim;
 	private SparkMaxSim wheelSparkSim;
 
 	private PIDController pivotController;
-	private PIDController speedController;
 
-	private AngularVelocity wheelSpeedSetpoint;
+	private double wheelSpeedSetpoint;
 	private Angle pivotPosSetpoint;
 
 	public AlgaeCoralerIOSim() {
-		leftPivotSim = new SingleJointedArmSim(
-			DCMotor.getNEO(NUM_PIVOT_MOTORS),
-			PIVOT_GEARING,
-			PIVOT_MOTOR_MOI.in(KilogramSquareMeters),
-			PIVOT_ARM_LENGTH.in(Meters),
-			MIN_PIVOT_ANGLE.in(Degree),
-			MAX_PIVOT_ANGLE.in(Degree),
-			false,
-			STARTING_PIVOT_ANGLE.in(Degree)
-		);
-
-		rightPivotSim = new SingleJointedArmSim(
+		pivotSim = new SingleJointedArmSim(
 			DCMotor.getNEO(NUM_PIVOT_MOTORS),
 			PIVOT_GEARING,
 			PIVOT_MOTOR_MOI.in(KilogramSquareMeters),
@@ -69,43 +53,37 @@ public class AlgaeCoralerIOSim implements AlgaeCoralerIO {
 			DCMotor.getNEO(NUM_SPEED_MOTORS)
 		);
 
-		dummyLeftPivotSpark = new SparkMax(LEFT_PIVOT_MOTOR_CANID, MotorType.kBrushless);
-		dummyRightPivotSpark = new SparkMax(RIGHT_PIVOT_MOTOR_CANID, MotorType.kBrushless);
+		dummyPivotSpark = new SparkMax(PIVOT_MOTOR_CANID, MotorType.kBrushless);
 		dummyWheelsSpark = new SparkMax(SPEED_MOTOR_CANID, MotorType.kBrushless);
 
-		leftPivotSparkSim = new SparkMaxSim(dummyLeftPivotSpark, DCMotor.getNEO(NUM_PIVOT_MOTORS));
-		rightPivotSparkSim = new SparkMaxSim(
-			dummyRightPivotSpark,
+		pivotSparkSim = new SparkMaxSim(
+			dummyPivotSpark,
 			DCMotor.getNEO(NUM_PIVOT_MOTORS)
 		);
 		wheelSparkSim = new SparkMaxSim(dummyWheelsSpark, DCMotor.getNEO(NUM_SPEED_MOTORS));
 
 		pivotController = new PIDController(PIVOT_PID.kP, PIVOT_PID.kI, PIVOT_PID.kD); 
-		speedController = new PIDController(SPEED_PID.kP, SPEED_PID.kI, SPEED_PID.kD); 
 
 		pivotPosSetpoint = Degrees.of(0);
-		wheelSpeedSetpoint = DegreesPerSecond.of(0);
+		wheelSpeedSetpoint = 0;
+
 	}
 
 	@Override
 	public void updateInputs(AlgaeCorralerIOInputs inputs) {
-		leftPivotSim.update(SIMULATION_PERIOD);
-		rightPivotSim.update(SIMULATION_PERIOD);
+		pivotSim.update(SIMULATION_PERIOD);
 		wheelMotorSim.update(SIMULATION_PERIOD);
 
-		inputs.pivotPosition = Units.rotationsToDegrees(rightPivotSim.getAngleRads());
+		inputs.pivotPosition = Units.radiansToDegrees(pivotSim.getAngleRads());
 		inputs.wheelSpeed = Units.radiansToDegrees(
 			wheelMotorSim.getAngularVelocityRPM() / 60
 		);
 
 		inputs.pivotSetpoint = pivotPosSetpoint.in(Degree);
-		inputs.wheelSpeedSetpoint = wheelSpeedSetpoint.in(DegreesPerSecond);
+		inputs.wheelSpeedSetpoint = wheelSpeedSetpoint;
 
-		leftPivotSparkSim.setPosition(leftPivotSim.getAngleRads());
-		leftPivotSparkSim.setVelocity(leftPivotSim.getVelocityRadPerSec());
-
-		rightPivotSparkSim.setPosition(rightPivotSim.getAngleRads());
-		rightPivotSparkSim.setVelocity(rightPivotSim.getVelocityRadPerSec());
+		pivotSparkSim.setPosition(pivotSim.getAngleRads());
+		pivotSparkSim.setVelocity(pivotSim.getVelocityRadPerSec());
 
 		wheelSparkSim.setPosition(wheelMotorSim.getAngularPositionRotations());
 		wheelSparkSim.setVelocity(wheelMotorSim.getAngularAccelerationRadPerSecSq() / 60);
@@ -115,30 +93,45 @@ public class AlgaeCoralerIOSim implements AlgaeCoralerIO {
 	public void setPivotSetpoint(Angle pivotSetpoint) {
 		this.pivotPosSetpoint = pivotSetpoint;
 		double voltage = pivotController.calculate(
-			Units.radiansToDegrees(leftPivotSim.getAngleRads()),
-			pivotSetpoint.in(Degree)
+			Units.radiansToDegrees(pivotSim.getAngleRads()),
+			pivotSetpoint.in(Degrees)
 		);
 
-		leftPivotSim.setInputVoltage(voltage);
-		rightPivotSim.setInputVoltage(voltage);
+		pivotSim.setInputVoltage(voltage);
 	}
 
 	@Override
-	public void setWheelSpeed(AngularVelocity wheelSpeedSetpoint) {
+	public void setWheelSpeed(double wheelSpeedSetpoint) {
 		this.wheelSpeedSetpoint = wheelSpeedSetpoint;
-		wheelMotorSim.setInputVoltage(
-			speedController.calculate(
-				Units.radiansToRotations(wheelMotorSim.getAngularVelocityRadPerSec()),
-				wheelSpeedSetpoint.in(RotationsPerSecond)
-			)
-		);
+		wheelMotorSim.setInputVoltage(wheelSpeedSetpoint * 12);
 	}
 
 	@Override
 	public boolean nearTarget() {
-		return ((Math.abs(Units.radiansToDegrees(leftPivotSim.getAngleRads()) - pivotPosSetpoint.in(Degree)) < PIVOT_TOLERANCE.in(Degrees)) 
-		&& (Math.abs(Units.radiansToDegrees(rightPivotSim.getAngleRads()) - pivotPosSetpoint.in(Degree)) < PIVOT_TOLERANCE.in(Degrees))
-		&& (Math.abs(Units.radiansToRotations(wheelMotorSim.getAngularVelocityRadPerSec()) - wheelSpeedSetpoint.in(DegreesPerSecond)) < SPEED_TOLERANCE.in(RotationsPerSecond)));
+		return ((Math.abs(Units.radiansToDegrees(pivotSim.getAngleRads()) - pivotPosSetpoint.in(Degree)) < PIVOT_TOLERANCE.in(Degrees))); 
 	}
+
+	@Override
+	public boolean hasCoral() {
+		return false;
+		// IDK how to sim this
+	}
+
+	@Override
+	public boolean hasAlgae() {
+		return false;
+		// Same here
+	}
+
+	@Override
+	public void zeroed() {}
+
+	@Override
+	public boolean motorsZeroed() {
+		return false; 
+	}
+
+	@Override
+	public void resetMotorsZeroed() {}
 
 }

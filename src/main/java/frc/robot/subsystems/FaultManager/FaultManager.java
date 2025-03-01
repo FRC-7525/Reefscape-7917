@@ -1,7 +1,11 @@
-package frc.robot.subsystems.FaultManager;
+package frc.robot.Subsystems.FaultManager;
 
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.spark.SparkBase.Faults;
+
+import swervelib.encoders.SwerveAbsoluteEncoder;
+
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.spark.SparkMax;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,6 +72,7 @@ public class FaultManager {
 
 		private SparkMax sparkMax;
 		private CANcoder canCoder;
+
 		
 		public CANDeviceTypes deviceType;
 		public String busName;
@@ -83,7 +88,6 @@ public class FaultManager {
 			this.deviceType = CANDeviceTypes.CANCODER;
 			this.canCoder = canCoder;
 		}
-
 
 		public SparkMax getSparkMax() {
 			if (deviceType != CANDeviceTypes.SPARK) {

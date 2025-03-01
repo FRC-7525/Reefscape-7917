@@ -1,44 +1,90 @@
-package frc.robot.subsystems.Drive;
+package frc.robot.Subsystems.Drive;
 
-import static frc.robot.GlobalConstants.*;
-import static frc.robot.subsystems.Drive.DriveConstants.*;
+import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static frc.robot.Subsystems.Drive.DriveConstants.*;
 
+import java.io.File;
+
+import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.GlobalConstants.Controllers;
 
 import org.team7525.subsystem.Subsystem;
 
+import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.spark.SparkMax;
 
 import swervelib.SwerveDrive;
 
-import frc.robot.subsystems.FaultManager.FaultManager;
 
-
-
+import swervelib.parser.SwerveParser;
+import swervelib.telemetry.SwerveDriveTelemetry;
+import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
+import frc.robot.Subsystems.FaultManager.FaultManager;
 public class Drive extends Subsystem<DriveStates> {
 
 	private SwerveDrive swerveDrive;
-
 	private FaultManager faultManager = FaultManager.getInstance();
+	private SlewRateLimiter Xlimiter;
+	private SlewRateLimiter Ylimiter;
 
-	public Drive(SwerveDrive swerveDrive) {
+	public Drive() {
 		super("Drive", DriveStates.MANUAL);
-		this.swerveDrive = swerveDrive;
-		faultManager.addDevice(swerveDrive.getModules()[0].getDriveMotor(), "Front Left Drive Spark", "CANivore");
-		// faultManager.addDevice(drive.getModule(0).getSteerMotor(), "Front Left Turn Spark", "CANivore");
-		// faultManager.addDevice(drive.getModule(0).getEncoder(), "Front Left CANcoder", "CANivore");
-		// faultManager.addDevice(drive.getModule(1).getDriveMotor(), "Front Right Drive Spark", "CANivore");
-		// faultManager.addDevice(drive.getModule(1).getSteerMotor(), "Front Right Turn Spark", "CANivore");
-		// faultManager.addDevice(drive.getModule(1).getEncoder(), "Front Right CANcoder", "CANivore");
-		// faultManager.addDevice(drive.getModule(2).getDriveMotor(), "Back Left Drive Spark", "CANivore");
-		// faultManager.addDevice(drive.getModule(2).getSteerMotor(), "Back Left Turn Spark", "CANivore");
-		// faultManager.addDevice(drive.getModule(2).getEncoder(), "Back Left CANcoder", "CANivore");
-		// faultManager.addDevice(drive.getModule(3).getDriveMotor(), "Back Right Drive Spark", "CANivore");
-		// faultManager.addDevice(drive.getModule(3).getSteerMotor(), "Back Right Drive Spark", "CANivore");
-		// faultManager.addDevice(drive.getModule(3).getEncoder(), "Back Right Drive Spark", "CANivore");
+		Xlimiter = new SlewRateLimiter(6);
+		Ylimiter = new SlewRateLimiter(6);
+		
+		SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
+		faultManager.addDevice((SparkMax) swerveDrive.getModules()[0].getDriveMotor().getMotor(), "Front Left Drive Spark", "CANivore");
+		faultManager.addDevice((SparkMax) swerveDrive.getModules()[0].getAngleMotor().getMotor(), "Front Left Turn Spark", "CANivore");
+		//faultManager.addDevice((CANcoder)swerveDrive.getModules()[0].getAbsoluteEncoder(), "Front Left CANcoder", "CANivore");
+		faultManager.addDevice((SparkMax) swerveDrive.getModules()[1].getDriveMotor().getMotor(), "Front Right Drive Spark", "CANivore");
+		faultManager.addDevice((SparkMax) swerveDrive.getModules()[1].getAngleMotor().getMotor(), "Front Right Turn Spark", "CANivore");
+		//faultManager.addDevice(swerveDrive.getModules()[1].getAbsoluteEncoder(), (SparkMax) swerveDrive.getModules()[1].getAngleMotor().getMotor(), "Front Right CANcoder", "CANivore");
+		faultManager.addDevice((SparkMax) swerveDrive.getModules()[2].getDriveMotor().getMotor(), "Back Left Drive Spark", "CANivore");
+		faultManager.addDevice((SparkMax) swerveDrive.getModules()[2].getAngleMotor().getMotor(), "Back Left Turn Spark", "CANivore");
+		//faultManager.addDevice(swerveDrive.getModules()[2].getAbsoluteEncoder(), (SparkMax) swerveDrive.getModules()[2].getAngleMotor().getMotor(), "Back Left CANcoder", "CANivore");
+		faultManager.addDevice((SparkMax) swerveDrive.getModules()[3].getDriveMotor().getMotor(), "Back Right Drive Spark", "CANivore");
+		faultManager.addDevice((SparkMax) swerveDrive.getModules()[3].getAngleMotor().getMotor(), "Back Right Drive Spark", "CANivore");
+		//faultManager.addDevice(swerveDrive.getModules()[3].getAbsoluteEncoder(), (SparkMax) swerveDrive.getModules()[3].getAngleMotor().getMotor(), "Back Right Drive Spark", "CANivore");
+
+		try {
+			File swerveJsonDirectory = new File(Filesystem.getDeployDirectory(), "swerve");
+			swerveDrive = new SwerveParser(swerveJsonDirectory).createSwerveDrive(
+				MAX_SPEED.magnitude(),
+				new Pose2d(new Translation2d(6, 6), Rotation2d.fromDegrees(0))
+			);
+		} catch (Exception e) {
+			throw new RuntimeException("Failed to create SwerveDrive", e);
+		}
+
+		establishTriggers();
+	}
+
+
+	private void establishTriggers() {
+		// Add autoalign stuff here later
+		// addRunnableTrigger(
+		// 	this::lockPose,
+		// 	Controllers.DRIVER_CONTROLLER::getLeftBumperButtonPressed
+		// );
+		addRunnableTrigger(
+			this::zeroGyro,
+			Controllers.DRIVER_CONTROLLER::getRightBumperButtonPressed
+		);
+		// TODO: Remove zeroGyro. It is run on init of robot irl.
+	}
+	public void zeroGyro() {
+		swerveDrive.zeroGyro();
+	}
+
+	private void lockPose() {
+		swerveDrive.lockPose();
 	}
 
 
@@ -47,34 +93,24 @@ public class Drive extends Subsystem<DriveStates> {
 	@Override
 	public void runState() {
 		switch (getState()) {
-			case AUTO_ALIGNING:
-				// DO NOTHING!
+			case AUTO_ALIGNING_FEEDER:
+			case AUTO_ALIGNING_PROCESSOR:
+			case AUTO_ALIGNING_REEF:
+				// Add stuff
 				break;
 			case MANUAL:
 				swerveDrive.drive(
 					new Translation2d(
-						Controllers.DRIVER_CONTROLLER.getLeftX() * MAX_SPEED.magnitude(),
-						-1 * Controllers.DRIVER_CONTROLLER.getLeftY() * MAX_SPEED.magnitude()
+						Xlimiter.calculate(Controllers.DRIVER_CONTROLLER.getLeftX() * MAX_SPEED.magnitude()),
+						Ylimiter.calculate(Controllers.DRIVER_CONTROLLER.getLeftY() * -1 * MAX_SPEED.magnitude())
 					),
-					Controllers.DRIVER_CONTROLLER.getRightX(),
-					true,
-					false
-				);
-				break;
-			case LOCKED:
-				swerveDrive.lockPose();
-				break;
-			case SLOW:
-				swerveDrive.drive(
-					new Translation2d(
-						Controllers.DRIVER_CONTROLLER.getLeftX() * SLOW_SPEED.magnitude(),
-						-1 * Controllers.DRIVER_CONTROLLER.getLeftY() * SLOW_SPEED.magnitude()
-					),
-					Controllers.DRIVER_CONTROLLER.getRightX(),
+					Controllers.DRIVER_CONTROLLER.getRightX() * MAX_ANGULAR_VELOCITY.in(RadiansPerSecond) * -1,
 					true,
 					false
 				);
 				break;
 		}
+
+		swerveDrive.updateOdometry();
 	}
 }

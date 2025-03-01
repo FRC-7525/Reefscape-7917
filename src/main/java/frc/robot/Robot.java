@@ -4,12 +4,14 @@
 
 package frc.robot;
 
-import frc.robot.subsystems.Manager.Manager;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 import org.team7525.misc.CommandsUtil;
+
+import edu.wpi.first.wpilibj.DriverStation;
+import frc.robot.Manager.Manager;
 
 public class Robot extends LoggedRobot {
 
@@ -35,12 +37,14 @@ public class Robot extends LoggedRobot {
 		}
 		Logger.start();
 		CommandsUtil.logCommands();
+		DriverStation.silenceJoystickConnectionWarning(true);
 		manager = new Manager();
 	}
 
 	@Override
 	public void robotPeriodic() {
 		manager.periodic();
+		Utilitys.controllers.clearCache();
 	}
 
 	@Override

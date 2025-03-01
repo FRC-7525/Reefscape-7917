@@ -1,14 +1,14 @@
-package frc.robot.subsystems.Climber;
+package frc.robot.Subsystems.Climber;
 
-import static edu.wpi.first.units.Units.Meters;
-import static frc.robot.GlobalConstants.ROBOT_MODE;
-import static frc.robot.subsystems.Climber.ClimberConstants.*;
-import static frc.robot.subsystems.Climber.ClimberConstants.Real.*;
+import static edu.wpi.first.units.Units.*;
+import static frc.robot.GlobalConstants.*;
+import static frc.robot.Subsystems.Climber.ClimberConstants.*;
+import static frc.robot.Subsystems.Climber.ClimberConstants.Real.*;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.GlobalConstants.RobotMode;
 
@@ -16,36 +16,38 @@ public class ClimberIOReal implements ClimberIO {
 
 	private SparkMax motor;
 	private PIDController pidController;
-	private Distance setpoint;
+	private Angle setpoint;
 
 	public ClimberIOReal() {
 		motor = new SparkMax(CLIMBER_CANID, MotorType.kBrushless);
 		pidController = new PIDController(CLIMBER_CONTROLLER_PID.kP, CLIMBER_CONTROLLER_PID.kI, CLIMBER_CONTROLLER_PID.kP);
+		
+		motor.getEncoder().setPosition(0);
 
 		if (ROBOT_MODE == RobotMode.TESTING) {
-			SmartDashboard.putData(CLIMBER_PID, pidController);
+			SmartDashboard.putData(SUBSYSTEM_NAME + "/Position PID", pidController);
 		}
 	}
 
 	@Override
 	public void updateInputs(ClimberIOInputs inputs) {
-		inputs.climberPos = motor.getEncoder().getPosition() * METERS_PER_ROTATION.in(Meters);
-		inputs.climberSetpoint = setpoint.in(Meters);
+		inputs.climberPos = motor.getEncoder().getPosition() * 360 * GEAR_RATIO;
+		inputs.climberSetpoint = setpoint.in(Degree);
 	}
 
 	@Override
-	public void setClimberSetpoint(Distance setpoint) {
+	public void setClimberSetpoint(Angle setpoint) {
 		this.setpoint = setpoint;
 		double voltage = pidController.calculate(
-			motor.getEncoder().getPosition() * METERS_PER_ROTATION.in(Meters),
-			setpoint.in(Meters)
+			motor.getEncoder().getPosition() * 360 * GEAR_RATIO,
+			setpoint.in(Degrees)
 		);
 		motor.setVoltage(voltage);
 	}
 
 	@Override
 	public boolean nearSetpoint() {
-		return (Math.abs(motor.getEncoder().getPosition() * METERS_PER_ROTATION.in(Meters) - setpoint.in(Meters)) < POSITION_TOLERANCE.in(Meters));
+		return (Math.abs((motor.getEncoder().getPosition() * 360 * GEAR_RATIO) - setpoint.in(Degrees)) < POSITION_TOLERANCE.in(Degrees));
 	}
 
 }

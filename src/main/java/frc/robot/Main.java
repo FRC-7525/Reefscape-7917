@@ -18,4 +18,4 @@ public final class Main {
 				: Robot::new
 		);
 	}
-}
+} 
