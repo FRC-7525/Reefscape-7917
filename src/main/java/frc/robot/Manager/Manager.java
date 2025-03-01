@@ -17,6 +17,14 @@ public class Manager extends Subsystem<ManagerStates> {
 	private Climber climber;
 	private AlgaeCoraler algaeCoraler;
 	private Drive drive;
+	private static Manager instance; 
+
+	public static Manager getInstance() {
+		if (instance == null) {
+			instance = new Manager();
+		}
+		return instance;
+	}
 
 	public Manager() {
 		super("Manager", ManagerStates.IDLE);
@@ -71,5 +79,13 @@ public class Manager extends Subsystem<ManagerStates> {
 		}
 
 		Logger.recordOutput(DASHBOARD_STRING, getState().getStateString());
+	}
+
+	public boolean robotHasCoral() {
+		return algaeCoraler.hasCoral();
+	}
+
+	public boolean robotHasAlgae() {
+		return algaeCoraler.hasAlgae(); 
 	}
 }

@@ -10,12 +10,17 @@ import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 import org.team7525.misc.CommandsUtil;
 
+import com.pathplanner.lib.commands.FollowPathCommand;
+
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.AutoManager.AutoManager;
 import frc.robot.Manager.Manager;
 
 public class Robot extends LoggedRobot {
 
 	private Manager manager;
+	private AutoManager autoManager; 
 
 	public Robot() {}
 
@@ -35,23 +40,36 @@ public class Robot extends LoggedRobot {
 				Logger.addDataReceiver(new NT4Publisher());
 				break;
 		}
+
+		manager = Manager.getInstance();
+		autoManager = new AutoManager(); 
+
 		Logger.start();
 		CommandsUtil.logCommands();
 		DriverStation.silenceJoystickConnectionWarning(true);
-		manager = new Manager();
+		CommandScheduler.getInstance().unregisterAllSubsystems();
+		FollowPathCommand.warmupCommand().schedule();
 	}
 
 	@Override
 	public void robotPeriodic() {
 		manager.periodic();
+		CommandScheduler.getInstance().run();
 		Utilitys.controllers.clearCache();
 	}
 
 	@Override
-	public void autonomousInit() {}
+	public void autonomousInit() {
+		CommandScheduler.getInstance().schedule(autoManager.getSelectedCommand());
+	}
 
 	@Override
 	public void autonomousPeriodic() {}
+
+	@Override
+	public void autonomousExit() {
+		CommandScheduler.getInstance().cancelAll();
+	}
 
 	@Override
 	public void teleopInit() {}
