@@ -3,7 +3,6 @@ package frc.robot.AutoManager;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Manager.Manager;
 import frc.robot.Manager.ManagerStates;
-import frc.robot.Subsystems.AlgaeCoraler.AlgaeCoraler;
 
 public class AutoCommands {
 

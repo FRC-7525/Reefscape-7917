@@ -53,10 +53,7 @@ public class AutoManager {
         //6 Coral
         autoChooser.addOption("6 Coral - RC", new PathPlannerAuto("6 Coral - RC"));
         autoChooser.addOption("6 Coral - BC", new PathPlannerAuto("6 Coral - BC"));
-
-        //1 Coral & 1 Algae 
         
-
         SmartDashboard.putData("Auto Chooser", autoChooser);
     }
  
