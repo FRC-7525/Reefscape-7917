@@ -17,7 +17,7 @@ public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 
 	public AlgaeCoraler() {
 		super(SUBSYSTEM_NAME, AlgaeCoralerStates.IDLE);
-		there = false;
+		there = true;
 		//IO stuff
 		this.io = switch (ROBOT_MODE) {
 			case REAL -> new AlgaeCoralerIOReal();

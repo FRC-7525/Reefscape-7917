@@ -35,7 +35,7 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 	private boolean motorZeroed; 
 	private Constraints constraints; 
 	private Boolean there;
-	private Debouncer debounce = new Debouncer(0.4, DebounceType.kBoth);
+	private Debouncer debounce = new Debouncer(0.25, DebounceType.kBoth);
 	
 	public AlgaeCoralerIOReal() {
 		//Initiallize Things
@@ -50,7 +50,7 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 		upPivotController = new ProfiledPIDController(UP_PIVOT_PID.kP, UP_PIVOT_PID.kI, UP_PIVOT_PID.kD, constraints);
 		beamBreak = new DigitalInput(DIO_PORT);
 
-		there = false; 
+		there = true; 
 	}
 
 	@Override
@@ -79,21 +79,21 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 		this.pivotPosSetpoint = pivotSetpoint;
 		if (this.pivotPosSetpoint.magnitude() == IDLE_ANGLE.magnitude()) {
 			if (there) {
-				pivotMotor.set(0.06);
+				pivotMotor.set(0.065);
 			} else {
 				pivotMotor.set(0.17);
 			}
 		} else if (this.pivotPosSetpoint.magnitude() == ALGAE_IN_ANGLE.magnitude()) {
 			if (there) {
-				pivotMotor.set(-0.07);
+				pivotMotor.set(-0.06);
 			} else {
-				pivotMotor.set(-0.12);
+				pivotMotor.set(-0.15);
 			}
 		} else {
 			if (there) {
-				pivotMotor.set(0.06);
+				pivotMotor.set(0.1);
 			} else {
-				pivotMotor.set(0.17);
+				pivotMotor.set(0.2);
 			}
 		}
 	}
@@ -106,7 +106,7 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 
 	@Override
 	public boolean nearTarget() {
-		if (debounce.calculate(pivotMotor.getOutputCurrent() >= 11)) {
+		if (debounce.calculate(pivotMotor.getOutputCurrent() >= 11.2)) {
 			return true;
 		}
 		return false;
