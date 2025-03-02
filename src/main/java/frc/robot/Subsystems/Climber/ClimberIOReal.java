@@ -10,6 +10,7 @@ import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.GlobalConstants;
 import frc.robot.GlobalConstants.RobotMode;
 
 public class ClimberIOReal implements ClimberIO {
@@ -38,11 +39,19 @@ public class ClimberIOReal implements ClimberIO {
 	@Override
 	public void setClimberSetpoint(Angle setpoint) {
 		this.setpoint = setpoint;
-		double voltage = pidController.calculate(
-			motor.getEncoder().getPosition() * 360 * GEAR_RATIO,
-			setpoint.in(Degrees)
-		);
-		motor.setVoltage(voltage);
+		if (GlobalConstants.Controllers.DRIVER_CONTROLLER.getLeftBumperButton()) {
+			motor.set(0.5);
+		} else if (GlobalConstants.Controllers.DRIVER_CONTROLLER.getPOV() == 0){
+			motor.set(-0.5); 
+		} else {
+			motor.set(0);
+		}
+		
+		// double voltage = pidController.calculate(
+		// 	motor.getEncoder().getPosition() * 360 * GEAR_RATIO,
+		// 	setpoint.in(Degrees)
+		// );
+		
 	}
 
 	@Override

@@ -17,14 +17,6 @@ public class Manager extends Subsystem<ManagerStates> {
 	private Climber climber;
 	private AlgaeCoraler algaeCoraler;
 	private Drive drive;
-	private static Manager instance; 
-
-	public static Manager getInstance() {
-		if (instance == null) {
-			instance = new Manager();
-		}
-		return instance;
-	}
 
 	public Manager() {
 		super("Manager", ManagerStates.IDLE);
@@ -46,14 +38,15 @@ public class Manager extends Subsystem<ManagerStates> {
 		addTrigger(ALGAE_IN, IDLE, DRIVER_CONTROLLER::getXButtonPressed);
 		
 		//Auto hold algae
-		addTrigger(ALGAE_IN, HOLDING, () -> algaeCoraler.hasAlgae()); 
+		//addTrigger(ALGAE_IN, HOLDING, () -> algaeCoraler.hasAlgae()); 
+
 
 		//Zero Motors auto and manually
 		// addRunnableTrigger(algaeCoraler::zero, () -> getState() == ManagerStates.IDLE && !algaeCoraler.motorZeroed());
-		addRunnableTrigger(algaeCoraler::resetMotorsZeroed, DRIVER_CONTROLLER::getAButtonPressed);
+		// addRunnableTrigger(algaeCoraler::resetMotorsZeroed, DRIVER_CONTROLLER::getAButtonPressed);
 		
 		// Climbing
-		//addTrigger(IDLE, CLIMBING, DRIVER_CONTROLLER::getAButtonPressed);
+		// addTrigger(IDLE, CLIMBING, DRIVER_CONTROLLER::getLeftBumperButtonPressed);
 
 		//addTrigger(ALGAE_OUT, ALGAE_IN, DRIVER_CONTROLLER::getLeftBumperButton);
 		//addTrigger(ALGAE_IN, ALGAE_OUT, () -> !algaeCoraler.zeroed());
@@ -79,13 +72,5 @@ public class Manager extends Subsystem<ManagerStates> {
 		}
 
 		Logger.recordOutput(DASHBOARD_STRING, getState().getStateString());
-	}
-
-	public boolean robotHasCoral() {
-		return algaeCoraler.hasCoral();
-	}
-
-	public boolean robotHasAlgae() {
-		return algaeCoraler.hasAlgae(); 
 	}
 }
