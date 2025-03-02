@@ -12,10 +12,13 @@ public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 
 	private AlgaeCoralerIO io;
 	private AlgaeCorralerIOInputsAutoLogged inputs;
+	private boolean there;
+	private AlgaeCoralerStates past;
 
 	public AlgaeCoraler() {
-		//IO stuff
 		super(SUBSYSTEM_NAME, AlgaeCoralerStates.IDLE);
+		there = false;
+		//IO stuff
 		this.io = switch (ROBOT_MODE) {
 			case REAL -> new AlgaeCoralerIOReal();
 			case SIM -> new AlgaeCoralerIOSim();
@@ -31,11 +34,19 @@ public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 
 		io.setPivotSetpoint(getState().getPivotSetpoint());
 		io.setWheelSpeed(getState().getWheelSpeed());
+		if (past != getState()) {
+			there = false;
+		}
+		else if (nearTarget()) {
+			there = true;
+		}
+		io.setThere(there);
 
 		io.updateInputs(inputs);
 		Logger.processInputs(SUBSYSTEM_NAME, inputs);
 		SmartDashboard.putNumber("Coral Out", CORAL_OUT_SPEED);
 		Logger.recordOutput(SUBSYSTEM_NAME + "/State", getState().getStateString());
+		past = getState();
 	}
 
 	public boolean nearTarget() {

@@ -147,5 +147,8 @@ public class AlgaeCoralerIOSim implements AlgaeCoralerIO {
 	public void resetMotorsZeroed() {
 		motorZeroed = false; 
 	}
-
+	@Override
+	public void setThere(boolean there) {
+		System.out.println("HMMMMMM");
+	}
 }

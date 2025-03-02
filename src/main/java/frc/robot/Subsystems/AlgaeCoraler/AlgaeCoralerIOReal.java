@@ -10,6 +10,8 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
@@ -32,6 +34,8 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 	private DigitalInput beamBreak;
 	private boolean motorZeroed; 
 	private Constraints constraints; 
+	private Boolean there;
+	private Debouncer debounce = new Debouncer(0.4, DebounceType.kBoth);
 	
 	public AlgaeCoralerIOReal() {
 		//Initiallize Things
@@ -46,7 +50,7 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 		upPivotController = new ProfiledPIDController(UP_PIVOT_PID.kP, UP_PIVOT_PID.kI, UP_PIVOT_PID.kD, constraints);
 		beamBreak = new DigitalInput(DIO_PORT);
 
-		motorZeroed = false; 
+		there = false; 
 	}
 
 	@Override
@@ -67,22 +71,29 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 			Logger.recordOutput("Pivot Current", pivotMotor.getOutputCurrent());
 
 		}
+		System.out.println(there);
 	}
 
 	@Override
 	public void setPivotSetpoint(Angle pivotSetpoint) {
 		this.pivotPosSetpoint = pivotSetpoint;
 		if (this.pivotPosSetpoint.magnitude() == IDLE_ANGLE.magnitude()) {
-			if (nearTarget()) {
+			if (there) {
 				pivotMotor.set(0.06);
 			} else {
 				pivotMotor.set(0.17);
 			}
 		} else if (this.pivotPosSetpoint.magnitude() == ALGAE_IN_ANGLE.magnitude()) {
-			if (nearTarget()) {
+			if (there) {
 				pivotMotor.set(-0.07);
 			} else {
 				pivotMotor.set(-0.12);
+			}
+		} else {
+			if (there) {
+				pivotMotor.set(0.06);
+			} else {
+				pivotMotor.set(0.17);
 			}
 		}
 	}
@@ -95,7 +106,7 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 
 	@Override
 	public boolean nearTarget() {
-		if (pivotMotor.getOutputCurrent() >= 11) {
+		if (debounce.calculate(pivotMotor.getOutputCurrent() >= 11)) {
 			return true;
 		}
 		return false;
@@ -133,5 +144,10 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 	@Override
 	public void resetMotorsZeroed() {
 		motorZeroed = false; 
+	}
+
+	@Override
+	public void setThere(boolean there) {
+		this.there = there;
 	}
 }
