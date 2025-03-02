@@ -42,16 +42,16 @@ public class Drive extends Subsystem<DriveStates> {
 		SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
 		faultManager.addDevice((SparkMax) swerveDrive.getModules()[0].getDriveMotor().getMotor(), "Front Left Drive Spark", "CANivore");
 		faultManager.addDevice((SparkMax) swerveDrive.getModules()[0].getAngleMotor().getMotor(), "Front Left Turn Spark", "CANivore");
-		//faultManager.addDevice((CANcoder)swerveDrive.getModules()[0].getAbsoluteEncoder(), "Front Left CANcoder", "CANivore");
+		faultManager.addDevice(swerveDrive.getModules()[0].getAbsoluteEncoder(), (SparkMax) swerveDrive.getModules()[3].getAngleMotor().getMotor(), "Front Left CANcoder", "CANivore");
 		faultManager.addDevice((SparkMax) swerveDrive.getModules()[1].getDriveMotor().getMotor(), "Front Right Drive Spark", "CANivore");
 		faultManager.addDevice((SparkMax) swerveDrive.getModules()[1].getAngleMotor().getMotor(), "Front Right Turn Spark", "CANivore");
-		//faultManager.addDevice(swerveDrive.getModules()[1].getAbsoluteEncoder(), (SparkMax) swerveDrive.getModules()[1].getAngleMotor().getMotor(), "Front Right CANcoder", "CANivore");
+		faultManager.addDevice(swerveDrive.getModules()[1].getAbsoluteEncoder(), (SparkMax) swerveDrive.getModules()[1].getAngleMotor().getMotor(), "Front Right CANcoder", "CANivore");
 		faultManager.addDevice((SparkMax) swerveDrive.getModules()[2].getDriveMotor().getMotor(), "Back Left Drive Spark", "CANivore");
 		faultManager.addDevice((SparkMax) swerveDrive.getModules()[2].getAngleMotor().getMotor(), "Back Left Turn Spark", "CANivore");
-		//faultManager.addDevice(swerveDrive.getModules()[2].getAbsoluteEncoder(), (SparkMax) swerveDrive.getModules()[2].getAngleMotor().getMotor(), "Back Left CANcoder", "CANivore");
+		faultManager.addDevice(swerveDrive.getModules()[2].getAbsoluteEncoder(), (SparkMax) swerveDrive.getModules()[2].getAngleMotor().getMotor(), "Back Left CANcoder", "CANivore");
 		faultManager.addDevice((SparkMax) swerveDrive.getModules()[3].getDriveMotor().getMotor(), "Back Right Drive Spark", "CANivore");
 		faultManager.addDevice((SparkMax) swerveDrive.getModules()[3].getAngleMotor().getMotor(), "Back Right Drive Spark", "CANivore");
-		//faultManager.addDevice(swerveDrive.getModules()[3].getAbsoluteEncoder(), (SparkMax) swerveDrive.getModules()[3].getAngleMotor().getMotor(), "Back Right Drive Spark", "CANivore");
+		faultManager.addDevice(swerveDrive.getModules()[3].getAbsoluteEncoder(), (SparkMax) swerveDrive.getModules()[3].getAngleMotor().getMotor(), "Back Right Drive Spark", "CANivore");
 
 		try {
 			File swerveJsonDirectory = new File(Filesystem.getDeployDirectory(), "swerve");

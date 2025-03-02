@@ -72,6 +72,7 @@ public class FaultManager {
 
 		private SparkMax sparkMax;
 		private CANcoder canCoder;
+		private SwerveAbsoluteEncoder swerveAbsoluteEncoder;
 
 		
 		public CANDeviceTypes deviceType;
@@ -89,6 +90,12 @@ public class FaultManager {
 			this.canCoder = canCoder;
 		}
 
+		public CANDevice(SwerveAbsoluteEncoder swerveAbsoluteEncoder, String name) {
+			super(name);
+			this.deviceType = CANDeviceTypes.CANCODER;
+			this.swerveAbsoluteEncoder = swerveAbsoluteEncoder;
+		}
+
 		public SparkMax getSparkMax() {
 			if (deviceType != CANDeviceTypes.SPARK) {
 				throw new Error("This device is not a SparkMax");
@@ -103,6 +110,14 @@ public class FaultManager {
 			}
 
 			return this.canCoder;
+		}
+
+		public SwerveAbsoluteEncoder getSwerveAbsoluteEncoder() {
+			if (deviceType != CANDeviceTypes.SWERVEABSOLUTEENCODER) {
+				throw new Error("This device is not a CANcoder");
+			}
+
+			return this.swerveAbsoluteEncoder;
 		}
 	}
 
@@ -192,5 +207,9 @@ public class FaultManager {
 
 	public void addDevice(CANcoder encoder, String name, String busName) {
 		CANDeviceMap.put(busName + " " + encoder.getDeviceID(), new CANDevice(encoder, name));
+	}
+
+	public void addDevice(SwerveAbsoluteEncoder swerveAbsoluteEncoderencoder, SparkMax sparkMax, String name, String busName) {
+		CANDeviceMap.put(busName + " " + sparkMax.getDeviceId(), new CANDevice(sparkMax, name));
 	}
 }
