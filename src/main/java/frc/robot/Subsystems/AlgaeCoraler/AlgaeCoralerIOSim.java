@@ -5,6 +5,8 @@ import static frc.robot.GlobalConstants.*;
 import static frc.robot.Subsystems.AlgaeCoraler.AlgaeCoralerConstants.*;
 import static frc.robot.Subsystems.AlgaeCoraler.AlgaeCoralerConstants.Sim.*;
 
+import org.littletonrobotics.junction.Logger;
+
 import com.revrobotics.sim.SparkMaxSim;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
@@ -89,6 +91,9 @@ public class AlgaeCoralerIOSim implements AlgaeCoralerIO {
 
 		wheelSparkSim.setPosition(wheelMotorSim.getAngularPositionRotations());
 		wheelSparkSim.setVelocity(wheelMotorSim.getAngularAccelerationRadPerSecSq() / 60);
+
+		Logger.recordOutput("Has Coral", hasCoral());
+		Logger.recordOutput("Has Algae", hasAlgae()); 
 	}
 
 	@Override

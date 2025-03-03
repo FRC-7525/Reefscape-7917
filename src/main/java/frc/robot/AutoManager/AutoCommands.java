@@ -16,6 +16,7 @@ public class AutoCommands {
 	}
 
     public class IntakeCoral extends Command {
+        private final Manager manager = Manager.getInstance();
 
         public static IntakeCoral intakeCoral() {
 			return AutoCommands.getInstance().new IntakeCoral();
@@ -23,16 +24,17 @@ public class AutoCommands {
 
         @Override
         public void initialize() {
-            Manager.getInstance().setState(ManagerStates.IDLE);
+            manager.setState(ManagerStates.IDLE);
         }
 
         @Override
 		public boolean isFinished() {
-			return Manager.getInstance().robotHasCoral() && Manager.getInstance().getState() != ManagerStates.IDLE; 
+			return manager.robotHasCoral(); 
 		}
     }
 
     public class ScoreCoral extends Command {
+        private final Manager manager = Manager.getInstance();
 
         public static ScoreCoral scoreCoral() {
 			return AutoCommands.getInstance().new ScoreCoral();
@@ -40,17 +42,18 @@ public class AutoCommands {
 
         @Override
         public void initialize() {
-            Manager.getInstance().setState(ManagerStates.CORAL_OUT);
+           manager.setState(ManagerStates.CORAL_OUT);
         }
 
         @Override
 		public boolean isFinished() {
-			return !Manager.getInstance().robotHasCoral() && Manager.getInstance().getState() != ManagerStates.CORAL_OUT; 
+			return !manager.robotHasCoral(); 
 		}
 
     }
 
     public class IntakeAlgae extends Command {
+        private final Manager manager = Manager.getInstance();
 
         public static IntakeAlgae intakeAlgae() {
 			return AutoCommands.getInstance().new IntakeAlgae();
@@ -58,17 +61,18 @@ public class AutoCommands {
 
         @Override
         public void initialize() {
-            Manager.getInstance().setState(ManagerStates.ALGAE_IN);
+            manager.setState(ManagerStates.ALGAE_IN);
         }
 
         @Override
 		public boolean isFinished() {
-			return Manager.getInstance().robotHasAlgae() && Manager.getInstance().getState() != ManagerStates.ALGAE_IN; 
+			return manager.robotHasAlgae(); 
 		}
 
     }
 
     public class HoldAlgae extends Command {
+        private final Manager manager = Manager.getInstance();
 
         public static HoldAlgae holdAlgae() {
 			return AutoCommands.getInstance().new HoldAlgae();
@@ -76,17 +80,18 @@ public class AutoCommands {
 
         @Override
         public void initialize() {
-            Manager.getInstance().setState(ManagerStates.HOLDING);
+            manager.setState(ManagerStates.HOLDING);
         }
 
         @Override
 		public boolean isFinished() {
-			return Manager.getInstance().getState() != ManagerStates.HOLDING; 
+			return manager.getState() != ManagerStates.HOLDING; 
 		}
 
     }
 
     public class ScoreAlgae extends Command {
+        private final Manager manager = Manager.getInstance();
 
         public static ScoreAlgae scoreAlgae() {
 			return AutoCommands.getInstance().new ScoreAlgae();
@@ -94,17 +99,18 @@ public class AutoCommands {
 
         @Override
         public void initialize() {
-            Manager.getInstance().setState(ManagerStates.ALGAE_OUT);
+            manager.setState(ManagerStates.ALGAE_OUT);
         }
 
         @Override
 		public boolean isFinished() {
-			return !Manager.getInstance().robotHasAlgae() && Manager.getInstance().getState() != ManagerStates.ALGAE_OUT; 
+			return !manager.robotHasAlgae() ; 
 		}
 
     }
 
     public class Idle extends Command {
+        private final Manager manager = Manager.getInstance();
 
         public static Idle idle() {
 			return AutoCommands.getInstance().new Idle();
@@ -112,12 +118,12 @@ public class AutoCommands {
 
         @Override
         public void initialize() {
-            Manager.getInstance().setState(ManagerStates.IDLE);
+            manager.setState(ManagerStates.IDLE);
         }
 
         @Override
 		public boolean isFinished() {
-			return Manager.getInstance().getState() != ManagerStates.IDLE; 
+			return manager.getState() != ManagerStates.IDLE; 
 		}
     }
      
