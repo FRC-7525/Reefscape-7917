@@ -11,7 +11,9 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 import org.team7525.misc.CommandsUtil;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Manager.Manager;
+import frc.robot.util.Utilitys;
 
 public class Robot extends LoggedRobot {
 
@@ -45,6 +47,7 @@ public class Robot extends LoggedRobot {
 	public void robotPeriodic() {
 		manager.periodic();
 		Utilitys.controllers.clearCache();
+		CommandScheduler.getInstance().run();
 	}
 
 	@Override

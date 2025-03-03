@@ -6,10 +6,13 @@ import static frc.robot.Manager.ManagerStates.*;
 import org.littletonrobotics.junction.Logger;
 import org.team7525.subsystem.Subsystem;
 
+import com.revrobotics.spark.SparkMax;
+
 import frc.robot.GlobalConstants.Controllers;
 import frc.robot.Subsystems.AlgaeCoraler.AlgaeCoraler;
 import frc.robot.Subsystems.Climber.Climber;
 import frc.robot.Subsystems.Drive.Drive;
+import swervelib.SwerveDrive;
 
 
 public class Manager extends Subsystem<ManagerStates> {
@@ -25,20 +28,20 @@ public class Manager extends Subsystem<ManagerStates> {
 		algaeCoraler = new AlgaeCoraler();
 		drive = new Drive();
 
-		// Scoring/intaking Coral
-		addTrigger(IDLE, CORAL_OUT, DRIVER_CONTROLLER::getYButtonPressed);
+		// // Scoring/intaking Coral
+		// addTrigger(IDLE, CORAL_OUT, DRIVER_CONTROLLER::getYButtonPressed);
 		
-		// Scoring/intaking Algae
-		addTrigger(IDLE, ALGAE_IN, DRIVER_CONTROLLER::getBButtonPressed);
-		addTrigger(ALGAE_IN, HOLDING, DRIVER_CONTROLLER::getBButtonPressed);
-		addTrigger(HOLDING, ALGAE_OUT, DRIVER_CONTROLLER::getBButtonPressed);
-		addTrigger(ALGAE_IN, IDLE, DRIVER_CONTROLLER::getXButtonPressed);
+		// // Scoring/intaking Algae
+		// addTrigger(IDLE, ALGAE_IN, DRIVER_CONTROLLER::getBButtonPressed);
+		// addTrigger(ALGAE_IN, HOLDING, DRIVER_CONTROLLER::getBButtonPressed);
+		// addTrigger(HOLDING, ALGAE_OUT, DRIVER_CONTROLLER::getBButtonPressed);
+		// addTrigger(ALGAE_IN, IDLE, DRIVER_CONTROLLER::getXButtonPressed);
 
-		addRunnableTrigger(algaeCoraler::zeroed, () -> getState() == ManagerStates.IDLE);
-		addRunnableTrigger(algaeCoraler::resetMotorsZeroed, DRIVER_CONTROLLER::getAButtonPressed);
+		// addRunnableTrigger(algaeCoraler::zeroed, () -> getState() == ManagerStates.IDLE);
+		// addRunnableTrigger(algaeCoraler::resetMotorsZeroed, DRIVER_CONTROLLER::getAButtonPressed);
 
-		// Auto stop scoring corral:
-		addTrigger(CORAL_OUT, IDLE, () -> !algaeCoraler.hasCoral());
+		// // Auto stop scoring corral:
+		// addTrigger(CORAL_OUT, IDLE, () -> !algaeCoraler.hasCoral());
 		
 		// Climbing
 		//addTrigger(IDLE, CLIMBING, DRIVER_CONTROLLER::getAButtonPressed);
@@ -51,7 +54,7 @@ public class Manager extends Subsystem<ManagerStates> {
 
 	@Override
 	public void runState() {
-
+		
 		Logger.recordOutput(SUBSYSTEM_NAME + "/State Time", getStateTime());
 		Logger.recordOutput(SUBSYSTEM_NAME + "/State String", getState().getStateString());
 

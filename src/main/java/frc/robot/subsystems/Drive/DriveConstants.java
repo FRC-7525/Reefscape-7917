@@ -24,13 +24,13 @@ public final class DriveConstants {
 	// TODO: Tune values
 
 	public static final PIDConstants ROTATION_PID = new PIDConstants(3.5, 0, 0.15);
-	public static final PIDConstants TRANSLATION_PID = new PIDConstants(10, 0, 0.1);
+	public static final PIDConstants TRANSLATION_PID = new PIDConstants(6, 0, 0.1);
 
 
 	//Tolerances
 	public static final Angle ROTATION_TOLERANCE = Radians.of(3);
-	public static final Distance X_TOLERANCE = Meters.of(0.1);
-	public static final Distance Y_TOLERANCE = Meters.of(0.1);
+	public static final Distance X_TOLERANCE = Meters.of(0.05);
+	public static final Distance Y_TOLERANCE = Meters.of(0.05);
 
 	public static final List<Pose2d> NEAREST_FEEDERS = Arrays.asList(
 		new Pose2d(new Translation2d(1.24, 7.1), Rotation2d.fromDegrees(125)),
