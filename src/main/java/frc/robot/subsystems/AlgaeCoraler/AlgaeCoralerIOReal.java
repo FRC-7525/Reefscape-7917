@@ -15,6 +15,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.GlobalConstants;
 import frc.robot.GlobalConstants.Controllers;
@@ -126,5 +127,15 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 	@Override
 	public void resetMotorsZeroed() {
 		pivotMotor.getEncoder().setPosition(0);
+	}
+
+	@Override
+	public SparkMax getWheelsSpark() {
+		return wheelsMotor;
+	}
+
+	@Override
+	public SparkMax getPivotSpark() {
+		return pivotMotor;
 	}
 }

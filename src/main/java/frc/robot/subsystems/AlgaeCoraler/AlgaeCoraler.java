@@ -2,9 +2,12 @@ package frc.robot.Subsystems.AlgaeCoraler;
 
 import static frc.robot.GlobalConstants.*;
 import static frc.robot.Subsystems.AlgaeCoraler.AlgaeCoralerConstants.*;
+import static frc.robot.Subsystems.AlgaeCoraler.AlgaeCoralerIOReal.*;
 
 import org.littletonrobotics.junction.Logger;
 import org.team7525.subsystem.Subsystem;
+
+import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -39,6 +42,14 @@ public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 
 	public boolean nearTarget() {
 		return io.nearTarget();
+	}
+
+	public SparkMax getWheelSpark() {
+		return io.getWheelsSpark();
+	}
+
+	public SparkMax getPivotSpark() {
+		return io.getPivotSpark();
 	}
 
 	public boolean hasAlgae() {

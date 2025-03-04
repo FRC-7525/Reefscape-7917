@@ -6,6 +6,8 @@ import static frc.robot.Subsystems.Climber.ClimberConstants.*;
 import org.littletonrobotics.junction.Logger;
 import org.team7525.subsystem.Subsystem;
 
+import com.revrobotics.spark.SparkMax;
+
 public class Climber extends Subsystem<ClimberStates> {
 
 	private ClimberIO io;
@@ -33,5 +35,9 @@ public class Climber extends Subsystem<ClimberStates> {
 
 	public boolean nearSetpoint() {
 		return io.nearSetpoint();
+	}
+
+	public SparkMax getClimberSpark() {
+		return io.getClimberSpark();
 	}
 }

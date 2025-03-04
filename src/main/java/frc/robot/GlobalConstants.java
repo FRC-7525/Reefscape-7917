@@ -1,5 +1,8 @@
 package frc.robot;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import edu.wpi.first.wpilibj.XboxController;
 
 public final class GlobalConstants {
@@ -22,5 +25,10 @@ public final class GlobalConstants {
 
 		public static final XboxController DRIVER_CONTROLLER = new XboxController(0);
 		public static final XboxController OPERATOR_CONTROLLER = new XboxController(1);
+	}
+
+	public static class FaultManagerConstants {
+
+		public static final ArrayList<Integer> CAN_DEVICE_ORDER = new ArrayList<Integer>(Arrays.asList(5, 15, 16, 7, 33, 11, 8, 2, 10, 35, 1));
 	}
 }

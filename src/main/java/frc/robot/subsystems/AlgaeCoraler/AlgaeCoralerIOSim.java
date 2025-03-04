@@ -13,6 +13,7 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 
@@ -133,5 +134,15 @@ public class AlgaeCoralerIOSim implements AlgaeCoralerIO {
 
 	@Override
 	public void resetMotorsZeroed() {}
+
+	@Override
+	public SparkMax getPivotSpark() {
+		return dummyPivotSpark;
+	}
+
+	@Override
+	public SparkMax getWheelsSpark() {
+		return dummyWheelsSpark;
+	}
 
 }

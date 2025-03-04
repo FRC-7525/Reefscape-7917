@@ -62,4 +62,9 @@ public class ClimberIOSim implements ClimberIO {
 	public boolean nearSetpoint() {
 		return ((Math.abs(climberSim.getAngularPositionRotations()* 360)) - climberSetpoint.in(Degrees)) < POSITION_TOLERANCE.in(Degrees); 
 	}
+
+	@Override
+	public SparkMax getClimberSpark() {
+		return dummySpark;
+	}
 }

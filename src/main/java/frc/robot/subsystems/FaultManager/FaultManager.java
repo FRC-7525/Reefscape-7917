@@ -2,6 +2,7 @@ package frc.robot.Subsystems.FaultManager;
 
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.spark.SparkBase.Faults;
+import com.revrobotics.spark.SparkLowLevel;
 
 import swervelib.encoders.SwerveAbsoluteEncoder;
 
@@ -113,7 +114,7 @@ public class FaultManager {
 		}
 
 		public SwerveAbsoluteEncoder getSwerveAbsoluteEncoder() {
-			if (deviceType != CANDeviceTypes.SWERVEABSOLUTEENCODER) {
+			if (deviceType != CANDeviceTypes.SWERVE_ABSOLUTE_ENCODER) {
 				throw new Error("This device is not a CANcoder");
 			}
 
@@ -139,7 +140,6 @@ public class FaultManager {
 		for (String busName : CANDeviceOrder.keySet()) {
 			for (int id : CANDeviceOrder.get(busName)) {
 				CANDevice device = CANDeviceMap.get(busName + " " + id);
-
 				switch (device.deviceType) {
 					case SPARK:
 						SparkMax spark = device.getSparkMax();
@@ -209,7 +209,7 @@ public class FaultManager {
 		CANDeviceMap.put(busName + " " + encoder.getDeviceID(), new CANDevice(encoder, name));
 	}
 
-	public void addDevice(SwerveAbsoluteEncoder swerveAbsoluteEncoderencoder, SparkMax sparkMax, String name, String busName) {
-		CANDeviceMap.put(busName + " " + sparkMax.getDeviceId(), new CANDevice(sparkMax, name));
-	}
+	// public void addDevice(SwerveAbsoluteEncoder swerveAbsoluteEncoderencoder, SparkMax sparkMax, String name, String busName) {
+	//CANDeviceMap.put(busName + " " + (CANcoder) swerveAbsoluteEncoderencoder, new CANDevice(sparkMax, name));
+	// }
 }

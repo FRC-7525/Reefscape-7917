@@ -10,6 +10,7 @@ import frc.robot.GlobalConstants.Controllers;
 import frc.robot.Subsystems.AlgaeCoraler.AlgaeCoraler;
 import frc.robot.Subsystems.Climber.Climber;
 import frc.robot.Subsystems.Drive.Drive;
+import frc.robot.Subsystems.FaultManager.FaultManager;
 
 
 public class Manager extends Subsystem<ManagerStates> {
@@ -20,9 +21,13 @@ public class Manager extends Subsystem<ManagerStates> {
 
 	public Manager() {
 		super("Manager", ManagerStates.IDLE);
+		FaultManager faultManager = FaultManager.getInstance();
 
 		climber = new Climber();
 		algaeCoraler = new AlgaeCoraler();
+		faultManager.addDevice(algaeCoraler.getWheelSpark(), "Coral and Algae Wheel Spark", "Main CAN");
+		faultManager.addDevice(algaeCoraler.getPivotSpark(), "Pivot Spark", "Main CAN");
+		faultManager.addDevice(climber.getClimberSpark(), "Climer Spark", "Main CAN");
 		drive = new Drive();
 
 		// Scoring/intaking Coral

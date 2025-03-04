@@ -9,12 +9,16 @@ import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 import org.team7525.misc.CommandsUtil;
+import org.team7525.misc.Tracer;
+
+import frc.robot.Subsystems.FaultManager.FaultManager;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import frc.robot.GlobalConstants.FaultManagerConstants;
 import frc.robot.Manager.Manager;
 
 public class Robot extends LoggedRobot {
-
+	private final FaultManager faultManager = FaultManager.getInstance();
 	private Manager manager;
 
 	public Robot() {}
@@ -35,6 +39,7 @@ public class Robot extends LoggedRobot {
 				Logger.addDataReceiver(new NT4Publisher());
 				break;
 		}
+		FaultManager.getInstance().calibrateDeviceOrder(FaultManagerConstants.CAN_DEVICE_ORDER, "Main CAN");
 		Logger.start();
 		CommandsUtil.logCommands();
 		DriverStation.silenceJoystickConnectionWarning(true);
@@ -63,7 +68,9 @@ public class Robot extends LoggedRobot {
 	public void disabledInit() {}
 
 	@Override
-	public void disabledPeriodic() {}
+	public void disabledPeriodic() {
+		Tracer.traceFunc("FaultManager", faultManager::periodic);
+	}
 
 	@Override
 	public void testInit() {}

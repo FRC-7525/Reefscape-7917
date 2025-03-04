@@ -9,6 +9,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.GlobalConstants.RobotMode;
 
@@ -48,6 +49,11 @@ public class ClimberIOReal implements ClimberIO {
 	@Override
 	public boolean nearSetpoint() {
 		return (Math.abs((motor.getEncoder().getPosition() * 360 * GEAR_RATIO) - setpoint.in(Degrees)) < POSITION_TOLERANCE.in(Degrees));
+	}
+
+	@Override
+	public SparkMax getClimberSpark() {
+		return motor;
 	}
 
 }

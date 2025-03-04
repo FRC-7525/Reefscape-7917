@@ -3,6 +3,8 @@ package frc.robot.Subsystems.Climber;
 import edu.wpi.first.units.measure.Angle;
 import org.littletonrobotics.junction.AutoLog;
 
+import com.revrobotics.spark.SparkMax;
+
 public interface ClimberIO {
 	@AutoLog
 	public static class ClimberIOInputs {
@@ -16,5 +18,7 @@ public interface ClimberIO {
 	public void setClimberSetpoint(Angle setpoint);
 
 	public boolean nearSetpoint();
+
+	public SparkMax getClimberSpark();
 
 }
