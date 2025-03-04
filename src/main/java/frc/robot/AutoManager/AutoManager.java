@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 
 public class AutoManager {
-    private final SendableChooser<Command> autoChooser;
+    private final SendableChooser<Command> autoChooser; 
 
     public AutoManager() {
 
@@ -19,6 +19,7 @@ public class AutoManager {
         NamedCommands.registerCommand("Hold Algae", AutoCommands.HoldAlgae.holdAlgae());
         NamedCommands.registerCommand("Score Algae", AutoCommands.ScoreAlgae.scoreAlgae());
         NamedCommands.registerCommand("Idle", AutoCommands.Idle.idle());
+        NamedCommands.registerCommand("DRIVE !", AutoCommands.DriveForward.driveForward());
         
         //Autochooser!
         autoChooser = new SendableChooser<>();
@@ -53,6 +54,9 @@ public class AutoManager {
         //6 Coral
         autoChooser.addOption("6 Coral - RC", new PathPlannerAuto("6 Coral - RC"));
         autoChooser.addOption("6 Coral - BC", new PathPlannerAuto("6 Coral - BC"));
+        
+        //Random rahh
+        autoChooser.addOption("Simple Drive", NamedCommands.getCommand("DRIVE !"));
         
         SmartDashboard.putData("Auto Chooser", autoChooser);
     }

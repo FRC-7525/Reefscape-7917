@@ -15,6 +15,7 @@ import com.pathplanner.lib.config.RobotConfig;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -38,6 +39,9 @@ public final class DriveConstants {
 	public static final Angle ROTATION_TOLERANCE = Radians.of(3);
 	public static final Distance X_TOLERANCE = Meters.of(0.1);
 	public static final Distance Y_TOLERANCE = Meters.of(0.1);
+
+	//Velocity
+	public static final ChassisSpeeds DRIVE_CHASSIS_SPEED = new ChassisSpeeds(1, 0, 0); 
 
 	//Speed
 	public static final LinearVelocity MAX_SPEED = MetersPerSecond.of(4.6);

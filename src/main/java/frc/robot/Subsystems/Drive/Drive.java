@@ -28,6 +28,14 @@ public class Drive extends Subsystem<DriveStates> {
 	private SwerveDrive swerveDrive;
 	private SlewRateLimiter Xlimiter;
 	private SlewRateLimiter Ylimiter;
+	public static Drive instance;
+
+	public static Drive getInstance() {
+		if (instance == null) {
+			instance = new Drive();
+		}
+		return instance;
+	}
 
 	public Drive() {
 		super("Drive", DriveStates.MANUAL);
@@ -74,6 +82,10 @@ public class Drive extends Subsystem<DriveStates> {
             this // Reference to this subsystem to set requirements
    		);
 	}
+
+	public void drive() {
+		swerveDrive.drive(DRIVE_CHASSIS_SPEED); 
+	} 
 
 
 	private void establishTriggers() {

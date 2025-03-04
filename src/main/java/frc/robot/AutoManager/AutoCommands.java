@@ -1,12 +1,15 @@
 package frc.robot.AutoManager;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Manager.Manager;
 import frc.robot.Manager.ManagerStates;
+import frc.robot.Subsystems.Drive.Drive;
 
 public class AutoCommands {
 
-    private static AutoCommands instance; 
+    private static AutoCommands instance;  
+    private Timer timer; 
 
 	protected static AutoCommands getInstance() {
 		if (instance == null) {
@@ -14,6 +17,33 @@ public class AutoCommands {
 		}
 		return instance;
 	}
+    public AutoCommands() {
+        timer = new Timer(); 
+    }
+
+    public class DriveForward extends Command {
+        private final Drive drive = Drive.getInstance(); 
+
+        public static DriveForward driveForward() {
+			return AutoCommands.getInstance().new DriveForward();
+        }
+
+        @Override
+        public void initialize() {
+            timer.restart();
+        }
+
+        @Override
+        public void execute() {
+            drive.drive(); 
+        }
+
+        @Override
+        public boolean isFinished() {
+            return timer.get() >= 1; 
+        }
+        
+    }
 
     public class IntakeCoral extends Command {
         private final Manager manager = Manager.getInstance();

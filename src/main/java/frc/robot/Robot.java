@@ -16,11 +16,13 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.AutoManager.AutoManager;
 import frc.robot.Manager.Manager;
+import frc.robot.Subsystems.Drive.Drive;
 
 public class Robot extends LoggedRobot {
 
 	private Manager manager;
 	private AutoManager autoManager; 
+	private Drive drive; 
 
 	public Robot() {}
 
@@ -42,6 +44,7 @@ public class Robot extends LoggedRobot {
 		}
 
 		manager = Manager.getInstance();
+		drive = Drive.getInstance(); 
 		autoManager = new AutoManager(); 
 
 		Logger.start();
@@ -53,6 +56,7 @@ public class Robot extends LoggedRobot {
 
 	@Override
 	public void robotPeriodic() {
+		drive.periodic();
 		manager.periodic();
 		CommandScheduler.getInstance().run();
 		Utilitys.controllers.clearCache();

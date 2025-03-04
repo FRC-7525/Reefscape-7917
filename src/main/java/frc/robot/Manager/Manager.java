@@ -9,14 +9,11 @@ import org.team7525.subsystem.Subsystem;
 import frc.robot.GlobalConstants.Controllers;
 import frc.robot.Subsystems.AlgaeCoraler.AlgaeCoraler;
 import frc.robot.Subsystems.Climber.Climber;
-import frc.robot.Subsystems.Drive.Drive;
-
 
 public class Manager extends Subsystem<ManagerStates> {
 
 	private Climber climber;
 	private AlgaeCoraler algaeCoraler;
-	private Drive drive;
 	private static Manager instance; 
 
 	public static Manager getInstance() {
@@ -31,7 +28,6 @@ public class Manager extends Subsystem<ManagerStates> {
 
 		climber = new Climber();
 		algaeCoraler = new AlgaeCoraler();
-		drive = new Drive();
 
 		// Scoring/intaking Coral
 		addTrigger(IDLE, CORAL_OUT, DRIVER_CONTROLLER::getYButtonPressed);
@@ -72,7 +68,6 @@ public class Manager extends Subsystem<ManagerStates> {
 
 		climber.periodic();
 		algaeCoraler.periodic();
-		drive.periodic();
 
 		if (Controllers.DRIVER_CONTROLLER.getXButtonPressed() && getState() != ManagerStates.HOLDING) {
 			setState(ManagerStates.IDLE);
