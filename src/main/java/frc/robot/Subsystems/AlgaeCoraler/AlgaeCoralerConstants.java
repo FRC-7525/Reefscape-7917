@@ -32,7 +32,7 @@ public final class AlgaeCoralerConstants {
 	public static final double ALGAE_IN_SPEED = -1; 
 	public static final double ALGAE_OUT_SPEED = 1;
 	public static final double CORAL_OUT_SPEED = -0.43;
-	public static final double HOLDING_SPEED = -0.1;
+	public static final double HOLDING_SPEED = 0;
 
 	//Currents
 	public static final Current ALGAE_CURRENT_LIMIT = Amps.of(12); 
@@ -44,16 +44,18 @@ public final class AlgaeCoralerConstants {
 	//TODO: Add controlls to tune these values ^
 
 	//Angles
-	public static final Angle IDLE_ANGLE = Degrees.of(22);
+	public static final Angle IDLE_ANGLE = Degrees.of(20);
 	public static final Angle ALGAE_IN_ANGLE = Degrees.of(-115);
 	public static final Angle ALGAE_HOLDING_ANGLE = Degrees.of(-25);
 	public static final Angle ALGAE_OUT_ANGLE = Degrees.of(-25);
+	public static final Angle CORAL_BLOCK_ANGLE = Degrees.of(-74.05);
 	
 	//TODO: Obtain correct values from Everybot docs ^
 
 	public static class Real {
 		public static final PIDConstants DOWN_PIVOT_PID = new PIDConstants(0.6, 0, 0.025); 
 		public static final PIDConstants UP_PIVOT_PID = new PIDConstants(0.9, 0, 0.025);
+		public static final PIDConstants PIVOT_PID = new PIDConstants(0.0, 0, 0); 
 	}
 
 	public static class Sim {

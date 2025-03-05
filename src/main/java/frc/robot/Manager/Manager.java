@@ -1,8 +1,9 @@
 package frc.robot.Manager;
 
-import static frc.robot.Manager.ManagerConstants.*;
+import static frc.robot.Manager.ManagerConstants.*; 
 import static frc.robot.GlobalConstants.Controllers.*;
 import static frc.robot.Manager.ManagerStates.*;
+
 import org.littletonrobotics.junction.Logger;
 import org.team7525.subsystem.Subsystem;
 
@@ -26,15 +27,18 @@ public class Manager extends Subsystem<ManagerStates> {
 		drive = new Drive();
 
 		// Scoring/intaking Coral
-		addTrigger(IDLE, CORAL_OUT, DRIVER_CONTROLLER::getYButtonPressed);
+		addTrigger(IDLE, CORAL_OUT, () -> algaeCoraler.hasCoral() && DRIVER_CONTROLLER.getYButtonPressed());
 
 		// Auto stop scoring corral:
-		addTrigger(CORAL_OUT, IDLE, () -> !algaeCoraler.hasCoral());
+
+		addTrigger(CORAL_OUT, CORAL_BLOCK, DRIVER_CONTROLLER::getYButtonPressed);
+		addTrigger(CORAL_BLOCK, IDLE, DRIVER_CONTROLLER::getYButtonPressed);
 		
 		// Scoring/intaking Algae
 		addTrigger(IDLE, ALGAE_IN, DRIVER_CONTROLLER::getBButtonPressed);
 		addTrigger(ALGAE_IN, HOLDING, DRIVER_CONTROLLER::getBButtonPressed);
 		addTrigger(HOLDING, ALGAE_OUT, DRIVER_CONTROLLER::getBButtonPressed);
+
 		addTrigger(ALGAE_IN, IDLE, DRIVER_CONTROLLER::getXButtonPressed);
 		
 		//Auto hold algae

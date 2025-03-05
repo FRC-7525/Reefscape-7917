@@ -85,7 +85,7 @@ public class Drive extends Subsystem<DriveStates> {
 						Ylimiter.calculate(Controllers.DRIVER_CONTROLLER.getLeftY() * -1 * MAX_SPEED.magnitude())
 					),
 					Controllers.DRIVER_CONTROLLER.getRightX() * MAX_ANGULAR_VELOCITY.in(RadiansPerSecond) * -1,
-					true,
+					false,
 					false
 				);
 				break;

@@ -3,6 +3,7 @@ package frc.robot.Subsystems.AlgaeCoraler;
 import static edu.wpi.first.units.Units.*;
 import static frc.robot.Subsystems.AlgaeCoraler.AlgaeCoralerConstants.*;
 import static frc.robot.Subsystems.AlgaeCoraler.AlgaeCoralerConstants.Real.*;
+import static frc.robot.Subsystems.AlgaeCoraler.AlgaeCoralerConstants.Sim.PIVOT_PID;
 
 import org.littletonrobotics.junction.Logger;
 
@@ -28,6 +29,7 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 
 	private PIDController downPivotController;
 	private ProfiledPIDController upPivotController;
+	private PIDController pivotController; 
 
 	private Angle pivotPosSetpoint;
 	private double wheelSpeedSetpoint;
@@ -45,11 +47,12 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 		pivotMotor.getEncoder().setPosition(0); // Zeroing the encoder
 		
 		downPivotController = new PIDController(DOWN_PIVOT_PID.kP, DOWN_PIVOT_PID.kI, DOWN_PIVOT_PID.kD);
+		pivotController = new PIDController(PIVOT_PID.kP, PIVOT_PID.kI, PIVOT_PID.kD); 
 		downPivotController.setTolerance(Units.degreesToRotations(1));
 		constraints = new Constraints(0.5, 1);
 		upPivotController = new ProfiledPIDController(UP_PIVOT_PID.kP, UP_PIVOT_PID.kI, UP_PIVOT_PID.kD, constraints);
 		beamBreak = new DigitalInput(DIO_PORT);
-
+		
 		there = true; 
 	}
 
@@ -60,40 +63,46 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 		inputs.wheelSpeed = (wheelsMotor.getEncoder().getVelocity()) / 60;
 		inputs.wheelSpeedSetpoint = wheelSpeedSetpoint;
 
-		Logger.recordOutput("Pivot Position (Deg)", inputs.pivotPosition * 360);
+		Logger.recordOutput("Pivot Position (Deg)", inputs.pivotPosition / 360);
 		Logger.recordOutput("Motors Zeroed", motorZeroed);
 		Logger.recordOutput("Beam Break Value", beamBreak.get());
+		Logger.recordOutput("Wheels Current", wheelsMotor.getOutputCurrent());
+		Logger.recordOutput("Pivot Current", pivotMotor.getOutputCurrent()); 
 		
 		if (DriverStation.isTest()) {
 			SmartDashboard.putData(SUBSYSTEM_NAME + "/Pivot up PID", upPivotController);
 			SmartDashboard.putData(SUBSYSTEM_NAME + "/Pivot down PID", downPivotController);
-			Logger.recordOutput("Wheels Current", wheelsMotor.getOutputCurrent());
-			Logger.recordOutput("Pivot Current", pivotMotor.getOutputCurrent());
-
 		}
-		System.out.println(there);
 	}
 
 	@Override
 	public void setPivotSetpoint(Angle pivotSetpoint) {
 		this.pivotPosSetpoint = pivotSetpoint;
-		if (this.pivotPosSetpoint.magnitude() == IDLE_ANGLE.magnitude()) {
+
+		//Why did we return to these smh
+		if (this.pivotPosSetpoint.in(Degree) == IDLE_ANGLE.in(Degree)) {
 			if (there) {
-				pivotMotor.set(0.065);
+				pivotMotor.set(0.08);
 			} else {
-				pivotMotor.set(0.17);
+				pivotMotor.set(0.18);
 			}
-		} else if (this.pivotPosSetpoint.magnitude() == ALGAE_IN_ANGLE.magnitude()) {
+		} else if (this.pivotPosSetpoint.in(Degree) == ALGAE_IN_ANGLE.in(Degree)) {
 			if (there) {
-				pivotMotor.set(-0.06);
+				pivotMotor.set(-0.1);
 			} else {
-				pivotMotor.set(-0.15);
+				pivotMotor.set(-0.4);
 			}
-		} else {
+		} else if (this.pivotPosSetpoint.in(Degree) == ALGAE_OUT_ANGLE.in(Degree)) {
 			if (there) {
 				pivotMotor.set(0.1);
 			} else {
 				pivotMotor.set(0.2);
+			} 
+		} else if (this.pivotPosSetpoint.in(Degree) == CORAL_BLOCK_ANGLE.in(Degree)) {
+			if(there) {
+				pivotMotor.set(-0.04);
+			} else {
+				pivotMotor.set(-0.18); 
 			}
 		}
 	}
@@ -106,7 +115,7 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 
 	@Override
 	public boolean nearTarget() {
-		if (debounce.calculate(pivotMotor.getOutputCurrent() >= 11.2)) {
+		if (debounce.calculate(pivotMotor.getOutputCurrent() >= 11.5)) {
 			return true;
 		}
 		return false;
