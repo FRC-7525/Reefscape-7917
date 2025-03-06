@@ -35,12 +35,16 @@ public class AutoCommands {
 
         @Override
         public void execute() {
-            drive.drive(); 
+            if (timer.get() <= 1){
+                drive.drive(); 
+            } else {
+                Manager.getInstance().setState(ManagerStates.CORAL_OUT);
+            }
         }
 
         @Override
         public boolean isFinished() {
-            return timer.get() >= 1; 
+            return timer.get() >= 10; 
         }
         
     }

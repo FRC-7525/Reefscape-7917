@@ -41,7 +41,7 @@ public final class DriveConstants {
 	public static final Distance Y_TOLERANCE = Meters.of(0.1);
 
 	//Velocity
-	public static final ChassisSpeeds DRIVE_CHASSIS_SPEED = new ChassisSpeeds(1, 0, 0); 
+	public static final ChassisSpeeds DRIVE_CHASSIS_SPEED = new ChassisSpeeds(1.75, 0, 0); 
 
 	//Speed
 	public static final LinearVelocity MAX_SPEED = MetersPerSecond.of(4.6);
