@@ -58,7 +58,7 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 	public void setPivotSetpoint(Angle pivotSetpoint) {
 		this.pivotPosSetpoint = pivotSetpoint;
 
-		//Why did we return to these smh
+		//Why did we return to these smh (leave the magic numbers shhh)
 		if (this.pivotPosSetpoint.in(Degree) == IDLE_ANGLE.in(Degree)) {
 			if (there) {
 				pivotMotor.set(0.08);

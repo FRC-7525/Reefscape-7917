@@ -46,7 +46,6 @@ public class Manager extends Subsystem<ManagerStates> {
 		addTrigger(ALGAE_IN, IDLE, DRIVER_CONTROLLER::getXButtonPressed);
 		
 		//Auto hold algae
-		addTrigger(ALGAE_IN, HOLDING, () -> robotHasAlgae()); 
 
 
 		//Zero Motors auto and manually

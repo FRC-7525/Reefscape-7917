@@ -37,7 +37,7 @@ public class AutoCommands {
         @Override
         public void execute() {
             if (timer.get() <= 4){
-                drive.driveForward();
+                drive.sidewaysToRightFace();
             } else {
                 Manager.getInstance().setState(ManagerStates.CORAL_OUT);
             }
@@ -64,7 +64,7 @@ public class AutoCommands {
 
         @Override
         public void execute() {
-            if (timer.get() <= 2){
+            if (timer.get() <= 2.5){
                 drive.driveForward(); 
             } else {
                 Manager.getInstance().setState(ManagerStates.CORAL_OUT);

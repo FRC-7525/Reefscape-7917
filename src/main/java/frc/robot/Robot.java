@@ -13,7 +13,9 @@ import org.team7525.misc.CommandsUtil;
 import com.pathplanner.lib.commands.FollowPathCommand;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.net.WebServer;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.AutoManager.AutoManager;
 import frc.robot.Manager.Manager;
@@ -44,8 +46,8 @@ public class Robot extends LoggedRobot {
 				break;
 		}
 
-		manager = Manager.getInstance();
 		drive = Drive.getInstance(); 
+		manager = Manager.getInstance();
 		autoManager = new AutoManager(); 
 
 		Logger.start();

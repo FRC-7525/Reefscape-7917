@@ -1,9 +1,6 @@
 package frc.robot.Subsystems.Drive;
 
-import static edu.wpi.first.units.Units.Meters;
-import static edu.wpi.first.units.Units.MetersPerSecond;
-import static edu.wpi.first.units.Units.Radians;
-import static edu.wpi.first.units.Units.RotationsPerSecond;
+import static edu.wpi.first.units.Units.*; 
 
 import java.util.Arrays;
 import java.util.List;
@@ -42,8 +39,9 @@ public final class DriveConstants {
 	public static final Distance Y_TOLERANCE = Meters.of(0.1);
 
 	//Velocity
+	public static final AngularVelocity W_AUTO_ANGLE = DegreesPerSecond.of(-6); //used to be -10.3
 	public static final ChassisSpeeds DRIVE_FORWARD_CHASSIS_SPEED = new ChassisSpeeds(0, -0.875, 0); 
-	public static final ChassisSpeeds SIDEWAYS_TO_RIGHT_CHASSIS_SPEED = new ChassisSpeeds(0, -0.875,0 );
+	public static final ChassisSpeeds SIDEWAYS_TO_RIGHT_CHASSIS_SPEED = new ChassisSpeeds(0,-0.875, 0);
 
 	//Speed
 	public static final LinearVelocity MAX_SPEED = MetersPerSecond.of(4.6);
