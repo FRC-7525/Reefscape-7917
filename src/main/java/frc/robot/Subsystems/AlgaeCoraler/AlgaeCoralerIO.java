@@ -35,5 +35,7 @@ public interface AlgaeCoralerIO  {
 	public boolean motorZeroed(); 
 
 	public void resetMotorsZeroed(); 
+
+	public void setThere(boolean there);
 	
 }

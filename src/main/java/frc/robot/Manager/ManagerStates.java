@@ -16,6 +16,11 @@ public enum ManagerStates implements SubsystemStates {
 		AlgaeCoralerStates.CORALOUT,
 		ClimberStates.IN
 	),
+	CORAL_BLOCK (
+		"CORAL BLOCK", 
+		AlgaeCoralerStates.CORALBLOCK, 
+		ClimberStates.IN
+	),
 	ALGAE_IN(
 		"ALGAE IN",
 		AlgaeCoralerStates.ALGAEIN,

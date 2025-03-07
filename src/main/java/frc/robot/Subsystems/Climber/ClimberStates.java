@@ -9,7 +9,7 @@ import org.team7525.subsystem.SubsystemStates;
 
 public enum ClimberStates implements SubsystemStates {
 	IN("IDLE", IN_POSITION),
-	OUT("OFF", OUT_POSITION);
+	OUT("OUT", OUT_POSITION);
 
 	private String stateString;
 	private Angle position;

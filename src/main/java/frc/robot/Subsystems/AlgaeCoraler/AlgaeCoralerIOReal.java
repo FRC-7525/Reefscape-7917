@@ -2,20 +2,16 @@ package frc.robot.Subsystems.AlgaeCoraler;
 
 import static edu.wpi.first.units.Units.*;
 import static frc.robot.Subsystems.AlgaeCoraler.AlgaeCoralerConstants.*;
-import static frc.robot.Subsystems.AlgaeCoraler.AlgaeCoralerConstants.Real.*;
 
 import org.littletonrobotics.junction.Logger;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 // TODO: Implement Current sensing for detection of algae
 
@@ -24,29 +20,23 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 	private SparkMax wheelsMotor;
 	private SparkMax pivotMotor;
 
-	private PIDController downPivotController;
-	private ProfiledPIDController upPivotController;
-
 	private Angle pivotPosSetpoint;
 	private double wheelSpeedSetpoint;
 	private DigitalInput beamBreak;
 	private boolean motorZeroed; 
-	private Constraints constraints; 
+	private Boolean there;
+	private Debouncer debounce; 
 	
 	public AlgaeCoralerIOReal() {
 		//Initiallize Things
 		wheelsMotor = new SparkMax(SPEED_MOTOR_CANID, MotorType.kBrushless);
 		pivotMotor = new SparkMax(PIVOT_MOTOR_CANID, MotorType.kBrushless);
+		beamBreak = new DigitalInput(DIO_PORT);
+		debounce = new Debouncer(0.25, DebounceType.kBoth);
 
 		pivotMotor.getEncoder().setPosition(0); // Zeroing the encoder
 		
-		downPivotController = new PIDController(DOWN_PIVOT_PID.kP, DOWN_PIVOT_PID.kI, DOWN_PIVOT_PID.kD);
-		downPivotController.setTolerance(Units.degreesToRotations(1));
-		constraints = new Constraints(0.5, 1);
-		upPivotController = new ProfiledPIDController(UP_PIVOT_PID.kP, UP_PIVOT_PID.kI, UP_PIVOT_PID.kD, constraints);
-		beamBreak = new DigitalInput(DIO_PORT);
-
-		motorZeroed = false; 
+		there = true; 
 	}
 
 	@Override
@@ -56,34 +46,43 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 		inputs.wheelSpeed = (wheelsMotor.getEncoder().getVelocity()) / 60;
 		inputs.wheelSpeedSetpoint = wheelSpeedSetpoint;
 
-		Logger.recordOutput("Pivot Position (Deg)", inputs.pivotPosition * 360);
+		Logger.recordOutput("Pivot Position (Deg)", inputs.pivotPosition / 360);
 		Logger.recordOutput("Motors Zeroed", motorZeroed);
+		Logger.recordOutput("Beam Break Value", beamBreak.get());
+		Logger.recordOutput("Wheels Current", wheelsMotor.getOutputCurrent());
+		Logger.recordOutput("Pivot Current", pivotMotor.getOutputCurrent()); 
 		
-		if (DriverStation.isTest()) {
-			SmartDashboard.putData(SUBSYSTEM_NAME + "/Pivot up PID", upPivotController);
-			SmartDashboard.putData(SUBSYSTEM_NAME + "/Pivot down PID", downPivotController);
-			Logger.recordOutput("Wheels Current", wheelsMotor.getOutputCurrent());
-			Logger.recordOutput("Pivot Current", pivotMotor.getOutputCurrent());
-
-		}
 	}
 
 	@Override
 	public void setPivotSetpoint(Angle pivotSetpoint) {
 		this.pivotPosSetpoint = pivotSetpoint;
-		if(pivotSetpoint.magnitude() > -30) {
-			double voltage = upPivotController.calculate(
-			pivotMotor.getEncoder().getPosition() / PIVOT_GEARING,
-			pivotSetpoint.in(Rotations)
-		);
-		pivotMotor.set(voltage);
-		}
-		else {
-			double voltage = downPivotController.calculate(
-			pivotMotor.getEncoder().getPosition() / PIVOT_GEARING,
-			pivotSetpoint.in(Rotations)
-		);
-		pivotMotor.set(voltage);
+
+		//Why did we return to these smh
+		if (this.pivotPosSetpoint.in(Degree) == IDLE_ANGLE.in(Degree)) {
+			if (there) {
+				pivotMotor.set(0.08);
+			} else {
+				pivotMotor.set(0.18);
+			}
+		} else if (this.pivotPosSetpoint.in(Degree) == ALGAE_IN_ANGLE.in(Degree)) {
+			if (there) {
+				pivotMotor.set(-0.1);
+			} else {
+				pivotMotor.set(-0.4);
+			}
+		} else if (this.pivotPosSetpoint.in(Degree) == ALGAE_OUT_ANGLE.in(Degree)) {
+			if (there) {
+				pivotMotor.set(0.1);
+			} else {
+				pivotMotor.set(0.2);
+			} 
+		} else if (this.pivotPosSetpoint.in(Degree) == CORAL_BLOCK_ANGLE.in(Degree)) {
+			if(there) {
+				pivotMotor.set(-0.04);
+			} else {
+				pivotMotor.set(-0.18); 
+			}
 		}
 	}
 
@@ -95,7 +94,10 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 
 	@Override
 	public boolean nearTarget() {
-		return upPivotController.atSetpoint() && downPivotController.atSetpoint();
+		if (debounce.calculate(pivotMotor.getOutputCurrent() >= 11.5)) {
+			return true;
+		}
+		return false;
 	}
 
 
@@ -130,5 +132,10 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 	@Override
 	public void resetMotorsZeroed() {
 		motorZeroed = false; 
+	}
+
+	@Override
+	public void setThere(boolean there) {
+		this.there = there;
 	}
 }
