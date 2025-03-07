@@ -17,8 +17,37 @@ public class AutoCommands {
 		}
 		return instance;
 	}
+
     public AutoCommands() {
         timer = new Timer(); 
+    }
+
+    public class SidewaysToRightFace extends Command {
+        private final Drive drive = Drive.getInstance(); 
+
+        public static SidewaysToRightFace sidewaysToRightFace () {
+			return AutoCommands.getInstance().new SidewaysToRightFace();
+        }
+
+        @Override
+        public void initialize() {
+            timer.restart();
+        }
+
+        @Override
+        public void execute() {
+            if (timer.get() <= 4){
+                drive.driveForward();
+            } else {
+                Manager.getInstance().setState(ManagerStates.CORAL_OUT);
+            }
+        }
+
+        @Override
+        public boolean isFinished() {
+            return timer.get() >= 10; 
+        }
+        
     }
 
     public class DriveForward extends Command {
@@ -35,8 +64,8 @@ public class AutoCommands {
 
         @Override
         public void execute() {
-            if (timer.get() <= 1){
-                drive.drive(); 
+            if (timer.get() <= 2){
+                drive.driveForward(); 
             } else {
                 Manager.getInstance().setState(ManagerStates.CORAL_OUT);
             }

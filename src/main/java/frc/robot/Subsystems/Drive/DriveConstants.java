@@ -31,9 +31,10 @@ public final class DriveConstants {
 	public static final PIDConstants X_PID = new PIDConstants(6, 0, 0);
 	public static final PIDConstants Y_PID = new PIDConstants(6, 0, 0); 
 
-	//PID Controllers
+
 	public static final PIDConstants PPH_TRANSLATION_PID = new PIDConstants(0, 0, 0); 	
 	public static final PIDConstants PPH_ROTATION_PID = new PIDConstants(0, 0, 0); 
+
 
 	//Tolerances
 	public static final Angle ROTATION_TOLERANCE = Radians.of(3);
@@ -41,12 +42,15 @@ public final class DriveConstants {
 	public static final Distance Y_TOLERANCE = Meters.of(0.1);
 
 	//Velocity
-	public static final ChassisSpeeds DRIVE_CHASSIS_SPEED = new ChassisSpeeds(1.75, 0, 0); 
+	public static final ChassisSpeeds DRIVE_FORWARD_CHASSIS_SPEED = new ChassisSpeeds(0, -0.875, 0); 
+	public static final ChassisSpeeds SIDEWAYS_TO_RIGHT_CHASSIS_SPEED = new ChassisSpeeds(0, -0.875,0 );
 
 	//Speed
 	public static final LinearVelocity MAX_SPEED = MetersPerSecond.of(4.6);
 	public static final LinearVelocity SLOW_SPEED = MetersPerSecond.of(MAX_SPEED.magnitude() * 0.2);
 	public static final AngularVelocity MAX_ANGULAR_VELOCITY = RotationsPerSecond.of(3); 
+	public static final AngularVelocity SLOW_ANGULAR_VELOCITY = RotationsPerSecond.of(MAX_ANGULAR_VELOCITY.magnitude() * 0.2);
+
 
 	public static final List<Pose2d> NEAREST_FEEDERS = Arrays.asList(
 		new Pose2d(new Translation2d(1.24, 7.1), Rotation2d.fromDegrees(125)),

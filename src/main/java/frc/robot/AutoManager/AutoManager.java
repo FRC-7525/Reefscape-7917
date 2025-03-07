@@ -20,6 +20,7 @@ public class AutoManager {
         NamedCommands.registerCommand("Score Algae", AutoCommands.ScoreAlgae.scoreAlgae());
         NamedCommands.registerCommand("Idle", AutoCommands.Idle.idle());
         NamedCommands.registerCommand("DRIVE !", AutoCommands.DriveForward.driveForward());
+        NamedCommands.registerCommand("Sideways to Right Face", AutoCommands.SidewaysToRightFace.sidewaysToRightFace());
         
         //Autochooser!
         autoChooser = new SendableChooser<>();
@@ -57,6 +58,7 @@ public class AutoManager {
         
         //Random rahh
         autoChooser.addOption("Simple Drive", NamedCommands.getCommand("DRIVE !"));
+        autoChooser.addOption("Sideways to Right Face", NamedCommands.getCommand("Sideways to Right Face"));
         
         SmartDashboard.putData("Auto Chooser", autoChooser);
     }

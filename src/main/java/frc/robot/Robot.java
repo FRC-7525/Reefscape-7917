@@ -12,6 +12,7 @@ import org.team7525.misc.CommandsUtil;
 
 import com.pathplanner.lib.commands.FollowPathCommand;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.AutoManager.AutoManager;
@@ -48,10 +49,10 @@ public class Robot extends LoggedRobot {
 		autoManager = new AutoManager(); 
 
 		Logger.start();
+		FollowPathCommand.warmupCommand().schedule(); 
 		CommandsUtil.logCommands();
 		DriverStation.silenceJoystickConnectionWarning(true);
-		CommandScheduler.getInstance().unregisterAllSubsystems();
-		FollowPathCommand.warmupCommand().schedule();
+		CameraServer.startAutomaticCapture();
 	}
 
 	@Override
@@ -68,12 +69,12 @@ public class Robot extends LoggedRobot {
 	}
 
 	@Override
-	public void autonomousPeriodic() {}
-
-	@Override
 	public void autonomousExit() {
 		CommandScheduler.getInstance().cancelAll();
 	}
+
+	@Override
+	public void autonomousPeriodic() {}
 
 	@Override
 	public void teleopInit() {}

@@ -4,6 +4,7 @@ import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static frc.robot.Subsystems.Drive.DriveConstants.*;
 
 import java.io.File;
+import java.lang.ModuleLayer.Controller;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -11,8 +12,10 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.GlobalConstants.Controllers;
 
+import org.littletonrobotics.junction.Logger;
 import org.team7525.subsystem.Subsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -36,11 +39,13 @@ public class Drive extends Subsystem<DriveStates> {
 		}
 		return instance;
 	}
+	private SlewRateLimiter Omegalimiter;
 
 	public Drive() {
 		super("Drive", DriveStates.MANUAL);
 		Xlimiter = new SlewRateLimiter(6);
 		Ylimiter = new SlewRateLimiter(6);
+		Omegalimiter = new SlewRateLimiter(Math.PI/6);
 		
 		SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
 
@@ -83,8 +88,8 @@ public class Drive extends Subsystem<DriveStates> {
    		);
 	}
 
-	public void drive() {
-		swerveDrive.drive(DRIVE_CHASSIS_SPEED); 
+	public void driveForward() {
+		swerveDrive.drive(DRIVE_FORWARD_CHASSIS_SPEED); 
 	} 
 
 
@@ -94,9 +99,11 @@ public class Drive extends Subsystem<DriveStates> {
 		// 	this::lockPose,
 		// 	Controllers.DRIVER_CONTROLLER::getLeftBumperButtonPressed
 		// );
+		addTrigger(DriveStates.MANUAL, DriveStates.SLOW, Controllers.DRIVER_CONTROLLER::getLeftBumperButtonPressed);
+		addTrigger(DriveStates.SLOW, DriveStates.MANUAL, Controllers.DRIVER_CONTROLLER::getLeftBumperButtonPressed); 
 		addRunnableTrigger(
 			this::zeroGyro,
-			Controllers.DRIVER_CONTROLLER::getRightBumperButtonPressed
+			Controllers.OPERATOR_CONTROLLER::getLeftBumperButtonPressed
 		);
 		// TODO: Remove zeroGyro. It is run on init of robot irl.
 	}
@@ -123,12 +130,25 @@ public class Drive extends Subsystem<DriveStates> {
 						Ylimiter.calculate(Controllers.DRIVER_CONTROLLER.getLeftY() * -1 * MAX_SPEED.magnitude())
 					),
 					Controllers.DRIVER_CONTROLLER.getRightX() * MAX_ANGULAR_VELOCITY.in(RadiansPerSecond) * -1,
-					true,
+					false,
 					false
 				);
 				break;
+			case SLOW: 
+				swerveDrive.drive(
+					new Translation2d(
+						Xlimiter.calculate(Controllers.DRIVER_CONTROLLER.getLeftX() * SLOW_SPEED.magnitude()),
+						Ylimiter.calculate(Controllers.DRIVER_CONTROLLER.getLeftY() * -1 * SLOW_SPEED.magnitude())
+					),
+					Controllers.DRIVER_CONTROLLER.getRightX() * MAX_ANGULAR_VELOCITY.in(RadiansPerSecond) * -1,
+					false,
+					false
+				);
+				break;
+
 		}
 
 		swerveDrive.updateOdometry();
+		SmartDashboard.putString("Drive State", getState().getStateString());
 	}
 }
