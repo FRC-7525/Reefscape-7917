@@ -4,8 +4,6 @@ import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static frc.robot.Subsystems.Drive.DriveConstants.*;
 
 import java.io.File;
-import java.lang.ModuleLayer.Controller;
-
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -15,7 +13,6 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.GlobalConstants.Controllers;
 
-import org.littletonrobotics.junction.Logger;
 import org.team7525.subsystem.Subsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -39,13 +36,11 @@ public class Drive extends Subsystem<DriveStates> {
 		}
 		return instance;
 	}
-	private SlewRateLimiter Omegalimiter;
 
 	public Drive() {
 		super("Drive", DriveStates.MANUAL);
 		Xlimiter = new SlewRateLimiter(6);
 		Ylimiter = new SlewRateLimiter(6);
-		Omegalimiter = new SlewRateLimiter(Math.PI/6);
 		
 		SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
 
@@ -92,6 +87,10 @@ public class Drive extends Subsystem<DriveStates> {
 		swerveDrive.drive(DRIVE_FORWARD_CHASSIS_SPEED); 
 	} 
 
+	public void sidewaysToRightFace() {
+		swerveDrive.drive(SIDEWAYS_TO_RIGHT_CHASSIS_SPEED); 
+	}
+
 
 	private void establishTriggers() {
 		// Add autoalign stuff here later
@@ -130,7 +129,7 @@ public class Drive extends Subsystem<DriveStates> {
 						Ylimiter.calculate(Controllers.DRIVER_CONTROLLER.getLeftY() * -1 * MAX_SPEED.magnitude())
 					),
 					Controllers.DRIVER_CONTROLLER.getRightX() * MAX_ANGULAR_VELOCITY.in(RadiansPerSecond) * -1,
-					false,
+					true,
 					false
 				);
 				break;
@@ -141,7 +140,7 @@ public class Drive extends Subsystem<DriveStates> {
 						Ylimiter.calculate(Controllers.DRIVER_CONTROLLER.getLeftY() * -1 * SLOW_SPEED.magnitude())
 					),
 					Controllers.DRIVER_CONTROLLER.getRightX() * MAX_ANGULAR_VELOCITY.in(RadiansPerSecond) * -1,
-					false,
+					true,
 					false
 				);
 				break;
