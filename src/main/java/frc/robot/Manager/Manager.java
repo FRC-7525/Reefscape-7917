@@ -27,6 +27,7 @@ public class Manager extends Subsystem<ManagerStates> {
 		climber = new Climber();
 		algaeCoraler = new AlgaeCoraler();
 		drive = new Drive();
+		
 
 		// // Scoring/intaking Coral
 		// addTrigger(IDLE, CORAL_OUT, DRIVER_CONTROLLER::getYButtonPressed);

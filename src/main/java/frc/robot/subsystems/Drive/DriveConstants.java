@@ -13,6 +13,7 @@ import com.pathplanner.lib.config.PIDConstants;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Distance;
@@ -44,13 +45,20 @@ public final class DriveConstants {
 		new Pose2d(new Translation2d(3, 4), Rotation2d.fromDegrees(0)),
 		new Pose2d(new Translation2d(3.85, 5.2), Rotation2d.fromDegrees(-60))
 	);
-	public static final List<Pose2d> NEAREST_PROCESSOR = Arrays.asList(
-		new Pose2d(new Translation2d(0,0), Rotation2d.fromDegrees(0))
-	);
+	public static final Pose2d[][] CAGES = {
+		{new Pose2d(new Translation2d(7.5, 7.25), Rotation2d.fromDegrees(0)), new Pose2d(new Translation2d(10, 7.25), Rotation2d.fromDegrees(-180))},
+		{new Pose2d(new Translation2d(7.5, 6.2), Rotation2d.fromDegrees(0)), new Pose2d(new Translation2d(10, 6.2), Rotation2d.fromDegrees(-180))},
+		{new Pose2d(new Translation2d(7.5, 5.1), Rotation2d.fromDegrees(0)), new Pose2d(new Translation2d(10, 5.1), Rotation2d.fromDegrees(-180))},
+		{new Pose2d(new Translation2d(7.5, 3), Rotation2d.fromDegrees(0)), new Pose2d(new Translation2d(10, 3), Rotation2d.fromDegrees(-180))},
+		{new Pose2d(new Translation2d(7.5, 1.9), Rotation2d.fromDegrees(0)), new Pose2d(new Translation2d(10, 1.9), Rotation2d.fromDegrees(-180))},
+		{new Pose2d(new Translation2d(7.5, 0.8), Rotation2d.fromDegrees(0)), new Pose2d(new Translation2d(10, 0.8), Rotation2d.fromDegrees(-180))}
+
+	};
 
 	
 	public static final LinearVelocity MAX_SPEED = MetersPerSecond.of(4.6);
 	public static final LinearVelocity SLOW_SPEED = MetersPerSecond.of(MAX_SPEED.magnitude() * 0.2);
 	public static final AngularVelocity MAX_ANGULAR_VELOCITY = RotationsPerSecond.of(3); 
+	public static final ChassisSpeeds ANTI_ALGAE = new ChassisSpeeds(0, -2, 0);
 }
  

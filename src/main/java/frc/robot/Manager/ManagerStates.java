@@ -30,11 +30,6 @@ public enum ManagerStates implements SubsystemStates {
 		"ALGAE OUT",
 		AlgaeCoralerStates.ALGAEOUT,
 		ClimberStates.IN
-	),
-	CLIMBING(
-		"CLIMBING",
-		AlgaeCoralerStates.IDLE,
-		ClimberStates.OUT
 	);
 
 	private String stateString;

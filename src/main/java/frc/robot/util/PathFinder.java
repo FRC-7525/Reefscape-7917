@@ -7,8 +7,11 @@ import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.simulation.SendableChooserSim;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.Subsystems.Drive.Drive;
 import frc.robot.Subsystems.Drive.DriveStates;
 import swervelib.SwerveDrive;
@@ -30,6 +33,10 @@ public class PathFinder {
 		return nearestPose;
 	}
 
+    public static Pose2d MirrorPose(Pose2d input) {
+        return new Pose2d((8.77 * 2) - input.getX(), input.getY(), new Rotation2d(-input.getRotation().getRadians()));
+    }
+
     public static double getDistance(Pose2d a, Pose2d b) {
         return (a.getTranslation().getDistance(b.getTranslation()));
     }
@@ -41,6 +48,14 @@ public class PathFinder {
 
 		return new ChassisSpeeds(xOutput, yOutput, rotationOutput);
 	}
+
+    public static Pose2d getAssignedCagePose(SendableChooser<Pose2d[]> cageChooser, Pose2d curentPose) {
+        if (getDistance(cageChooser.getSelected()[0], curentPose) > getDistance(cageChooser.getSelected()[1], curentPose)) {
+            return cageChooser.getSelected()[1];
+        } else {
+            return cageChooser.getSelected()[0];
+        }
+    }
 
     public static void BuildAutoBuilder(SwerveDrive swerveDrive, Drive drive) {
         // Auto Builder and Pathfinder setup:
@@ -78,4 +93,3 @@ public class PathFinder {
         );
     }
 }
-
