@@ -39,7 +39,7 @@ public class AutoCommands {
             if (timer.get() <= 4){
                 drive.sidewaysToRightFace();
             } else {
-                Manager.getInstance().setState(ManagerStates.CORAL_OUT);
+                Manager.getInstance().setState(ManagerStates.AUTO_OUT);
             }
         }
 
@@ -67,7 +67,7 @@ public class AutoCommands {
             if (timer.get() <= 2.5){
                 drive.driveForward(); 
             } else {
-                Manager.getInstance().setState(ManagerStates.CORAL_OUT);
+                Manager.getInstance().setState(ManagerStates.AUTO_OUT);
             }
         }
 

@@ -11,6 +11,7 @@ public enum AlgaeCoralerStates implements SubsystemStates {
 	HOLDING("HOLDING", HOLDING_SPEED, IDLE_ANGLE),
 	ALGAEOUT("ALGAEOUT", ALGAE_OUT_SPEED, IDLE_ANGLE), 
 	ZEROING("ZEROING", (double) 0, IDLE_ANGLE), 
+	AUTO_SHOOT("Auto Shoot", AUTO_SPEED ,IDLE_ANGLE),
 	CORALBLOCK("CORALBLOCK", (double) 0, CORAL_BLOCK_ANGLE);
 
 	private String stateString;

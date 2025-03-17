@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.GlobalConstants.Controllers;
 
+import org.littletonrobotics.junction.Logger;
 import org.team7525.subsystem.Subsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -81,6 +82,7 @@ public class Drive extends Subsystem<DriveStates> {
             },
             this // Reference to this subsystem to set requirements
    		);
+
 	}
 
 	public void driveForward() {
@@ -93,21 +95,31 @@ public class Drive extends Subsystem<DriveStates> {
 
 
 	private void establishTriggers() {
-		// Add autoalign stuff here later
-		// addRunnableTrigger(
-		// 	this::lockPose,
-		// 	Controllers.DRIVER_CONTROLLER::getLeftBumperButtonPressed
-		// );
-		addTrigger(DriveStates.MANUAL, DriveStates.SLOW, Controllers.DRIVER_CONTROLLER::getLeftBumperButtonPressed);
-		addTrigger(DriveStates.SLOW, DriveStates.MANUAL, Controllers.DRIVER_CONTROLLER::getLeftBumperButtonPressed); 
+		addTrigger(
+			DriveStates.MANUAL, 
+			DriveStates.SLOW, 
+			Controllers.DRIVER_CONTROLLER::getLeftBumperButtonPressed
+		);
+		addTrigger(
+			DriveStates.SLOW, 
+			DriveStates.MANUAL, 
+			Controllers.DRIVER_CONTROLLER::getLeftBumperButtonPressed
+		); 
+		
 		addRunnableTrigger(
 			this::zeroGyro,
-			Controllers.OPERATOR_CONTROLLER::getLeftBumperButtonPressed
+			Controllers.DRIVER_CONTROLLER::getRightBumperButtonPressed
 		);
-		// TODO: Remove zeroGyro. It is run on init of robot irl.
+
+		addRunnableTrigger(
+			this::lockPose, 
+			Controllers.DRIVER_CONTROLLER::getAButton
+		);
 	}
 	public void zeroGyro() {
-		swerveDrive.zeroGyro();
+		// swerveDrive.zeroGyro();	
+		swerveDrive.resetOdometry(new Pose2d());
+
 	}
 
 	private void lockPose() {
@@ -148,6 +160,6 @@ public class Drive extends Subsystem<DriveStates> {
 		}
 
 		swerveDrive.updateOdometry();
-		SmartDashboard.putString("Drive State", getState().getStateString());
+		Logger.recordOutput("Drive State", getState().getStateString());
 	}
 }

@@ -40,9 +40,9 @@ public class ClimberIOReal implements ClimberIO {
 	@Override
 	public void setClimberSetpoint(Angle setpoint) {
 		this.setpoint = setpoint;
-		if (Math.abs(GlobalConstants.Controllers.OPERATOR_CONTROLLER.getLeftTriggerAxis()) > 0.5) {
+		if (Math.abs(GlobalConstants.Controllers.OPERATOR_CONTROLLER.getLeftTriggerAxis()) > 0.5 || Math.abs(GlobalConstants.Controllers.DRIVER_CONTROLLER.getLeftTriggerAxis()) > 0.5) {
 			motor.set(0.7);
-		} else if (Math.abs(GlobalConstants.Controllers.OPERATOR_CONTROLLER.getRightTriggerAxis()) > 0.5){
+		} else if (Math.abs(GlobalConstants.Controllers.OPERATOR_CONTROLLER.getRightTriggerAxis()) > 0.5 || Math.abs(GlobalConstants.Controllers.DRIVER_CONTROLLER.getRightTriggerAxis()) > 0.5){
 			motor.set(-0.7); 
 		} else {
 			motor.set(0);

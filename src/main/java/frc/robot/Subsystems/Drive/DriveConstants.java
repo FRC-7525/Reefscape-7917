@@ -41,7 +41,8 @@ public final class DriveConstants {
 	//Velocity
 	public static final AngularVelocity W_AUTO_ANGLE = DegreesPerSecond.of(-6); //used to be -10.3
 	public static final ChassisSpeeds DRIVE_FORWARD_CHASSIS_SPEED = new ChassisSpeeds(0, -0.875, 0); 
-	public static final ChassisSpeeds SIDEWAYS_TO_RIGHT_CHASSIS_SPEED = new ChassisSpeeds(0,-0.875, 0);
+	public static final ChassisSpeeds SIDEWAYS_TO_RIGHT_CHASSIS_SPEED = new ChassisSpeeds(-0.875, 0, 0);
+	public static final ChassisSpeeds SIDEWAYS_CHASSIS_SPEEDS = new ChassisSpeeds(); 
 
 	//Speed
 	public static final LinearVelocity MAX_SPEED = MetersPerSecond.of(4.6);

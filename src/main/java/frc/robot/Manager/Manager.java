@@ -10,11 +10,13 @@ import org.team7525.subsystem.Subsystem;
 import frc.robot.GlobalConstants.Controllers;
 import frc.robot.Subsystems.AlgaeCoraler.AlgaeCoraler;
 import frc.robot.Subsystems.Climber.Climber;
+import frc.robot.Subsystems.Drive.Drive;
 
 public class Manager extends Subsystem<ManagerStates> {
 
 	private Climber climber;
 	private AlgaeCoraler algaeCoraler;
+	private Drive drive;
 	private static Manager instance; 
 
 	public static Manager getInstance() {
@@ -29,6 +31,7 @@ public class Manager extends Subsystem<ManagerStates> {
 
 		climber = new Climber();
 		algaeCoraler = new AlgaeCoraler();
+		drive = Drive.getInstance(); 
 
 		// Scoring/intaking Coral
 		addTrigger(IDLE, CORAL_OUT, () -> robotHasCoral() && DRIVER_CONTROLLER.getYButtonPressed());
@@ -39,11 +42,11 @@ public class Manager extends Subsystem<ManagerStates> {
 		// addTrigger(CORAL_OUT, CORAL_BLOCK, DRIVER_CONTROLLER::getYButtonPressed);
 		// addTrigger(CORAL_BLOCK, IDLE, DRIVER_CONTROLLER::getYButtonPressed);
 		
-		// Scoring/intaking Algae
-		addTrigger(IDLE, ALGAE_IN, DRIVER_CONTROLLER::getBButtonPressed);
-		addTrigger(ALGAE_IN, HOLDING, DRIVER_CONTROLLER::getBButtonPressed);
-		addTrigger(HOLDING, ALGAE_OUT, DRIVER_CONTROLLER::getBButtonPressed);
-		addTrigger(ALGAE_IN, IDLE, DRIVER_CONTROLLER::getXButtonPressed);
+		// // Scoring/intaking Algae
+		// addTrigger(IDLE, ALGAE_IN, DRIVER_CONTROLLER::getBButtonPressed);
+		// addTrigger(ALGAE_IN, HOLDING, DRIVER_CONTROLLER::getBButtonPressed);
+		// addTrigger(HOLDING, ALGAE_OUT, DRIVER_CONTROLLER::getBButtonPressed);
+		// addTrigger(ALGAE_IN, IDLE, DRIVER_CONTROLLER::getXButtonPressed);
 		
 		//Auto hold algae
 
