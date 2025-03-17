@@ -4,17 +4,24 @@ import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static frc.robot.Subsystems.Drive.DriveConstants.*;
 
 import java.io.File;
+
+import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.GlobalConstants;
 import frc.robot.GlobalConstants.Controllers;
+import frc.robot.GlobalConstants.RobotMode;
 
 import org.team7525.subsystem.Subsystem;
 
+import com.ctre.phoenix6.Utils;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
@@ -149,5 +156,17 @@ public class Drive extends Subsystem<DriveStates> {
 
 		swerveDrive.updateOdometry();
 		SmartDashboard.putString("Drive State", getState().getStateString());
+	}
+
+	public void addVisionMeasurement(Pose2d visionPose, double timestamp, Matrix<N3, N1> visionMeasurementStdDevs) {
+		if (GlobalConstants.ROBOT_MODE == RobotMode.REAL) {
+			swerveDrive.addVisionMeasurement(visionPose, Utils.fpgaToCurrentTime(timestamp), visionMeasurementStdDevs);
+		} else {
+			swerveDrive.addVisionMeasurement(visionPose, timestamp, visionMeasurementStdDevs);
+		}
+	}
+
+	public Pose2d getPose() {
+		return swerveDrive.getPose();
 	}
 }
