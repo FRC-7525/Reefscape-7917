@@ -11,27 +11,25 @@ import org.team7525.misc.VisionUtil.CameraResolution;
 
 public class VisionConstants {
 
-	
-
 	// Front 
-	public static final String FRONT_CAM_NAME = "Front Camera";
-	public static final Translation3d ROBOT_TO_FRONT_CAMERA_TRANSLATION = new Translation3d(Units.inchesToMeters(11.697), Units.inchesToMeters(-11.81), Units.inchesToMeters(8.859));
-	public static final Rotation3d ROBOT_TO_FRONT_CAMERA_ROTATION = new Rotation3d(0, Math.toRadians(-10), Math.toRadians(0));
-	public static final Transform3d ROBOT_TO_FRONT_CAMERA = new Transform3d(ROBOT_TO_FRONT_CAMERA_TRANSLATION, ROBOT_TO_FRONT_CAMERA_ROTATION);
+	public static final String FRONT_LEFT_CAM_NAME = "Front Left Camera";
+	public static final Translation3d ROBOT_TO_FRONT_LEFT_CAMERA_TRANSLATION = new Translation3d(Units.inchesToMeters(-11.113), Units.inchesToMeters(13.746), Units.inchesToMeters(9.75));
+	public static final Rotation3d ROBOT_TO_FRONT_LEFT_CAMERA_ROTATION = new Rotation3d(0, Math.toRadians(10), Math.toRadians(90));
+	public static final Transform3d ROBOT_TO_FRONT_LEFT_CAMERA = new Transform3d(ROBOT_TO_FRONT_LEFT_CAMERA_TRANSLATION, ROBOT_TO_FRONT_LEFT_CAMERA_ROTATION);
 
 	//Back 
-	public static final String BACK_CAM_NAME = "Back Camera";
-	public static final Translation3d ROBOT_TO_BACK_CAMERA_TRALSLATION = new Translation3d(Units.inchesToMeters(-11.697), Units.inchesToMeters(11.81), Units.inchesToMeters(8.859));
-	public static final Rotation3d ROBOT_TO_BACK_CAMERA_ROTATION = new Rotation3d(0, Math.toRadians(-10), Math.toRadians(180));
-	public static final Transform3d ROBOT_TO_BACK_CAMERA = new Transform3d(ROBOT_TO_BACK_CAMERA_TRALSLATION, ROBOT_TO_BACK_CAMERA_ROTATION);
+	public static final String FRONT_RIGHT_CAM_NAME = "Front Right Camera";
+	public static final Translation3d ROBOT_TO_FRONT_RIGHT_CAMERA_TRANSLATION = new Translation3d(Units.inchesToMeters(11.113), Units.inchesToMeters(113.746), Units.inchesToMeters(9.75));
+	public static final Rotation3d ROBOT_TO_FRONT_RIGHT_CAMERA_ROTATION = new Rotation3d(0, Math.toRadians(10), Math.toRadians(270));
+	public static final Transform3d ROBOT_TO_FRONT_RIGHT_CAMERA = new Transform3d(ROBOT_TO_FRONT_RIGHT_CAMERA_TRANSLATION, ROBOT_TO_FRONT_RIGHT_CAMERA_ROTATION);
 
 	
 	public static final double CAMERA_DEBOUNCE_TIME = 0.5;
 
 	// TODO: What camera resolutions actually are these? Assuming they're high bc
 	// 1080p is high
-	public static final CameraResolution BACK_RESOLUTION = CameraResolution.HIGH_RES;
-	public static final CameraResolution FRONT_RESOLUTION = CameraResolution.HIGH_RES;
+	public static final CameraResolution FRONT_RIGHT_CAMERA_RESOLUTION = CameraResolution.HIGH_RES;
+	public static final CameraResolution FRONT_LEFT_CAMERA_RESOLUTION = CameraResolution.HIGH_RES;
 
 	// Other
 	// INSANE skill issue from First
