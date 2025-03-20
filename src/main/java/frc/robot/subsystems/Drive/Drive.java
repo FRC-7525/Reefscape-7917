@@ -143,7 +143,7 @@ public class Drive extends Subsystem<DriveStates> {
 		else {
 			target = PathFinder.getNearestTargetPose(state, swerveDrive.getPose());
 			if (DriverStation.getAlliance().get() == DriverStation.Alliance.Red) {
-				target = PathFinder.MirrorPose(target);
+				target = PathFinder.MirrorPoseNear(state, swerveDrive.getPose());
 			}
 		}
 		swerveInputs.driveToPoseEnabled(true);
@@ -182,8 +182,16 @@ public class Drive extends Subsystem<DriveStates> {
 				swerveDrive.driveFieldOriented(swerveInputs.get());
 				break;
 		}
-		field.getObject("Reef Target").setPose(PathFinder.getNearestTargetPose(DriveStates.AUTO_ALIGNING_REEF, swerveDrive.getPose()));
-		field.getObject("Feeder Target").setPose(PathFinder.getNearestTargetPose(DriveStates.AUTO_ALIGNING_FEEDER, swerveDrive.getPose()));
+		if (!DriverStation.getAlliance().isEmpty()) {
+			if (DriverStation.getAlliance().get() == DriverStation.Alliance.Red) {
+				field.getObject("Reef Target").setPose(PathFinder.MirrorPoseNear(DriveStates.AUTO_ALIGNING_REEF, swerveDrive.getPose()));
+				field.getObject("Feeder Target").setPose(PathFinder.MirrorPoseNear(DriveStates.AUTO_ALIGNING_FEEDER, swerveDrive.getPose()));
+			}
+			else {
+				field.getObject("Reef Target").setPose(PathFinder.getNearestTargetPose(DriveStates.AUTO_ALIGNING_REEF, swerveDrive.getPose()));
+				field.getObject("Feeder Target").setPose(PathFinder.getNearestTargetPose(DriveStates.AUTO_ALIGNING_FEEDER, swerveDrive.getPose()));
+			}
+		}
 		//field.getObject("Processor Target").setPose(PathFinder.getNearestTargetPose(DriveStates.AUTO_ALIGNING_CAGES, swerveDrive.getPose()));
 		SmartDashboard.putData("Field", field);
 		SmartDashboard.putString("DRIVE_STATE", getState().getStateString());

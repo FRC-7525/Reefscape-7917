@@ -33,6 +33,22 @@ public class PathFinder {
 		return nearestPose;
 	}
 
+    public static Pose2d MirrorPoseNear(DriveStates state, Pose2d currentPose) {
+        Pose2d nearestPose = null;
+		double nearestDistance = Double.MAX_VALUE;
+        Pose2d workingPose;
+
+		for (Pose2d pose : state.getTargetPoses()) {
+            workingPose = MirrorPose(pose);
+			double distance = getDistance(currentPose, workingPose);
+			if (distance < nearestDistance) {
+				nearestPose = workingPose;
+				nearestDistance = distance;
+			}
+		}
+		return nearestPose;
+    }
+
     public static Pose2d MirrorPose(Pose2d input) {
         return new Pose2d((8.77 * 2) - input.getX(), input.getY(), new Rotation2d(-input.getRotation().getRadians()));
     }
