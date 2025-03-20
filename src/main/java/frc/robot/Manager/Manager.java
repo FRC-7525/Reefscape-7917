@@ -68,6 +68,7 @@ public class Manager extends Subsystem<ManagerStates> {
 
 		climber.setState(getState().getClimber());
 		algaeCoraler.setState(getState().getAlgaeCoraler());
+		drive.periodic();
 
 		climber.periodic();
 		algaeCoraler.periodic();

@@ -11,22 +11,21 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 import org.team7525.misc.CommandsUtil;
 
 import com.pathplanner.lib.commands.FollowPathCommand;
+import com.pathplanner.lib.commands.PathfindingCommand;
 
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.net.WebServer;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.AutoManager.AutoManager;
 import frc.robot.Manager.Manager;
 import frc.robot.Subsystems.Drive.Drive;
 import frc.robot.Subsystems.Vision.Vision;
+import frc.robot.Utilitys.Utilitys;
 
 public class Robot extends LoggedRobot {
 
 	private Manager manager;
 	private AutoManager autoManager; 
-	private Drive drive; 
 	private Vision vision; 
 
 	public Robot() {}
@@ -47,13 +46,13 @@ public class Robot extends LoggedRobot {
 				Logger.addDataReceiver(new NT4Publisher());
 				break;
 		}
-
-		drive = Drive.getInstance(); 
+ 
 		manager = Manager.getInstance();
 		autoManager = new AutoManager(); 
 		vision = Vision.getInstance();  
 
 		Logger.start();
+		PathfindingCommand.warmupCommand();
 		FollowPathCommand.warmupCommand().schedule(); 
 		CommandsUtil.logCommands();
 		DriverStation.silenceJoystickConnectionWarning(true);
@@ -62,7 +61,6 @@ public class Robot extends LoggedRobot {
 
 	@Override
 	public void robotPeriodic() {
-		drive.periodic();
 		manager.periodic();
 		vision.periodic();
 		CommandScheduler.getInstance().run();

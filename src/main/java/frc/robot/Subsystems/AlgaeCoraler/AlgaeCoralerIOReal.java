@@ -108,20 +108,11 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 
 	@Override
 	public boolean hasAlgae() {
-		return (wheelsMotor.getOutputCurrent() <= ALGAE_CURRENT_LIMIT.in(Amp)); // TODO: Set actuall value by usng smartdasboard graph and looking a values. Ensure you log it.
+		return (wheelsMotor.getOutputCurrent() <= ALGAE_CURRENT_LIMIT.in(Amp));
 	}
 
 	@Override
 	public void zero() {
-	    double zeroingSpeed = ZEROING_SPEED;  
-        if (pivotMotor.getOutputCurrent() > ZEROING_CURRENT_LIMIT.in(Amps)) {
-            zeroingSpeed = 0; 
-            if (!motorZeroed){
-                pivotMotor.getEncoder().setPosition(0); 
-                motorZeroed = true; 
-            }
-        }
-        pivotMotor.set(zeroingSpeed); 
 	}
 
 	@Override

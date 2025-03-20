@@ -132,15 +132,6 @@ public class AlgaeCoralerIOSim implements AlgaeCoralerIO {
 
 	@Override
 	public void zero() {
-		double zeroingSpeed = -ZEROING_SPEED;  
-        if (pivotSparkSim.getMotorCurrent() > ZEROING_CURRENT_LIMIT.in(Amps)) {
-            zeroingSpeed = 0; 
-            if (!motorZeroed){
-                pivotSparkSim.setPosition(0); 
-                motorZeroed = true; 
-            }
-        }
-        pivotSparkSim.setVelocity(zeroingSpeed);
 	}
 
 	@Override
