@@ -20,12 +20,14 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.AutoManager.AutoManager;
 import frc.robot.Manager.Manager;
 import frc.robot.Subsystems.Drive.Drive;
+import frc.robot.Subsystems.Vision.Vision;
 
 public class Robot extends LoggedRobot {
 
 	private Manager manager;
 	private AutoManager autoManager; 
 	private Drive drive; 
+	private Vision vision; 
 
 	public Robot() {}
 
@@ -49,6 +51,7 @@ public class Robot extends LoggedRobot {
 		drive = Drive.getInstance(); 
 		manager = Manager.getInstance();
 		autoManager = new AutoManager(); 
+		vision = Vision.getInstance();  
 
 		Logger.start();
 		FollowPathCommand.warmupCommand().schedule(); 
@@ -61,6 +64,7 @@ public class Robot extends LoggedRobot {
 	public void robotPeriodic() {
 		drive.periodic();
 		manager.periodic();
+		vision.periodic();
 		CommandScheduler.getInstance().run();
 		Utilitys.controllers.clearCache();
 	}
@@ -89,7 +93,9 @@ public class Robot extends LoggedRobot {
 	public void disabledInit() {}
 
 	@Override
-	public void disabledPeriodic() {}
+	public void disabledPeriodic() {
+		vision.periodic();
+	}
 
 	@Override
 	public void testInit() {}

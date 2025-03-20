@@ -172,7 +172,7 @@ public class Drive extends Subsystem<DriveStates> {
 
 	public void addVisionMeasurement(Pose2d visionPose, double timestamp, Matrix<N3, N1> visionMeasurementStdDevs) {
 		if (GlobalConstants.ROBOT_MODE == RobotMode.REAL) {
-			swerveDrive.addVisionMeasurement(visionPose, Utils.fpgaToCurrentTime(timestamp), visionMeasurementStdDevs);
+			swerveDrive.addVisionMeasurement(visionPose, timestamp, visionMeasurementStdDevs);
 		} else {
 			swerveDrive.addVisionMeasurement(visionPose, timestamp, visionMeasurementStdDevs);
 		}
