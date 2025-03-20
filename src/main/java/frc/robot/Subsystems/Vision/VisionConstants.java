@@ -26,7 +26,6 @@ public class VisionConstants {
 	
 	public static final double CAMERA_DEBOUNCE_TIME = 0.5;
 
-	// TODO: What camera resolutions actually are these? Assuming they're high bc
 	// 1080p is high
 	public static final CameraResolution FRONT_RIGHT_CAMERA_RESOLUTION = CameraResolution.HIGH_RES;
 	public static final CameraResolution FRONT_LEFT_CAMERA_RESOLUTION = CameraResolution.HIGH_RES;
@@ -36,7 +35,7 @@ public class VisionConstants {
 	// This is comp dependent
 	public static final boolean USE_WELDED_FIELD = false;
 
-	public static final AprilTagFieldLayout APRIL_TAG_FIELD_LAYOUT = AprilTagFieldLayout.loadField(USE_WELDED_FIELD ? AprilTagFields.k2025Reefscape : AprilTagFields.k2025Reefscape);
+	public static final AprilTagFieldLayout APRIL_TAG_FIELD_LAYOUT = AprilTagFieldLayout.loadField(USE_WELDED_FIELD ? AprilTagFields.k2025ReefscapeWelded : AprilTagFields.k2025ReefscapeAndyMark);
 
 	public static final int CAMERA_WIDTH = 1200;
 	public static final int CAMERA_HEIGHT = 800;
