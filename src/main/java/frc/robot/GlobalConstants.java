@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
 
 public final class GlobalConstants {
@@ -12,11 +13,7 @@ public final class GlobalConstants {
 	}
 
 	public static final double SIMULATION_PERIOD = 0.02;
-
-	// TODO: Ensure correct mode is set for the robot!!
-	public static final RobotMode ROBOT_MODE = "Crash".equals(System.getenv("CI_NAME"))
-		? RobotMode.REAL
-		: RobotMode.SIM;
+	public static final RobotMode ROBOT_MODE = RobotBase.isReal() ? RobotMode.REAL : RobotMode.SIM;
 
 	public static final class Controllers {
 
