@@ -54,14 +54,6 @@ public final class DriveConstants {
 	};
 
 	public static SendableChooser<Pose2d[]> CAGE_CHOOSER = new SendableChooser<>();
-	static {
-		CAGE_CHOOSER.setDefaultOption("Blue Right", DriveStates.AUTO_ALIGNING_CAGES.getTargetPosesPairs()[0]);
-		CAGE_CHOOSER.addOption("Blue Center", DriveStates.AUTO_ALIGNING_CAGES.getTargetPosesPairs()[1]);
-		CAGE_CHOOSER.addOption("Blue Left", DriveStates.AUTO_ALIGNING_CAGES.getTargetPosesPairs()[2]);
-		CAGE_CHOOSER.addOption("Red Right", DriveStates.AUTO_ALIGNING_CAGES.getTargetPosesPairs()[3]);
-		CAGE_CHOOSER.addOption("Red Center", DriveStates.AUTO_ALIGNING_CAGES.getTargetPosesPairs()[4]);
-		CAGE_CHOOSER.addOption("Red Left", DriveStates.AUTO_ALIGNING_CAGES.getTargetPosesPairs()[5]);
-	}
 
 	// Bum AUTOS
 	public static final AngularVelocity W_AUTO_ANGLE = DegreesPerSecond.of(-6); //used to be -10.3

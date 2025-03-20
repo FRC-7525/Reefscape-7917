@@ -63,6 +63,7 @@ public class Drive extends Subsystem<DriveStates> {
 	public Drive() {
 		super("Drive", DriveStates.MANUAL);
 		SmartDashboard.putData("Cage Selector", CAGE_CHOOSER);
+		AssignCageChooser();
 
 		// Rate Limiters:
 		Xlimiter = new SlewRateLimiter(RATE_LIMIT);
@@ -88,7 +89,8 @@ public class Drive extends Subsystem<DriveStates> {
 		try {
 			File swerveJsonDirectory = new File(Filesystem.getDeployDirectory(), "swerve");
 			swerveDrive = new SwerveParser(swerveJsonDirectory).createSwerveDrive(
-				MAX_SPEED.magnitude()
+				MAX_SPEED.magnitude(),
+				new Pose2d(9.9, 4.0, Rotation2d.fromDegrees(0))
 			);
 		} catch (Exception e) {
 			throw new RuntimeException("Failed to create SwerveDrive", e);
@@ -233,6 +235,15 @@ public class Drive extends Subsystem<DriveStates> {
 
 	public void sidewaysToRightFace() {
 		swerveDrive.drive(SIDEWAYS_TO_RIGHT_CHASSIS_SPEED); 
+	}
+
+	public void AssignCageChooser() {
+		CAGE_CHOOSER.setDefaultOption("Blue Right", DriveStates.AUTO_ALIGNING_CAGES.getTargetPosesPairs()[0]);
+		CAGE_CHOOSER.addOption("Blue Center", DriveStates.AUTO_ALIGNING_CAGES.getTargetPosesPairs()[1]);
+		CAGE_CHOOSER.addOption("Blue Left", DriveStates.AUTO_ALIGNING_CAGES.getTargetPosesPairs()[2]);
+		CAGE_CHOOSER.addOption("Red Right", DriveStates.AUTO_ALIGNING_CAGES.getTargetPosesPairs()[3]);
+		CAGE_CHOOSER.addOption("Red Center", DriveStates.AUTO_ALIGNING_CAGES.getTargetPosesPairs()[4]);
+		CAGE_CHOOSER.addOption("Red Left", DriveStates.AUTO_ALIGNING_CAGES.getTargetPosesPairs()[5]);
 	}
 
 }

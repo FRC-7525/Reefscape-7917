@@ -145,6 +145,5 @@ public class AlgaeCoralerIOSim implements AlgaeCoralerIO {
 	}
 	@Override
 	public void setThere(boolean there) {
-		System.out.println("HMMMMMM");
 	}
 }
