@@ -24,14 +24,10 @@ public class Climber extends Subsystem<ClimberStates> {
 
 	@Override
 	public void runState() {
-		io.setClimberSetpoint(getState().getSetpoint());
+		io.setSpeed(getState().getSpeed());
 		io.updateInputs(inputs);
 
 		Logger.processInputs(SUBSYSTEM_NAME, inputs);
 		Logger.recordOutput(SUBSYSTEM_NAME + "/State", getState().getStateString());
-	}
-
-	public boolean nearSetpoint() {
-		return io.nearSetpoint();
 	}
 }

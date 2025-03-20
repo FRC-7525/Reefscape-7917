@@ -1,58 +1,26 @@
 package frc.robot.Subsystems.Climber;
 
-import static edu.wpi.first.units.Units.*;
-import static frc.robot.GlobalConstants.*;
 import static frc.robot.Subsystems.Climber.ClimberConstants.*;
-import static frc.robot.Subsystems.Climber.ClimberConstants.Real.*;
-
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
-
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.GlobalConstants;
-import frc.robot.GlobalConstants.RobotMode;
 
 public class ClimberIOReal implements ClimberIO {
 
 	private SparkMax motor;
-	private PIDController pidController;
-	private Angle setpoint;
 
 	public ClimberIOReal() {
-		motor = new SparkMax(CLIMBER_CANID, MotorType.kBrushless);
-		pidController = new PIDController(CLIMBER_CONTROLLER_PID.kP, CLIMBER_CONTROLLER_PID.kI, CLIMBER_CONTROLLER_PID.kP);
-		
+		motor = new SparkMax(CLIMBER_CANID, MotorType.kBrushless);		
 		motor.getEncoder().setPosition(0);
-
-		if (ROBOT_MODE == RobotMode.TESTING) {
-			SmartDashboard.putData(SUBSYSTEM_NAME + "/Position PID", pidController);
-		}
 	}
 
 	@Override
 	public void updateInputs(ClimberIOInputs inputs) {
-		inputs.climberPos = motor.getEncoder().getPosition() * 360 * GEAR_RATIO;
-		inputs.climberSetpoint = setpoint.in(Degree);
+		inputs.speed = motor.getEncoder().getVelocity() / 60;
 	}
 
 	@Override
-	public void setClimberSetpoint(Angle setpoint) {
-		this.setpoint = setpoint;
-		if (Math.abs(GlobalConstants.Controllers.OPERATOR_CONTROLLER.getLeftTriggerAxis()) > 0.5 || Math.abs(GlobalConstants.Controllers.DRIVER_CONTROLLER.getLeftTriggerAxis()) > 0.5) {
-			motor.set(0.7);
-		} else if (Math.abs(GlobalConstants.Controllers.OPERATOR_CONTROLLER.getRightTriggerAxis()) > 0.5 || Math.abs(GlobalConstants.Controllers.DRIVER_CONTROLLER.getRightTriggerAxis()) > 0.5){
-			motor.set(-0.7); 
-		} else {
-			motor.set(0);
-		}
-		
-	}
-
-	@Override
-	public boolean nearSetpoint() {
-		return (Math.abs((motor.getEncoder().getPosition() * 360 * GEAR_RATIO) - setpoint.in(Degrees)) < POSITION_TOLERANCE.in(Degrees));
+	public void setSpeed(double speed) {
+		motor.set(speed);
 	}
 
 }
