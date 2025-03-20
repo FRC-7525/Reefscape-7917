@@ -7,7 +7,7 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
-import org.team7525.misc.VisionUtil.CameraResolution;
+import org.team7525.misc.CameraResolution;
 
 public class VisionConstants {
 
@@ -19,16 +19,16 @@ public class VisionConstants {
 
 	//Back 
 	public static final String FRONT_RIGHT_CAM_NAME = "Front_Right_Camera";
-	public static final Translation3d ROBOT_TO_FRONT_RIGHT_CAMERA_TRANSLATION = new Translation3d(Units.inchesToMeters(11.113), Units.inchesToMeters(113.746), Units.inchesToMeters(9.75));
-	public static final Rotation3d ROBOT_TO_FRONT_RIGHT_CAMERA_ROTATION = new Rotation3d(0, Math.toRadians(10), Math.toRadians(270));
+	public static final Translation3d ROBOT_TO_FRONT_RIGHT_CAMERA_TRANSLATION = new Translation3d(Units.inchesToMeters(11.113), Units.inchesToMeters(13.746), Units.inchesToMeters(9.75));
+	public static final Rotation3d ROBOT_TO_FRONT_RIGHT_CAMERA_ROTATION = new Rotation3d(0, Math.toRadians(10), Math.toRadians(-90));
 	public static final Transform3d ROBOT_TO_FRONT_RIGHT_CAMERA = new Transform3d(ROBOT_TO_FRONT_RIGHT_CAMERA_TRANSLATION, ROBOT_TO_FRONT_RIGHT_CAMERA_ROTATION);
 
 	
 	public static final double CAMERA_DEBOUNCE_TIME = 0.5;
 
 	// 1080p is high
-	public static final CameraResolution FRONT_RIGHT_CAMERA_RESOLUTION = CameraResolution.HIGH_RES;
-	public static final CameraResolution FRONT_LEFT_CAMERA_RESOLUTION = CameraResolution.HIGH_RES;
+	public static final CameraResolution FRONT_RIGHT_CAMERA_RESOLUTION = CameraResolution.HIGH_RESOLUTION;
+	public static final CameraResolution FRONT_LEFT_CAMERA_RESOLUTION = CameraResolution.HIGH_RESOLUTION;
 
 	// Other
 	// INSANE skill issue from First

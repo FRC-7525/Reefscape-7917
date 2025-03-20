@@ -48,11 +48,11 @@ public class Robot extends LoggedRobot {
 		}
  
 		manager = Manager.getInstance();
-		autoManager = new AutoManager(); 
+		//autoManager = new AutoManager(); 
 		vision = Vision.getInstance();  
 
 		Logger.start();
-		PathfindingCommand.warmupCommand();
+		PathfindingCommand.warmupCommand().schedule();
 		FollowPathCommand.warmupCommand().schedule(); 
 		CommandsUtil.logCommands();
 		DriverStation.silenceJoystickConnectionWarning(true);
