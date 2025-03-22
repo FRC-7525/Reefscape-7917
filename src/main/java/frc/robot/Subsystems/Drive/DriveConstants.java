@@ -29,8 +29,8 @@ public final class DriveConstants {
 	public static final PIDConstants Y_PID = new PIDConstants(6, 0, 0); 
 
 
-	public static final PIDConstants PPH_TRANSLATION_PID = new PIDConstants(0.1, 0, 0); 	
-	public static final PIDConstants PPH_ROTATION_PID = new PIDConstants(0.1, 0, 0); 
+	public static final PIDConstants PPH_TRANSLATION_PID = new PIDConstants(1, 0, 0.1); 	
+	public static final PIDConstants PPH_ROTATION_PID = new PIDConstants(1, 0, 0.1); 
 
 
 	//Tolerances
