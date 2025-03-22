@@ -48,7 +48,7 @@ public class Robot extends LoggedRobot {
 		}
  
 		manager = Manager.getInstance();
-		//autoManager = new AutoManager(); 
+		autoManager = new AutoManager(); 
 		vision = Vision.getInstance();  
 
 		Logger.start();

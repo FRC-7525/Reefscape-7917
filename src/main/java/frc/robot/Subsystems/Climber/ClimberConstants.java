@@ -9,8 +9,8 @@ public final class ClimberConstants {
 
 	public static final int CLIMBER_CANID = 16;
 
-	public static final double IN_SPEED = 1;
-	public static final double OUT_SPEED = -1;
+	public static final double IN_SPEED = -0.2;
+	public static final double OUT_SPEED = 0.2;
 	// TODO: set values ^
 
 

@@ -107,9 +107,9 @@ public class Drive extends Subsystem<DriveStates> {
 
 	private void establishTriggers() {
 		// Auto Align Activate:
-		addRunnableTrigger( () -> { this.BeginAligning(DriveStates.AUTO_ALIGNING_REEF); }, () -> Controllers.DRIVER_CONTROLLER.getAButtonPressed() && getState() == DriveStates.MANUAL );
-		addRunnableTrigger( () -> { this.BeginAligning(DriveStates.AUTO_ALIGNING_FEEDER); }, () -> Controllers.DRIVER_CONTROLLER.getBButtonPressed() && getState() == DriveStates.MANUAL );
-		addRunnableTrigger( () -> { this.BeginAligning(DriveStates.AUTO_ALIGNING_CAGES); }, () -> Controllers.DRIVER_CONTROLLER.getYButtonPressed() && getState() == DriveStates.MANUAL );
+		addRunnableTrigger( () -> { this.BeginAligning(DriveStates.AUTO_ALIGNING_REEF); }, () -> (Controllers.DRIVER_CONTROLLER.getPOV() == 90 || Controllers.DRIVER_CONTROLLER.getPOV() == 270) && getState() == DriveStates.MANUAL );
+		addRunnableTrigger( () -> { this.BeginAligning(DriveStates.AUTO_ALIGNING_FEEDER); }, () -> Controllers.DRIVER_CONTROLLER.getPOV() == 180 && getState() == DriveStates.MANUAL );
+		addRunnableTrigger( () -> { this.BeginAligning(DriveStates.AUTO_ALIGNING_CAGES); }, () -> Controllers.DRIVER_CONTROLLER.getPOV() == 0 && getState() == DriveStates.MANUAL );
 
 		// Auto Align Cancel:
 		addRunnableTrigger( () -> { this.EndAligning(); }, () -> atSetpoint() && getState() != DriveStates.MANUAL );

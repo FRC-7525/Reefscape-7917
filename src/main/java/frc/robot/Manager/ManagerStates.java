@@ -45,6 +45,11 @@ public enum ManagerStates implements SubsystemStates {
 	CLIMBING(
 		"CLIMBING",
 		AlgaeCoralerStates.IDLE,
+		ClimberStates.IN
+	),
+	UNCLIMBING(
+		"UNCLIMBING",
+		AlgaeCoralerStates.IDLE,
 		ClimberStates.OUT
 	);
 
