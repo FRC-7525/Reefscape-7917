@@ -15,7 +15,7 @@ public final class GlobalConstants {
 
 	// TODO: Ensure correct mode is set for the robot!!
 	public static final RobotMode ROBOT_MODE = "Crash".equals(System.getenv("CI_NAME"))
-		? RobotMode.REAL
+		? RobotMode.SIM
 		: RobotMode.SIM;
 
 	public static final class Controllers {
