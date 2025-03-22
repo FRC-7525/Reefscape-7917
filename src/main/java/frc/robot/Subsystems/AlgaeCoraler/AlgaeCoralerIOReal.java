@@ -40,7 +40,7 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 	}
 
 	@Override
-	public void updateInputs(AlgaeCorralerIOInputs inputs) {
+	public void updateInputs(AlgaeCoralerIOInputs inputs) {
 		inputs.pivotPosition = Units.rotationsToDegrees(pivotMotor.getEncoder().getPosition() / PIVOT_GEARING);
 		inputs.pivotSetpoint = pivotPosSetpoint.in(Degree);
 		inputs.wheelSpeed = (wheelsMotor.getEncoder().getVelocity()) / 60;

@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 
 	private AlgaeCoralerIO io;
-	private AlgaeCorralerIOInputsAutoLogged inputs;
+	private AlgaeCoralerIOInputsAutoLogged inputs;
 	private boolean there;
 	private AlgaeCoralerStates past;
 
@@ -26,7 +26,7 @@ public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 			case REPLAY -> new AlgaeCoralerIOSim();
 		};
 
-		inputs = new AlgaeCorralerIOInputsAutoLogged();
+		inputs = new AlgaeCoralerIOInputsAutoLogged();
 	}
 
 	@Override

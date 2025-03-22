@@ -74,7 +74,7 @@ public class AlgaeCoralerIOSim implements AlgaeCoralerIO {
 	}
 
 	@Override
-	public void updateInputs(AlgaeCorralerIOInputs inputs) {
+	public void updateInputs(AlgaeCoralerIOInputs inputs) {
 		pivotSim.update(SIMULATION_PERIOD);
 		wheelMotorSim.update(SIMULATION_PERIOD);
 
@@ -154,6 +154,6 @@ public class AlgaeCoralerIOSim implements AlgaeCoralerIO {
 	}
 	@Override
 	public void setThere(boolean there) {
-		System.out.println("HMMMMMM");
+		System.out.println("...");
 	}
 }

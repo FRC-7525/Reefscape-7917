@@ -58,6 +58,9 @@ public class Manager extends Subsystem<ManagerStates> {
 		//addTrigger(ALGAE_IN, ALGAE_OUT, () -> !algaeCoraler.zeroed());
 		//addTrigger(ALGAE_OUT, IDLE, () -> !algaeCoraler.zeroed());
 		// Back to IDLE button is handled by if statement in run  vstate.
+
+		//Auto Stuff
+		
 	}
 
 	@Override
