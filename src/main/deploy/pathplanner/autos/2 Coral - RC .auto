@@ -5,9 +5,22 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "RSL to RSC"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RSL to RSC"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Idle"
+                }
+              }
+            ]
           }
         },
         {
@@ -17,9 +30,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "RSC to RCS"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RSC to RCS"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Idle"
+                }
+              }
+            ]
           }
         },
         {
@@ -29,9 +55,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "RCS to RCC"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RCS to RCC"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Idle"
+                }
+              }
+            ]
           }
         },
         {
@@ -41,9 +80,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "RCC to RCS"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RCC to RCS"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Idle"
+                }
+              }
+            ]
           }
         },
         {
@@ -53,9 +105,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "RCS to RW"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RCS to RW"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Idle"
+                }
+              }
+            ]
           }
         }
       ]

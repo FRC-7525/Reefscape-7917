@@ -5,9 +5,22 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Drive Straight - M"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Drive Straight - M"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Idle"
+                }
+              }
+            ]
           }
         }
       ]

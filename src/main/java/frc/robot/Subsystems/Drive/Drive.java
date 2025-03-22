@@ -75,7 +75,7 @@ public class Drive extends Subsystem<DriveStates> {
                 PPH_TRANSLATION_PID, // Translation PID constants
                 PPH_ROTATION_PID // Rotation PID constants
             ),
-            DriveConstants.geRobotConfig(), // The robot configuration
+            DriveConstants.getRobotConfig(), // The robot configuration
             () -> {
               // Boolean supplier that controls when the path will be mirrored for the red alliance
               // This will flip the path being followed to the red side of the field.

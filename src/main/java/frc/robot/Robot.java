@@ -27,7 +27,7 @@ public class Robot extends LoggedRobot {
 	private Manager manager;
 	private AutoManager autoManager; 
 	private Drive drive; 
-	private Vision vision; 
+	// private Vision vision; 
 
 	public Robot() {}
 
@@ -51,7 +51,7 @@ public class Robot extends LoggedRobot {
 		drive = Drive.getInstance(); 
 		manager = Manager.getInstance();
 		autoManager = new AutoManager(); 
-		vision = Vision.getInstance();  
+		// vision = Vision.getInstance();  
 
 		Logger.start();
 		FollowPathCommand.warmupCommand().schedule(); 
@@ -64,7 +64,7 @@ public class Robot extends LoggedRobot {
 	public void robotPeriodic() {
 		drive.periodic();
 		manager.periodic();
-		vision.periodic();
+		// vision.periodic();
 		CommandScheduler.getInstance().run();
 		Utilitys.controllers.clearCache();
 	}
@@ -94,7 +94,7 @@ public class Robot extends LoggedRobot {
 
 	@Override
 	public void disabledPeriodic() {
-		vision.periodic();
+		// vision.periodic();
 	}
 
 	@Override

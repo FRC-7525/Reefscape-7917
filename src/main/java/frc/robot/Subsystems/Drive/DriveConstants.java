@@ -29,8 +29,8 @@ public final class DriveConstants {
 	public static final PIDConstants Y_PID = new PIDConstants(6, 0, 0); 
 
 
-	public static final PIDConstants PPH_TRANSLATION_PID = new PIDConstants(0.1, 0, 0); 	
-	public static final PIDConstants PPH_ROTATION_PID = new PIDConstants(0.1, 0, 0); 
+	public static final PIDConstants PPH_TRANSLATION_PID = new PIDConstants(7, 0, 0.15); 	
+	public static final PIDConstants PPH_ROTATION_PID = new PIDConstants(6, 0, 0.15); 
 
 
 	//Tolerances
@@ -64,13 +64,13 @@ public final class DriveConstants {
 		new Pose2d(new Translation2d(3.85, 5.2), Rotation2d.fromDegrees(-60))
 	);
 
-	public static RobotConfig geRobotConfig() {
+	public static RobotConfig getRobotConfig() {
 		try {
 			return RobotConfig.fromGUISettings();
 		} catch (Exception e) {
 			e.printStackTrace();
 			// idk this probably won't work
-			return new RobotConfig(1, 1, new ModuleConfig(1, 1, 1, DCMotor.getNEO(4), 1, 1), 1);
+			return new RobotConfig(79, 6.833, new ModuleConfig(0.025, 4.6, 1.542, DCMotor.getNEO(4), 40, 1), 2);
 		}
 	}
 }

@@ -5,20 +5,40 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "MSL to MSC"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Drive Straight - M"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Idle"
+                }
+              }
+            ]
           }
-        },
+        }, 
         {
           "type": "named",
           "data": {
             "name": "Score Coral"
           }
-        }
+        }, 
+                      {
+                "type": "named",
+                "data": {
+                  "name": "Idle"
+                }
+              }
       ]
     }
   },
+  
   "resetOdom": true,
   "folder": null,
   "choreoAuto": false

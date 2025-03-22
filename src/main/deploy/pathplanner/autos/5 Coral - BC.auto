@@ -89,9 +89,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "BCC to BCS"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "BCC to BCS"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Idle"
+                }
+              }
+            ]
           }
         },
         {
@@ -101,9 +114,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "BCS to DM"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "BCS to DM"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Idle"
+                }
+              }
+            ]
           }
         },
         {
@@ -113,9 +139,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "DM to BCS"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "DM to BCS"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Idle"
+                }
+              }
+            ]
           }
         },
         {

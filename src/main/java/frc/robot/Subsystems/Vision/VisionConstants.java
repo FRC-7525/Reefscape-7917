@@ -19,7 +19,7 @@ public class VisionConstants {
 
 	//Back 
 	public static final String FRONT_RIGHT_CAM_NAME = "Front_Right_Camera";
-	public static final Translation3d ROBOT_TO_FRONT_RIGHT_CAMERA_TRANSLATION = new Translation3d(Units.inchesToMeters(11.113), Units.inchesToMeters(113.746), Units.inchesToMeters(9.75));
+	public static final Translation3d ROBOT_TO_FRONT_RIGHT_CAMERA_TRANSLATION = new Translation3d(Units.inchesToMeters(11.113), Units.inchesToMeters(13.746), Units.inchesToMeters(9.75));
 	public static final Rotation3d ROBOT_TO_FRONT_RIGHT_CAMERA_ROTATION = new Rotation3d(0, Math.toRadians(10), Math.toRadians(270));
 	public static final Transform3d ROBOT_TO_FRONT_RIGHT_CAMERA = new Transform3d(ROBOT_TO_FRONT_RIGHT_CAMERA_TRANSLATION, ROBOT_TO_FRONT_RIGHT_CAMERA_ROTATION);
 
