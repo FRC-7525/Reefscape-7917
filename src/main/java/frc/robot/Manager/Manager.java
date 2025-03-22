@@ -14,7 +14,7 @@ import frc.robot.Subsystems.Drive.Drive;
 
 public class Manager extends Subsystem<ManagerStates> {
 
-	private Climber climber;
+	// private Climber climber;
 	private AlgaeCoraler algaeCoraler;
 	private Drive drive;
 	private static Manager instance; 
@@ -29,13 +29,13 @@ public class Manager extends Subsystem<ManagerStates> {
 	public Manager() {
 		super("Manager", ManagerStates.IDLE);
 
-		climber = new Climber();
+		// climber = new Climber();
 		algaeCoraler = new AlgaeCoraler();
 		drive = Drive.getInstance(); 
 
 		// Scoring/intaking Coral
-		addTrigger(IDLE, CORAL_OUT, () -> robotHasCoral() && DRIVER_CONTROLLER.getYButtonPressed());
-		addTrigger(CORAL_OUT, IDLE, DRIVER_CONTROLLER::getYButtonPressed); 
+		// addTrigger(IDLE, CORAL_OUT, () -> robotHasCoral() && DRIVER_CONTROLLER.getYButtonPressed());
+		// addTrigger(CORAL_OUT, IDLE, DRIVER_CONTROLLER::getYButtonPressed); 
 
 		// Auto stop scoring corral:
 
@@ -66,11 +66,11 @@ public class Manager extends Subsystem<ManagerStates> {
 		Logger.recordOutput(SUBSYSTEM_NAME + "/State Time", getStateTime());
 		Logger.recordOutput(SUBSYSTEM_NAME + "/State String", getState().getStateString());
 
-		climber.setState(getState().getClimber());
+		// climber.setState(getState().getClimber());
 		algaeCoraler.setState(getState().getAlgaeCoraler());
 		drive.periodic();
 
-		climber.periodic();
+		// climber.periodic();
 		algaeCoraler.periodic();
 
 		if (Controllers.DRIVER_CONTROLLER.getXButtonPressed() || Controllers.OPERATOR_CONTROLLER.getXButtonPressed()) {

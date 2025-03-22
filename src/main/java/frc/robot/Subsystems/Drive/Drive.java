@@ -5,7 +5,6 @@ import java.io.File;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.numbers.N1;
@@ -15,6 +14,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.GlobalConstants;
 import frc.robot.GlobalConstants.Controllers;
@@ -35,10 +35,7 @@ public class Drive extends Subsystem<DriveStates> {
 	// Swerve:
 	private SwerveInputStream swerveInputs;
 	private SwerveDrive swerveDrive;
-	// Slew rate limiters:
-	private SlewRateLimiter Xlimiter;
-	private SlewRateLimiter Ylimiter;
-	private SlewRateLimiter OmegaLimiter;
+
 	// PID Controllers:
 	private ProfiledPIDController xPID;
 	private ProfiledPIDController yPID;
@@ -63,11 +60,6 @@ public class Drive extends Subsystem<DriveStates> {
 		super("Drive", DriveStates.MANUAL);
 		SmartDashboard.putData("Cage Selector", CAGE_CHOOSER);
 		AssignCageChooser();
-
-		// Rate Limiters:
-		Xlimiter = new SlewRateLimiter(RATE_LIMIT);
-		Ylimiter = new SlewRateLimiter(6);
-		OmegaLimiter = new SlewRateLimiter(Math.PI/6);
 
 		// PID Controllers:
 		xPID = new ProfiledPIDController(TRANSLATION_PID.kP, TRANSLATION_PID.kI, TRANSLATION_PID.kD, new Constraints(4.7, 11));
@@ -96,8 +88,8 @@ public class Drive extends Subsystem<DriveStates> {
 		}
 		swerveDrive.setMotorIdleMode(true);
 		// Setup Swerve Inputs:
-		swerveInputs = SwerveInputStream.of(swerveDrive, () -> -1 * Xlimiter.calculate(Controllers.DRIVER_CONTROLLER.getLeftX()), () ->  Ylimiter.calculate(Controllers.DRIVER_CONTROLLER.getLeftY()))
-			.withControllerRotationAxis(() -> OmegaLimiter.calculate(Controllers.DRIVER_CONTROLLER.getRightX()))
+		swerveInputs = SwerveInputStream.of(swerveDrive, () -> (Controllers.DRIVER_CONTROLLER.getLeftY()), () -> (Controllers.DRIVER_CONTROLLER.getLeftX()))
+			.withControllerRotationAxis(() -> Controllers.DRIVER_CONTROLLER.getRightX())
 			.allianceRelativeControl(true)
 			.driveToPoseEnabled(false);
 		// Auto Builder and Pathfinder setup:
@@ -147,9 +139,9 @@ public class Drive extends Subsystem<DriveStates> {
 	@Override
 	public void runState() {
 		// Anti-Algae (IN PROGRESS):
-		if(swerveDrive.getPitch().getDegrees() > 2) {
-			swerveDrive.drive(ANTI_ALGAE);
-		}
+		//if(swerveDrive.getPitch().getDegrees() > 2) {
+		//	swerveDrive.drive(ANTI_ALGAE);
+		//}
 
 		// Drive State Handling:
 		if (getState() != DriveStates.MANUAL && AA_CONTROL) {
@@ -197,6 +189,7 @@ public class Drive extends Subsystem<DriveStates> {
 				field.getObject("Feeder Target").setPose(PathFinder.getNearestTargetPose(DriveStates.AUTO_ALIGNING_FEEDER, swerveDrive.getPose()));
 			}
 		}
+		field.getObject("ROBOT").setPose(swerveDrive.getPose());
 		// Logging:
 		SmartDashboard.putData("Field", field);
 		SmartDashboard.putString("DRIVE_STATE", getState().getStateString());

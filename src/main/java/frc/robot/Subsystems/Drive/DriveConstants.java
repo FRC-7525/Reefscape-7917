@@ -22,8 +22,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 public final class DriveConstants {
 
-	public static final PIDConstants ROTATION_PID = new PIDConstants(3.5, 0, 0.15);
-	public static final PIDConstants TRANSLATION_PID = new PIDConstants(6, 0, 0.1);
+	public static final PIDConstants ROTATION_PID = new PIDConstants(1, 0, 0.1);
+	public static final PIDConstants TRANSLATION_PID = new PIDConstants(1, 0, 0.1);
 
 
 	//Tolerances
