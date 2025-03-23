@@ -29,7 +29,7 @@ public class Manager extends Subsystem<ManagerStates> {
 		super("Manager", ManagerStates.IDLE);
 
 		climber = new Climber();
-		algaeCoraler = new AlgaeCoraler();
+		algaeCoraler = AlgaeCoraler.getInstance();
 		drive = Drive.getInstance(); 
 
 		// Scoring/intaking Coral
@@ -46,6 +46,9 @@ public class Manager extends Subsystem<ManagerStates> {
 		addTrigger(UNCLIMBING, IDLE, OPERATOR_CONTROLLER::getAButtonReleased);
 	
 		// Back to IDLE button is handled by if statement in run  vstate.
+
+		//Auto Stuff
+		
 	}
 
 	@Override

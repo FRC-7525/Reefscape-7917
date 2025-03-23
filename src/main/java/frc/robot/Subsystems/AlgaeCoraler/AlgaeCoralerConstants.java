@@ -4,6 +4,7 @@ import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.KilogramSquareMeters;
 import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.Second;
 
 import org.team7525.controlConstants.PIDConstants;
 
@@ -11,6 +12,7 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.MomentOfInertia;
+import edu.wpi.first.units.measure.Time;
 
 public final class AlgaeCoralerConstants {
 
@@ -64,5 +66,7 @@ public final class AlgaeCoralerConstants {
 
 		public static final PIDConstants PIVOT_PID = new PIDConstants(0.4, 0, 0.001); 
 		public static final PIDConstants SPEED_PID = new PIDConstants(0.05, 0, 0.001); 
+
+		public static final Time CORAL_TIME = Second.of(2); 
 	}
 }

@@ -42,6 +42,11 @@ public enum ManagerStates implements SubsystemStates {
 		AlgaeCoralerStates.AUTO_SHOOT,
 		ClimberStates.IN
 	),
+	AUTO_IN(
+		"AUTO IN", 
+		AlgaeCoralerStates.IDLE, 
+		ClimberStates.IN
+	),
 	CLIMBING(
 		"CLIMBING",
 		AlgaeCoralerStates.IDLE,

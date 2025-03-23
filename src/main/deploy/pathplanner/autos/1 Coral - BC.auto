@@ -5,9 +5,22 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "BSL to BSC"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "BSL to BSC"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Idle"
+                }
+              }
+            ]
           }
         },
         {
@@ -17,9 +30,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "sequential",
           "data": {
-            "pathName": "BSC to BW"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "BSC to BW"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Idle"
+                }
+              }
+            ]
           }
         }
       ]

@@ -5,9 +5,22 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "BSL to BSC"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "BSL to BSC"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Idle"
+                }
+              }
+            ]
           }
         },
         {
@@ -17,9 +30,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "BSC to BCS"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "BSC to BCS"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Idle"
+                }
+              }
+            ]
           }
         },
         {
@@ -29,9 +55,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "BCS to BCC"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "BCS to BCC"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Idle"
+                }
+              }
+            ]
           }
         },
         {
@@ -41,9 +80,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "BCC to BCS"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "BCC to BCS"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Idle"
+                }
+              }
+            ]
           }
         },
         {
@@ -53,9 +105,9 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "BCS to BW"
+            "name": "Idle"
           }
         }
       ]

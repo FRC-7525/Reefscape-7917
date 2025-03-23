@@ -15,8 +15,10 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
+import frc.robot.Subsystems.AlgaeCoraler.AlgaeCoralerConstants.Sim;
 
 public class AlgaeCoralerIOSim implements AlgaeCoralerIO {
 
@@ -72,7 +74,7 @@ public class AlgaeCoralerIOSim implements AlgaeCoralerIO {
 	}
 
 	@Override
-	public void updateInputs(AlgaeCorralerIOInputs inputs) {
+	public void updateInputs(AlgaeCoralerIOInputs inputs) {
 		pivotSim.update(SIMULATION_PERIOD);
 		wheelMotorSim.update(SIMULATION_PERIOD);
 
@@ -116,12 +118,13 @@ public class AlgaeCoralerIOSim implements AlgaeCoralerIO {
 	}
 
 	@Override
-	public boolean hasCoral() {
-		return false; 
+	public boolean hasCoral() {		
+		return AlgaeCoraler.getInstance().getStateTime() > Sim.CORAL_TIME.in(Seconds);  
 		// IDK how to sim this
 	}
 
 	@Override
 	public void setThere(boolean there) {
+		System.out.println("...");
 	}
 }

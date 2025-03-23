@@ -101,8 +101,32 @@ public class Drive extends Subsystem<DriveStates> {
 			.allianceRelativeControl(true)
 			.driveToPoseEnabled(false);
 		// Auto Builder and Pathfinder setup:
-		PathFinder.BuildAutoBuilder(swerveDrive, this);
-		establishTriggers();
+		AutoBuilder.configure(
+            swerveDrive::getPose, // Robot pose supplier
+            swerveDrive::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
+            swerveDrive::getRobotVelocity, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+            swerveDrive::setChassisSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
+            new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
+                PPH_TRANSLATION_PID, // Translation PID constants
+                PPH_ROTATION_PID // Rotation PID constants
+            ),
+            DriveConstants.getRobotConfig(), // The robot configuration
+            () -> {
+              // Boolean supplier that controls when the path will be mirrored for the red alliance
+              // This will flip the path being followed to the red side of the field.
+              // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+              var alliance = DriverStation.getAlliance();
+              if (alliance.isPresent()) {
+                return alliance.get() == DriverStation.Alliance.Red;
+              }
+              return false;
+            },
+            this // Reference to this subsystem to set requirements
+   		);
+    
+    PathFinder.BuildAutoBuilder(swerveDrive, this);
+    establishTriggers();
 	}
 
 	private void establishTriggers() {
