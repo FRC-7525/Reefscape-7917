@@ -51,17 +51,17 @@ public class Drive extends Subsystem<DriveStates> {
 			throw new RuntimeException("Failed to create SwerveDrive", e);
 		}
 
-		faultManager.addDevice((SparkMax) swerveDrive.getModules()[0].getDriveMotor().getMotor(), "Front Left Drive Spark", "Main CAN");
-		faultManager.addDevice((SparkMax) swerveDrive.getModules()[0].getAngleMotor().getMotor(), "Front Left Turn Spark", "Main CAN");
+		faultManager.addDevice((SparkMax) swerveDrive.getModules()[2].getDriveMotor().getMotor(), "Back Left Drive Spark", "Main CAN");
+		faultManager.addDevice((SparkMax) swerveDrive.getModules()[2].getAngleMotor().getMotor(), "Back Left Turn Spark", "Main CAN");
 		//faultManager.addDevice(swerveDrive.getModules()[0].getAbsoluteEncoder(), (SparkMax) swerveDrive.getModules()[0].getAngleMotor().getMotor(), "Front Left CANcoder", "Main CAN");
+		faultManager.addDevice((SparkMax) swerveDrive.getModules()[3].getDriveMotor().getMotor(), "Back Right Drive Spark", "Main CAN");
+		faultManager.addDevice((SparkMax) swerveDrive.getModules()[3].getAngleMotor().getMotor(), "Back Right Turn Spark", "Main CAN");
+		//faultManager.addDevice(swerveDrive.getModules()[1].getAbsoluteEncoder(), (SparkMax) swerveDrive.getModules()[1].getAngleMotor().getMotor(), "Front Right CANcoder", "Main CAN");
+		faultManager.addDevice((SparkMax) swerveDrive.getModules()[0].getDriveMotor().getMotor(), "Front Left Drive Spark", 	"Main CAN");
+		faultManager.addDevice((SparkMax) swerveDrive.getModules()[0].getAngleMotor().getMotor(), "Front Left Turn Spark", "Main CAN");
+		//faultManager.addDevice(swerveDrive.getModules()[2].getAbsoluteEncoder(), (SparkMax) swerveDrive.getModules()[2].getAngleMotor().getMotor(), "Back Left CANcoder", "Main CAN");
 		faultManager.addDevice((SparkMax) swerveDrive.getModules()[1].getDriveMotor().getMotor(), "Front Right Drive Spark", "Main CAN");
 		faultManager.addDevice((SparkMax) swerveDrive.getModules()[1].getAngleMotor().getMotor(), "Front Right Turn Spark", "Main CAN");
-		//faultManager.addDevice(swerveDrive.getModules()[1].getAbsoluteEncoder(), (SparkMax) swerveDrive.getModules()[1].getAngleMotor().getMotor(), "Front Right CANcoder", "Main CAN");
-		faultManager.addDevice((SparkMax) swerveDrive.getModules()[2].getDriveMotor().getMotor(), "Back Left Drive Spark", 	"Main CAN");
-		faultManager.addDevice((SparkMax) swerveDrive.getModules()[2].getAngleMotor().getMotor(), "Back Left Turn Spark", "Main CAN");
-		//faultManager.addDevice(swerveDrive.getModules()[2].getAbsoluteEncoder(), (SparkMax) swerveDrive.getModules()[2].getAngleMotor().getMotor(), "Back Left CANcoder", "Main CAN");
-		faultManager.addDevice((SparkMax) swerveDrive.getModules()[3].getDriveMotor().getMotor(), "Back Right Drive Spark", "Main CAN");
-		faultManager.addDevice((SparkMax) swerveDrive.getModules()[3].getAngleMotor().getMotor(), "Back Right Drive Spark", "Main CAN");
 		//faultManager.addDevice(swerveDrive.getModules()[3].getAbsoluteEncoder(), (SparkMax) swerveDrive.getModules()[3].getAngleMotor().getMotor(), "Back Right Drive Spark", "Main CAN");
 
 
