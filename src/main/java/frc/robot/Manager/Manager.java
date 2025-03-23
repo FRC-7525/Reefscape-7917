@@ -6,7 +6,6 @@ import static frc.robot.Manager.ManagerStates.*;
 
 import org.littletonrobotics.junction.Logger;
 import org.team7525.subsystem.Subsystem;
-
 import frc.robot.GlobalConstants.Controllers;
 import frc.robot.Subsystems.AlgaeCoraler.AlgaeCoraler;
 import frc.robot.Subsystems.Climber.Climber;
@@ -83,9 +82,5 @@ public class Manager extends Subsystem<ManagerStates> {
 
 	public boolean robotHasCoral() {
 		return algaeCoraler.hasCoral();
-	}
-
-	public boolean robotHasAlgae() {
-		return algaeCoraler.hasAlgae(); 
 	}
 }

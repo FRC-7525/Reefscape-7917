@@ -26,15 +26,7 @@ public interface AlgaeCoralerIO  {
 
 	public boolean nearTarget();
 
-	public boolean hasCoral();
-
-	public boolean hasAlgae();
-
-	public void zero(); 
-
-	public boolean motorZeroed(); 
-
-	public void resetMotorsZeroed(); 
+	public boolean hasCoral(); 
 
 	public void setThere(boolean there);
 	
