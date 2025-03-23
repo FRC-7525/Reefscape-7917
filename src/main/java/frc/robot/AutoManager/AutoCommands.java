@@ -87,13 +87,18 @@ public class AutoCommands {
 
         @Override
         public void initialize() {
-            manager.setState(ManagerStates.IDLE);
+            manager.setState(ManagerStates.AUTO_IN);
         }
 
         @Override
 		public boolean isFinished() {
 			return manager.robotHasCoral(); 
 		}
+
+        @Override
+        public void end(boolean interrupted) {
+            manager.setState(ManagerStates.IDLE);
+        }
     }
 
     public class ScoreCoral extends Command {
@@ -112,6 +117,11 @@ public class AutoCommands {
 		public boolean isFinished() {
 			return !manager.robotHasCoral(); 
 		}
+
+        @Override
+        public void end(boolean interrupted) {
+            manager.setState(ManagerStates.IDLE);
+        }
 
     }
 

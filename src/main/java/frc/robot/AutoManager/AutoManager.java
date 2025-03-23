@@ -78,6 +78,7 @@ public class AutoManager {
         autoChooser.addOption("Sideways to Right Face", NamedCommands.getCommand("Sideways to Right Face"));
         
         SmartDashboard.putData("Auto Chooser", autoChooser);
+        
     }
  
    public Command getSelectedCommand() {
