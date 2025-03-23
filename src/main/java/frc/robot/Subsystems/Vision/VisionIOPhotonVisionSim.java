@@ -26,7 +26,6 @@ public class VisionIOPhotonVisionSim extends VisionIOPhotonVision {
 		}
 
 		// Add sim camera
-		// TODO: Uh like idrc about this ngl, but we can have a sim thats 4 deg more accurate if we want
 		var cameraProperties = new SimCameraProperties();
 		cameraSim = new PhotonCameraSim(camera, cameraProperties);
 		visionSim.addCamera(cameraSim, robotToCamera);

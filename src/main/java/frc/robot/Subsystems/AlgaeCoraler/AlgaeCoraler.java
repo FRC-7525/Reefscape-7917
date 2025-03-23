@@ -27,6 +27,7 @@ public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 	public AlgaeCoraler() {
 		super(SUBSYSTEM_NAME, AlgaeCoralerStates.IDLE);
 		there = true;
+		past = AlgaeCoralerStates.IDLE;
 		//IO stuff
 		this.io = switch (ROBOT_MODE) {
 			case REAL -> new AlgaeCoralerIOReal();
@@ -40,11 +41,6 @@ public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 
 	@Override
 	public void runState() {
-		if (getState() == AlgaeCoralerStates.ZEROING) {
-			io.zero();
-			return; 
-		}
-		
 		io.setPivotSetpoint(getState().getPivotSetpoint());
 		io.setWheelSpeed(getState().getWheelSpeed());
 		if (past != getState()) {
@@ -66,28 +62,11 @@ public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 		return io.nearTarget();
 	}
 
-	public boolean hasAlgae() {
-		return io.hasAlgae();
-	}
-
 	public boolean hasCoral() {
 		return io.hasCoral();
-	}
-
-	public void zero() {
-		io.zero();
-	}
-
-	public boolean motorZeroed() {
-		return io.motorZeroed(); 
-	}
-
-	public void resetMotorsZeroed() {
-		io.resetMotorsZeroed();
 	}
 
 	public double getStateTime() {
 		return super.getStateTime();
 	}
 
-}

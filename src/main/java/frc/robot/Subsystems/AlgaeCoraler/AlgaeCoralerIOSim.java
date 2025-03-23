@@ -36,8 +36,6 @@ public class AlgaeCoralerIOSim implements AlgaeCoralerIO {
 	private double wheelSpeedSetpoint;
 	private Angle pivotPosSetpoint;
 
-	private boolean motorZeroed; 
-
 	public AlgaeCoralerIOSim() {
 		pivotSim = new SingleJointedArmSim(
 			DCMotor.getNEO(NUM_PIVOT_MOTORS),
@@ -95,7 +93,6 @@ public class AlgaeCoralerIOSim implements AlgaeCoralerIO {
 		wheelSparkSim.setVelocity(wheelMotorSim.getAngularAccelerationRadPerSecSq() / 60);
 
 		Logger.recordOutput("Has Coral", hasCoral());
-		Logger.recordOutput("Has Algae", hasAlgae()); 
 	}
 
 	@Override
@@ -126,34 +123,6 @@ public class AlgaeCoralerIOSim implements AlgaeCoralerIO {
 		// IDK how to sim this
 	}
 
-	@Override
-	public boolean hasAlgae() {
-		return false;
-		// Same here
-	}
-
-	@Override
-	public void zero() {
-		double zeroingSpeed = -ZEROING_SPEED;  
-        if (pivotSparkSim.getMotorCurrent() > ZEROING_CURRENT_LIMIT.in(Amps)) {
-            zeroingSpeed = 0; 
-            if (!motorZeroed){
-                pivotSparkSim.setPosition(0); 
-                motorZeroed = true; 
-            }
-        }
-        pivotSparkSim.setVelocity(zeroingSpeed);
-	}
-
-	@Override
-	public boolean motorZeroed() {
-		return motorZeroed; 
-	}
-
-	@Override
-	public void resetMotorsZeroed() {
-		motorZeroed = false; 
-	}
 	@Override
 	public void setThere(boolean there) {
 		System.out.println("...");

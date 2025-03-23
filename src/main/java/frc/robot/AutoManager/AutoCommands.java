@@ -139,7 +139,8 @@ public class AutoCommands {
 
         @Override
 		public boolean isFinished() {
-			return manager.robotHasAlgae(); 
+			return false;
+            // BUG: INSANE SELL
 		}
 
     }
@@ -177,7 +178,8 @@ public class AutoCommands {
 
         @Override
 		public boolean isFinished() {
-			return !manager.robotHasAlgae() ; 
+			return false;
+            // BUG: AGAIN?!? 
 		}
 
     }

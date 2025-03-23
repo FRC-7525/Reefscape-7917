@@ -73,15 +73,15 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 			}
 		} else if (this.pivotPosSetpoint.in(Degree) == ALGAE_OUT_ANGLE.in(Degree)) {
 			if (there) {
-				pivotMotor.set(0.1);
+				pivotMotor.set(0.8);
 			} else {
-				pivotMotor.set(0.2);
+				pivotMotor.set(0.18);
 			} 
 		} else if (this.pivotPosSetpoint.in(Degree) == CORAL_BLOCK_ANGLE.in(Degree)) {
 			if(there) {
-				pivotMotor.set(-0.04);
+				pivotMotor.set(0);
 			} else {
-				pivotMotor.set(-0.18); 
+				pivotMotor.set(-0.2); 
 			}
 		}
 	}
@@ -100,38 +100,9 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 		return false;
 	}
 
-
 	@Override
 	public boolean hasCoral() {
 		return !beamBreak.get();
-	}
-
-	@Override
-	public boolean hasAlgae() {
-		return (wheelsMotor.getOutputCurrent() <= ALGAE_CURRENT_LIMIT.in(Amp)); // TODO: Set actuall value by usng smartdasboard graph and looking a values. Ensure you log it.
-	}
-
-	@Override
-	public void zero() {
-	    double zeroingSpeed = ZEROING_SPEED;  
-        if (pivotMotor.getOutputCurrent() > ZEROING_CURRENT_LIMIT.in(Amps)) {
-            zeroingSpeed = 0; 
-            if (!motorZeroed){
-                pivotMotor.getEncoder().setPosition(0); 
-                motorZeroed = true; 
-            }
-        }
-        pivotMotor.set(zeroingSpeed); 
-	}
-
-	@Override
-	public boolean motorZeroed() {
-		return motorZeroed; 
-	}
-
-	@Override
-	public void resetMotorsZeroed() {
-		motorZeroed = false; 
 	}
 
 	@Override

@@ -22,7 +22,6 @@ public final class AlgaeCoralerConstants {
 
 	public static final double WHEEL_GEARING = 25; 
 	public static final double PIVOT_GEARING = 25;
-	// TODO: Values Might be swaped ^
 
 	//CAN IDs - Correct Values
 	public static final int PIVOT_MOTOR_CANID = 15;
@@ -40,20 +39,12 @@ public final class AlgaeCoralerConstants {
 	//Currents
 	public static final Current ALGAE_CURRENT_LIMIT = Amps.of(12); 
 
-	//Zeroing
-	public static final double ZEROING_SPEED = 0.3; 
-	public static final Current ZEROING_CURRENT_LIMIT = Amps.of(10); 
-
-	//TODO: Add controlls to tune these values ^
-
 	//Angles
 	public static final Angle IDLE_ANGLE = Degrees.of(20);
 	public static final Angle ALGAE_IN_ANGLE = Degrees.of(-115);
 	public static final Angle ALGAE_HOLDING_ANGLE = Degrees.of(-25);
 	public static final Angle ALGAE_OUT_ANGLE = Degrees.of(-25);
 	public static final Angle CORAL_BLOCK_ANGLE = Degrees.of(-74.05);
-	
-	//TODO: Obtain correct values from Evrybot docs ^
 
 	public static class Real {
 		public static final PIDConstants DOWN_PIVOT_PID = new PIDConstants(0.6, 0, 0.025); 
