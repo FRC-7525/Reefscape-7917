@@ -10,10 +10,19 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 
+	public static AlgaeCoraler instance; 
+
 	private AlgaeCoralerIO io;
-	private AlgaeCorralerIOInputsAutoLogged inputs;
+	private AlgaeCoralerIOInputsAutoLogged inputs;
 	private boolean there;
 	private AlgaeCoralerStates past;
+
+	public static AlgaeCoraler getInstance() {
+		if (instance == null) {
+			instance = new AlgaeCoraler();
+		}
+		return instance;
+	}
 
 	public AlgaeCoraler() {
 		super(SUBSYSTEM_NAME, AlgaeCoralerStates.IDLE);
@@ -27,7 +36,7 @@ public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 			case REPLAY -> new AlgaeCoralerIOSim();
 		};
 
-		inputs = new AlgaeCorralerIOInputsAutoLogged();
+		inputs = new AlgaeCoralerIOInputsAutoLogged();
 	}
 
 	@Override
@@ -57,4 +66,7 @@ public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 		return io.hasCoral();
 	}
 
+	public double getStateTime() {
+		return super.getStateTime();
+	}
 }

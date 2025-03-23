@@ -26,6 +26,7 @@ public class Robot extends LoggedRobot {
 
 	private Manager manager;
 	private AutoManager autoManager; 
+	private Drive drive; 
 	private Vision vision; 
 
 	public Robot() {}

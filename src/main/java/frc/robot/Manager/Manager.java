@@ -10,6 +10,7 @@ import frc.robot.GlobalConstants.Controllers;
 import frc.robot.Subsystems.AlgaeCoraler.AlgaeCoraler;
 import frc.robot.Subsystems.Climber.Climber;
 import frc.robot.Subsystems.Drive.Drive;
+import frc.robot.Subsystems.Drive.DriveStates;
 
 public class Manager extends Subsystem<ManagerStates> {
 
@@ -29,7 +30,7 @@ public class Manager extends Subsystem<ManagerStates> {
 		super("Manager", ManagerStates.IDLE);
 
 		// climber = new Climber();
-		algaeCoraler = new AlgaeCoraler();
+		algaeCoraler = AlgaeCoraler.getInstance();
 		drive = Drive.getInstance(); 
 
 		// Scoring/intaking Coral
@@ -58,6 +59,9 @@ public class Manager extends Subsystem<ManagerStates> {
 		//addTrigger(ALGAE_IN, ALGAE_OUT, () -> !algaeCoraler.zeroed());
 		//addTrigger(ALGAE_OUT, IDLE, () -> !algaeCoraler.zeroed());
 		// Back to IDLE button is handled by if statement in run  vstate.
+
+		//Auto Stuff
+		
 	}
 
 	@Override
@@ -75,6 +79,7 @@ public class Manager extends Subsystem<ManagerStates> {
 
 		if (Controllers.DRIVER_CONTROLLER.getXButtonPressed() || Controllers.OPERATOR_CONTROLLER.getXButtonPressed()) {
 			setState(ManagerStates.IDLE);
+			drive.setState(DriveStates.MANUAL);
 		}
 
 		Logger.recordOutput(DASHBOARD_STRING, getState().getStateString());

@@ -26,6 +26,7 @@ import org.littletonrobotics.junction.Logger;
 import org.team7525.misc.CommandsUtil;
 import org.team7525.subsystem.Subsystem;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.pathfinding.Pathfinding;
 import com.pathplanner.lib.util.PathPlannerLogging;
 
@@ -65,7 +66,10 @@ public class Drive extends Subsystem<DriveStates> {
 
 	public Drive() {
 		super("Drive", DriveStates.MANUAL);
+
+		// Create field:
 		field = new Field2d();
+
 		//Logging for pathplanner
 		PathPlannerLogging.setLogActivePathCallback(poses -> {
 			field.getObject("PATH").setPoses(poses);
@@ -89,9 +93,6 @@ public class Drive extends Subsystem<DriveStates> {
 		xPID.setTolerance(X_TOLERANCE.magnitude());
 		yPID.setTolerance(Y_TOLERANCE.magnitude());
 		rotationPID.setTolerance(ROTATION_TOLERANCE.in(Radians));
-		
-		// Create field:
-		
 
 		// Setup SwerveDrive:
 		SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
@@ -105,21 +106,48 @@ public class Drive extends Subsystem<DriveStates> {
 			throw new RuntimeException("Failed to create SwerveDrive", e);
 		}
 		swerveDrive.setMotorIdleMode(true);
+
 		// Setup Swerve Inputs:
 		swerveInputs = SwerveInputStream.of(swerveDrive, () -> -1 * (Controllers.DRIVER_CONTROLLER.getLeftY()), () -> -1 * (Controllers.DRIVER_CONTROLLER.getLeftX()))
-			.withControllerRotationAxis(() -> Controllers.DRIVER_CONTROLLER.getRightX())
+			.withControllerRotationAxis(() -> -1 * Controllers.DRIVER_CONTROLLER.getRightX())
 			.allianceRelativeControl(true)
 			.driveToPoseEnabled(false);
+
 		// Auto Builder and Pathfinder setup:
 		PathFinder.BuildAutoBuilder(swerveDrive, this);
-		establishTriggers();
+
+		AutoBuilder.configure(
+            swerveDrive::getPose, // Robot pose supplier
+            swerveDrive::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
+            swerveDrive::getRobotVelocity, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+            swerveDrive::setChassisSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
+            new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
+                PPH_TRANSLATION_PID, // Translation PID constants
+                PPH_ROTATION_PID // Rotation PID constants
+            ),
+            DriveConstants.getRobotConfig(), // The robot configuration
+            () -> {
+              // Boolean supplier that controls when the path will be mirrored for the red alliance
+              // This will flip the path being followed to the red side of the field.
+              // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+              var alliance = DriverStation.getAlliance();
+              if (alliance.isPresent()) {
+                return alliance.get() == DriverStation.Alliance.Red;
+              }
+              return false;
+            },
+            this // Reference to this subsystem to set requirements
+   		);
+
+    establishTriggers();
 	}
 
 	private void establishTriggers() {
 		// Auto Align Activate:
-		addRunnableTrigger( () -> { this.BeginAligning(DriveStates.AUTO_ALIGNING_REEF); }, () -> Controllers.DRIVER_CONTROLLER.getAButtonPressed() && getState() == DriveStates.MANUAL );
-		addRunnableTrigger( () -> { this.BeginAligning(DriveStates.AUTO_ALIGNING_FEEDER); }, () -> Controllers.DRIVER_CONTROLLER.getBButtonPressed() && getState() == DriveStates.MANUAL );
-		//addRunnableTrigger( () -> { this.BeginAligning(DriveStates.AUTO_ALIGNING_CAGES); }, () -> Controllers.DRIVER_CONTROLLER.getYButtonPressed() && getState() == DriveStates.MANUAL );
+		addRunnableTrigger( () -> { this.BeginAligning(DriveStates.AUTO_ALIGNING_REEF); }, () -> Controllers.DRIVER_CONTROLLER.getPOV() == 0 && getState() == DriveStates.MANUAL );
+		addRunnableTrigger( () -> { this.BeginAligning(DriveStates.AUTO_ALIGNING_FEEDER); }, () -> Controllers.DRIVER_CONTROLLER.getPOV() == 90 && getState() == DriveStates.MANUAL );
+		//addRunnableTrigger( () -> { this.BeginAligning(DriveStates.AUTO_ALIGNING_CAGES); }, () -> Controllers.DRIVER_CONTROLLER.getPOV() == 180 && getState() == DriveStates.MANUAL );
 
 		// Auto Align Cancel:
 		addRunnableTrigger( () -> { this.EndAligning(); }, () -> atSetpoint() && getState() != DriveStates.MANUAL );

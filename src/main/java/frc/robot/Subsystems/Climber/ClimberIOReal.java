@@ -22,5 +22,4 @@ public class ClimberIOReal implements ClimberIO {
 	public void setSpeed(double speed) {
 		motor.set(speed);
 	}
-
 }

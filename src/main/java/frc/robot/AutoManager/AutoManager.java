@@ -1,11 +1,17 @@
 package frc.robot.AutoManager;
+import org.littletonrobotics.junction.Logger;
+
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.util.PathPlannerLogging;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
+import frc.robot.Manager.Manager;
+import frc.robot.Manager.ManagerStates;
 
 public class AutoManager {
     private final SendableChooser<Command> autoChooser; 
@@ -61,6 +67,7 @@ public class AutoManager {
         autoChooser.addOption("Sideways to Right Face", NamedCommands.getCommand("Sideways to Right Face"));
         
         SmartDashboard.putData("Auto Chooser", autoChooser);
+        
     }
  
    public Command getSelectedCommand() {

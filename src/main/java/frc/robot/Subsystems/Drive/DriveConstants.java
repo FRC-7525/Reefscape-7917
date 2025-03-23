@@ -1,6 +1,6 @@
 package frc.robot.Subsystems.Drive;
 
-import static edu.wpi.first.units.Units.Degrees;
+
 import static edu.wpi.first.units.Units.DegreesPerSecond;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
@@ -8,13 +8,17 @@ import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import java.util.Arrays;
 import java.util.List;
+
+import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.path.PathConstraints;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Distance;
@@ -23,14 +27,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 public final class DriveConstants {
 
-	public static final PIDConstants ROTATION_PID = new PIDConstants(2.4, 0, 0.15);
-	public static final PIDConstants TRANSLATION_PID = new PIDConstants(1.8, 0, 0.1);
+	public static final PIDConstants PPH_TRANSLATION_PID = new PIDConstants(30, 0, 0); 	
+	public static final PIDConstants PPH_ROTATION_PID = new PIDConstants(33, 0, 0.1); 
+
+	public static final PIDConstants ROTATION_PID = new PIDConstants(3.5, 0, 0.15);
+	public static final PIDConstants TRANSLATION_PID = new PIDConstants(6, 0, 0.1);
 
 
 	//Tolerances
-	public static final Angle ROTATION_TOLERANCE = Degrees.of(0.1);
-	public static final Distance X_TOLERANCE = Meters.of(0.01);
-	public static final Distance Y_TOLERANCE = Meters.of(0.01);
+	public static final Angle ROTATION_TOLERANCE = Radians.of(3);
+ 	public static final Distance X_TOLERANCE = Meters.of(0.05);
+	public static final Distance Y_TOLERANCE = Meters.of(0.05);
+  
+  	//Speeds
+  	public static final LinearVelocity MAX_SPEED = MetersPerSecond.of(4.6);
+	public static final LinearVelocity SLOW_SPEED = MetersPerSecond.of(MAX_SPEED.magnitude() * 0.2);
+	public static final AngularVelocity MAX_ANGULAR_VELOCITY = RotationsPerSecond.of(3); 
+ 	public static final AngularVelocity SLOW_ANGULAR_VELOCITY = RotationsPerSecond.of(MAX_ANGULAR_VELOCITY.magnitude() * 0.2);
+
 
 	public static final List<Pose2d> NEAREST_FEEDERS = Arrays.asList(
 		new Pose2d(new Translation2d(1.24, 7.1), Rotation2d.fromDegrees(125)),
@@ -62,12 +76,20 @@ public final class DriveConstants {
 	public static final ChassisSpeeds SIDEWAYS_TO_RIGHT_CHASSIS_SPEED = new ChassisSpeeds(-0.875, 0, 0);
 	public static final ChassisSpeeds SIDEWAYS_CHASSIS_SPEEDS = new ChassisSpeeds(); 
 
-	public static final LinearVelocity MAX_SPEED = MetersPerSecond.of(4.6);
-	public static final LinearVelocity SLOW_SPEED = MetersPerSecond.of(MAX_SPEED.magnitude() * 0.2);
-	public static final AngularVelocity MAX_ANGULAR_VELOCITY = RotationsPerSecond.of(3); 
 	public static final ChassisSpeeds ANTI_ALGAE = new ChassisSpeeds(0, -2, 0);
 	public static final int RATE_LIMIT = 6;
 
+	public static RobotConfig getRobotConfig() {
+		try {
+			return RobotConfig.fromGUISettings();
+		} catch (Exception e) {
+			e.printStackTrace();
+			// idk this probably won't work
+			return new RobotConfig(79, 6.833, new ModuleConfig(0.025, 4.6, 1.542, DCMotor.getNEO(4), 40, 1), 2);
+		}
+	}
+
+ 
 	public static final PathConstraints PATH_CONSTRAINTS = new PathConstraints(MAX_SPEED.magnitude(), 11.0, MAX_ANGULAR_VELOCITY.magnitude(), Math.PI);
 	public static final boolean AA_CONTROL = true;
 }
