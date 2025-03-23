@@ -43,20 +43,20 @@ public class Manager extends Subsystem<ManagerStates> {
 		// addTrigger(CORAL_BLOCK, IDLE, DRIVER_CONTROLLER::getYButtonPressed);
 		
 		// // Scoring/intaking Algae
-		// addTrigger(IDLE, ALGAE_IN, DRIVER_CONTROLLER::getBButtonPressed);
-		// addTrigger(ALGAE_IN, HOLDING, DRIVER_CONTROLLER::getBButtonPressed);
-		// addTrigger(HOLDING, ALGAE_OUT, DRIVER_CONTROLLER::getBButtonPressed);
-		// addTrigger(ALGAE_IN, IDLE, DRIVER_CONTROLLER::getXButtonPressed);
+		addTrigger(IDLE, ALGAE_IN, DRIVER_CONTROLLER::getBButtonPressed);
+		addTrigger(ALGAE_IN, HOLDING, DRIVER_CONTROLLER::getBButtonPressed);
+		addTrigger(HOLDING, ALGAE_OUT, DRIVER_CONTROLLER::getBButtonPressed);
+		addTrigger(ALGAE_IN, IDLE, DRIVER_CONTROLLER::getXButtonPressed);
 		
 		//Auto hold algae
 
 
 		//Zero Motors auto and manually
-		// addRunnableTrigger(algaeCoraler::zero, () -> getState() == ManagerStates.IDLE && !algaeCoraler.motorZeroed());
-		// addRunnableTrigger(algaeCoraler::resetMotorsZeroed, DRIVER_CONTROLLER::getAButtonPressed);
+		addRunnableTrigger(algaeCoraler::zero, () -> getState() == ManagerStates.IDLE && !algaeCoraler.motorZeroed());
+		addRunnableTrigger(algaeCoraler::resetMotorsZeroed, DRIVER_CONTROLLER::getAButtonPressed);
 		
-		//addTrigger(ALGAE_IN, ALGAE_OUT, () -> !algaeCoraler.zeroed());
-		//addTrigger(ALGAE_OUT, IDLE, () -> !algaeCoraler.zeroed());
+		// addTrigger(ALGAE_IN, ALGAE_OUT, () -> !algaeCoraler.zeroed());
+		// addTrigger(ALGAE_OUT, IDLE, () -> !algaeCoraler.zeroed());
 		// Back to IDLE button is handled by if statement in run  vstate.
 	}
 
