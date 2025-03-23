@@ -1,5 +1,6 @@
 package frc.robot.Subsystems.Drive;
 
+import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.DegreesPerSecond;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
@@ -22,18 +23,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 public final class DriveConstants {
 
-	public static final PIDConstants ROTATION_PID = new PIDConstants(1, 0, 0.1);
-	public static final PIDConstants TRANSLATION_PID = new PIDConstants(1, 0, 0.1);
+	public static final PIDConstants ROTATION_PID = new PIDConstants(2.4, 0, 0.15);
+	public static final PIDConstants TRANSLATION_PID = new PIDConstants(1.8, 0, 0.1);
 
 
 	//Tolerances
-	public static final Angle ROTATION_TOLERANCE = Radians.of(3);
-	public static final Distance X_TOLERANCE = Meters.of(0.05);
-	public static final Distance Y_TOLERANCE = Meters.of(0.05);
+	public static final Angle ROTATION_TOLERANCE = Degrees.of(0.1);
+	public static final Distance X_TOLERANCE = Meters.of(0.01);
+	public static final Distance Y_TOLERANCE = Meters.of(0.01);
 
 	public static final List<Pose2d> NEAREST_FEEDERS = Arrays.asList(
 		new Pose2d(new Translation2d(1.24, 7.1), Rotation2d.fromDegrees(125)),
-		new Pose2d(new Translation2d(1.24, 1), Rotation2d.fromDegrees(0))
+		new Pose2d(new Translation2d(1.5, 0.5), Rotation2d.fromDegrees(40))
 	);
 	public static final List<Pose2d> NEAREST_REEFS = Arrays.asList(
 		new Pose2d(new Translation2d(5.15, 5.15), Rotation2d.fromDegrees(-120)),

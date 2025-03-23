@@ -1,5 +1,6 @@
 package frc.robot.Subsystems.Drive;
 
+import static edu.wpi.first.units.Units.Radians;
 import static frc.robot.Subsystems.Drive.DriveConstants.*;
 import java.io.File;
 
@@ -16,12 +17,18 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.GlobalConstants;
 import frc.robot.GlobalConstants.Controllers;
 import frc.robot.GlobalConstants.RobotMode;
 
+import org.littletonrobotics.junction.Logger;
+import org.team7525.misc.CommandsUtil;
 import org.team7525.subsystem.Subsystem;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.pathfinding.Pathfinding;
+import com.pathplanner.lib.util.PathPlannerLogging;
+
 import swervelib.SwerveDrive;
 import swervelib.SwerveInputStream;
 import swervelib.parser.SwerveParser;
@@ -58,6 +65,17 @@ public class Drive extends Subsystem<DriveStates> {
 
 	public Drive() {
 		super("Drive", DriveStates.MANUAL);
+		field = new Field2d();
+		//Logging for pathplanner
+		PathPlannerLogging.setLogActivePathCallback(poses -> {
+			field.getObject("PATH").setPoses(poses);
+			Logger.recordOutput("Auto/poses", poses.toArray(new Pose2d[poses.size()]));
+		});
+		PathPlannerLogging.setLogActivePathCallback(activePath -> {
+			Logger.recordOutput("Auto/Trajectory", activePath.toArray(new Pose2d[activePath.size()]));
+			
+		});
+		Pathfinding.ensureInitialized();
 		SmartDashboard.putData("Cage Selector", CAGE_CHOOSER);
 		AssignCageChooser();
 
@@ -70,10 +88,10 @@ public class Drive extends Subsystem<DriveStates> {
 		// Set Controller Tollerances:
 		xPID.setTolerance(X_TOLERANCE.magnitude());
 		yPID.setTolerance(Y_TOLERANCE.magnitude());
-		rotationPID.setTolerance(ROTATION_TOLERANCE.magnitude());
+		rotationPID.setTolerance(ROTATION_TOLERANCE.in(Radians));
 		
 		// Create field:
-		field = new Field2d();
+		
 
 		// Setup SwerveDrive:
 		SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
@@ -88,7 +106,7 @@ public class Drive extends Subsystem<DriveStates> {
 		}
 		swerveDrive.setMotorIdleMode(true);
 		// Setup Swerve Inputs:
-		swerveInputs = SwerveInputStream.of(swerveDrive, () -> (Controllers.DRIVER_CONTROLLER.getLeftY()), () -> (Controllers.DRIVER_CONTROLLER.getLeftX()))
+		swerveInputs = SwerveInputStream.of(swerveDrive, () -> -1 * (Controllers.DRIVER_CONTROLLER.getLeftY()), () -> -1 * (Controllers.DRIVER_CONTROLLER.getLeftX()))
 			.withControllerRotationAxis(() -> Controllers.DRIVER_CONTROLLER.getRightX())
 			.allianceRelativeControl(true)
 			.driveToPoseEnabled(false);
@@ -101,7 +119,7 @@ public class Drive extends Subsystem<DriveStates> {
 		// Auto Align Activate:
 		addRunnableTrigger( () -> { this.BeginAligning(DriveStates.AUTO_ALIGNING_REEF); }, () -> Controllers.DRIVER_CONTROLLER.getAButtonPressed() && getState() == DriveStates.MANUAL );
 		addRunnableTrigger( () -> { this.BeginAligning(DriveStates.AUTO_ALIGNING_FEEDER); }, () -> Controllers.DRIVER_CONTROLLER.getBButtonPressed() && getState() == DriveStates.MANUAL );
-		addRunnableTrigger( () -> { this.BeginAligning(DriveStates.AUTO_ALIGNING_CAGES); }, () -> Controllers.DRIVER_CONTROLLER.getYButtonPressed() && getState() == DriveStates.MANUAL );
+		//addRunnableTrigger( () -> { this.BeginAligning(DriveStates.AUTO_ALIGNING_CAGES); }, () -> Controllers.DRIVER_CONTROLLER.getYButtonPressed() && getState() == DriveStates.MANUAL );
 
 		// Auto Align Cancel:
 		addRunnableTrigger( () -> { this.EndAligning(); }, () -> atSetpoint() && getState() != DriveStates.MANUAL );
@@ -122,7 +140,9 @@ public class Drive extends Subsystem<DriveStates> {
 			}
 		}
 		swerveInputs.driveToPoseEnabled(true);
-		pathfindingCommand = AutoBuilder.pathfindToPose(target, PATH_CONSTRAINTS, 1.0); // FIX THIS: 
+		pathfindingCommand = AutoBuilder.pathfindToPose(target, PATH_CONSTRAINTS, 1.0);
+		pathfindingCommand.initialize();
+		// FIX THIS: 
 	}
 
 	private void EndAligning() {
@@ -144,24 +164,37 @@ public class Drive extends Subsystem<DriveStates> {
 		//}
 
 		// Drive State Handling:
+	
 		if (getState() != DriveStates.MANUAL && AA_CONTROL) {
-			if (pathfindingCommand.isFinished() && !atSetpoint()){
-				if (PathFinder.getDistance(swerveDrive.getPose(), target) > 3.5) {
-					pathfindingCommand = AutoBuilder.pathfindToPose(target, PATH_CONSTRAINTS, 1.0);
-					pathfindingCommand.schedule();
-				}
-				else {
-					if (first) {
-						first = false;
-						xPID.reset(swerveDrive.getPose().getX());
-						yPID.reset(swerveDrive.getPose().getY());
-						rotationPID.reset(swerveDrive.getPose().getRotation().getRadians());
-					}
-					swerveDrive.driveFieldOriented(PathFinder.driveToPose(target, swerveDrive.getPose(), xPID, yPID, rotationPID));
-				}
-			} else {
-				pathfindingCommand.schedule();
+			
+			if (first) {
+				first = false;
+				xPID.reset(swerveDrive.getPose().getX());
+				yPID.reset(swerveDrive.getPose().getY());
+				rotationPID.reset(swerveDrive.getPose().getRotation().getRadians());
 			}
+			System.out.println("ALIGN OTHER");
+			swerveDrive.driveFieldOriented(PathFinder.driveToPose(target, swerveDrive.getPose(), xPID, yPID, rotationPID));
+		// 	if (pathfindingCommand.isFinished() && !atSetpoint()){
+		// 		if (PathFinder.getDistance(swerveDrive.getPose(), target) > 3.5) {
+		// 			pathfindingCommand = AutoBuilder.pathfindToPose(target, PATH_CONSTRAINTS, 1.0);
+		// 			pathfindingCommand.schedule();
+		// 			System.out.println("ALIGN PP");
+		// 		}
+		// 		else {
+		// 			if (first) {
+		// 				first = false;
+		// 				xPID.reset(swerveDrive.getPose().getX());
+		// 				yPID.reset(swerveDrive.getPose().getY());
+		// 				rotationPID.reset(swerveDrive.getPose().getRotation().getRadians());
+		// 			}
+		// 			System.out.println("ALIGN OTHER");
+		// 			swerveDrive.driveFieldOriented(PathFinder.driveToPose(target, swerveDrive.getPose(), xPID, yPID, rotationPID));
+		// 		}
+		// 	} else {
+		// 		System.out.println("ALIGN PP");
+		// 		pathfindingCommand.execute();
+		// 	}
 		} else {
 			// Manual Control
 			// Slow Mode:
@@ -199,8 +232,8 @@ public class Drive extends Subsystem<DriveStates> {
 		if (target == null) {
 			return false;
 		}
-		return (swerveDrive.getPose().getTranslation().getDistance(target.getTranslation()) <= 0.2) && Math.abs(swerveDrive.getPose().getRotation().getDegrees() - target.getRotation().getDegrees()) <= 5;
-	}
+		return (swerveDrive.getPose().getTranslation().getDistance(target.getTranslation()) <= 0.05) && Math.abs(swerveDrive.getPose().getRotation().getDegrees() - target.getRotation().getDegrees()) <= 1;
+	}  
 
 	// Vision Code Getters:
 	public Pose2d getPose() {

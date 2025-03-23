@@ -79,6 +79,7 @@ public class PathFinder {
         RobotConfig config = null;
         try{
             config = RobotConfig.fromGUISettings();
+            System.out.println("HAPPPPPPPPYYYYYYYYYY!!!!");
         } catch (Exception e) {
             // Handle exception as needed
             e.printStackTrace();
@@ -90,10 +91,10 @@ public class PathFinder {
             swerveDrive::getPose, // Robot pose supplier
             swerveDrive::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
             swerveDrive::getRobotVelocity, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-            (speeds, feedforwards) -> swerveDrive.drive(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
+            swerveDrive::setChassisSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
             new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
-                    new PIDConstants(6.0, 0.0, 0.0), // Translation PID constants
-                    new PIDConstants(6.0, 0.0, 0.0) // Rotation PID constants
+                    new PIDConstants(8, 0.0, 0.01), // Translation PID constants
+                    new PIDConstants(5, 0.0, 0.2) // Rotation PID constants
             ),
             config, // The robot configuration
             () -> {

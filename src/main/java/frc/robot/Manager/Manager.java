@@ -35,8 +35,9 @@ public class Manager extends Subsystem<ManagerStates> {
 
 		// Scoring/intaking Coral
 		// addTrigger(IDLE, CORAL_OUT, () -> robotHasCoral() && DRIVER_CONTROLLER.getYButtonPressed());
-		// addTrigger(CORAL_OUT, IDLE, DRIVER_CONTROLLER::getYButtonPressed); 
+		// addTrigger(CORAL_OUT, IDLE, OPERATOR_CONTROLLER::getYButtonPressed); 
 
+		
 		// Auto stop scoring corral:
 
 		// addTrigger(CORAL_OUT, CORAL_BLOCK, DRIVER_CONTROLLER::getYButtonPressed);
