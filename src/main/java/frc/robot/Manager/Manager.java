@@ -30,7 +30,7 @@ public class Manager extends Subsystem<ManagerStates> {
 		super("Manager", ManagerStates.IDLE);
 
 		climber = new Climber();
-		algaeCoraler = new AlgaeCoraler();
+		algaeCoraler = AlgaeCoraler.getInstance();
 		drive = Drive.getInstance(); 
 
 		// Scoring/intaking Coral
