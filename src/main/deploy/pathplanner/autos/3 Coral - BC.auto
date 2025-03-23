@@ -155,22 +155,9 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "BCS to BW"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Idle"
-                }
-              }
-            ]
+            "name": "Idle"
           }
         }
       ]

@@ -155,22 +155,9 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "RCS to RW"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Idle"
-                }
-              }
-            ]
+            "name": "Idle"
           }
         }
       ]

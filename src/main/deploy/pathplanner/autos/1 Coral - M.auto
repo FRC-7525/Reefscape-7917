@@ -11,7 +11,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Drive Straight - M"
+                  "pathName": "MSL to MSC"
                 }
               },
               {
@@ -22,23 +22,22 @@
               }
             ]
           }
-        }, 
+        },
         {
           "type": "named",
           "data": {
             "name": "Score Coral"
           }
-        }, 
-                      {
-                "type": "named",
-                "data": {
-                  "name": "Idle"
-                }
-              }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Idle"
+          }
+        }
       ]
     }
   },
-  
   "resetOdom": true,
   "folder": null,
   "choreoAuto": false
