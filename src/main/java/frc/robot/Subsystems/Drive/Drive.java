@@ -114,7 +114,7 @@ public class Drive extends Subsystem<DriveStates> {
 			.driveToPoseEnabled(false);
 
 		// Auto Builder and Pathfinder setup:
-		PathFinder.BuildAutoBuilder(swerveDrive, this);
+		// PathFinder.BuildAutoBuilder(swerveDrive, this);
 
 		AutoBuilder.configure(
             swerveDrive::getPose, // Robot pose supplier
