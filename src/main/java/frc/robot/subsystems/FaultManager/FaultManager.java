@@ -157,17 +157,17 @@ public class FaultManager {
 						device.alive = faults.temperature;
 
 						break;
-					case CANCODER:
-						CANcoder canCoder = device.getCANcoder();
+					// case CANCODER:
+					// 	CANcoder canCoder = device.getCANcoder();
 
-						device.updateFault("Magnet Fault", canCoder.getFault_BadMagnet().getValue());
-						device.updateFault("Booting Fault", canCoder.getFault_BootDuringEnable().getValue());
-						device.updateFault("Hardware Fault", canCoder.getFault_Hardware().getValue());
-						device.updateFault("Undervoltage Fault", canCoder.getFault_Undervoltage().getValue());
+					// 	device.updateFault("Magnet Fault", canCoder.getFault_BadMagnet().getValue());
+					// 	device.updateFault("Booting Fault", canCoder.getFault_BootDuringEnable().getValue());
+					// 	device.updateFault("Hardware Fault", canCoder.getFault_Hardware().getValue());
+					// 	device.updateFault("Undervoltage Fault", canCoder.getFault_Undervoltage().getValue());
 
-						device.alive = canCoder.isConnected();
+					// 	device.alive = canCoder.isConnected();
 
-						break;
+					// 	break;
 					default:
 						break;
 				}
