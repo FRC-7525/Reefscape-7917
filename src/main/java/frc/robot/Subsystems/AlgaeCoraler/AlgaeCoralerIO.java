@@ -3,6 +3,8 @@ package frc.robot.Subsystems.AlgaeCoraler;
 import edu.wpi.first.units.measure.Angle;
 import org.littletonrobotics.junction.AutoLog;
 
+import com.revrobotics.spark.SparkMax;
+
 public interface AlgaeCoralerIO  {
 	@AutoLog
 	public static class AlgaeCoralerIOInputs {
@@ -29,5 +31,9 @@ public interface AlgaeCoralerIO  {
 	public boolean hasCoral(); 
 
 	public void setThere(boolean there);
+
+	public SparkMax getWheelsSpark();
+
+	public SparkMax getPivotSpark();
 	
 }

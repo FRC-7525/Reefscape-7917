@@ -44,4 +44,11 @@ public class ClimberIOSim implements ClimberIO {
 	public void setSpeed(double speed) {
 		climberSim.setInput(speed);
 	}
+
+	@Override
+	public SparkMax getClimberSpark() {
+		return dummySpark;
+	}
+
+
 }

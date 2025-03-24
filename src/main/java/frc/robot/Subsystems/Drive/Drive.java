@@ -37,6 +37,7 @@ import swervelib.parser.SwerveParser;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 import frc.robot.Utilitys.PathFinder;
+import frc.robot.Subsystems.Climber.Climber;
 import frc.robot.Subsystems.FaultManager.FaultManager;
 
 
@@ -117,7 +118,7 @@ public class Drive extends Subsystem<DriveStates> {
 			.driveToPoseEnabled(false);
 
 		// Auto Builder and Pathfinder setup:
-		PathFinder.BuildAutoBuilder(swerveDrive, this);
+		//PathFinder.BuildAutoBuilder(swerveDrive, this);
 
 		AutoBuilder.configure(
             swerveDrive::getPose, // Robot pose supplier
@@ -155,6 +156,7 @@ public class Drive extends Subsystem<DriveStates> {
 		   faultManager.addDevice((SparkMax) swerveDrive.getModules()[0].getDriveMotor().getMotor(), "Front Right Drive Spark", "Main CAN");
 		   faultManager.addDevice((SparkMax) swerveDrive.getModules()[0].getAngleMotor().getMotor(), "Front Right Turn Spark", "Main CAN");
 		   //faultManager.addDevice(swerveDrive.getModules()[3].getAbsoluteEncoder(), (SparkMax) swerveDrive.getModules()[3].getAngleMotor().getMotor(), "Back Right Drive Spark", "Main CAN");
+		
    
 
     	establishTriggers();

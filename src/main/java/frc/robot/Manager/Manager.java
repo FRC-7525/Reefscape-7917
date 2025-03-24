@@ -20,6 +20,7 @@ public class Manager extends Subsystem<ManagerStates> {
 	private Drive drive;
 	private static Manager instance; 
 	private FaultManager faultManager = FaultManager.getInstance();
+	private Climber climber;
 
 	public static Manager getInstance() {
 		if (instance == null) {
@@ -32,9 +33,12 @@ public class Manager extends Subsystem<ManagerStates> {
 	public Manager() {
 		super("Manager", ManagerStates.IDLE);
 
-		// climber = new Climber();
 		algaeCoraler = AlgaeCoraler.getInstance();
 		drive = Drive.getInstance(); 
+		climber = new Climber();
+		faultManager.addDevice(algaeCoraler.getWheelSpark(), "Coral and Algae Wheel Spark", "Main CAN");
+		faultManager.addDevice(algaeCoraler.getPivotSpark(), "Pivot Spark", "Main CAN");
+		faultManager.addDevice(climber.getClimberSpark(), "Climer Spark", "Main CAN");
 
 		// Scoring/intaking Coral
 		// addTrigger(IDLE, CORAL_OUT, () -> robotHasCoral() && DRIVER_CONTROLLER.getYButtonPressed());
@@ -73,12 +77,12 @@ public class Manager extends Subsystem<ManagerStates> {
 		Logger.recordOutput(SUBSYSTEM_NAME + "/State Time", getStateTime());
 		Logger.recordOutput(SUBSYSTEM_NAME + "/State String", getState().getStateString());
 
-		// climber.setState(getState().getClimber());
+		climber.setState(getState().getClimber());
 		algaeCoraler.setState(getState().getAlgaeCoraler());
 		drive.periodic();
 		faultManager.periodic();
 
-		// climber.periodic();
+		climber.periodic();
 		algaeCoraler.periodic();
 
 		if (Controllers.DRIVER_CONTROLLER.getXButtonPressed() || Controllers.OPERATOR_CONTROLLER.getXButtonPressed()) {

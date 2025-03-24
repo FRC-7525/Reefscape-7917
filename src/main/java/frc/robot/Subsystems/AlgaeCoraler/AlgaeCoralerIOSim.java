@@ -128,4 +128,14 @@ public class AlgaeCoralerIOSim implements AlgaeCoralerIO {
 	public void setThere(boolean there) {
 		System.out.println("...");
 	}
+
+	@Override
+	public SparkMax getPivotSpark() {
+		return dummyPivotSpark;
+	}
+
+	@Override
+	public SparkMax getWheelsSpark() {
+		return dummyWheelsSpark;
+	}
 }

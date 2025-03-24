@@ -28,6 +28,6 @@ public final class GlobalConstants {
 
 	public static class FaultManagerConstants {
 
-		public static final ArrayList<Integer> CAN_DEVICE_ORDER = new ArrayList<Integer>(Arrays.asList( 2, 10, 35, 1, 7, 33, 11, 8));
+		public static final ArrayList<Integer> CAN_DEVICE_ORDER = new ArrayList<Integer>(Arrays.asList( 5, 15, 16, 2, 10, 35, 1, 7, 33, 11, 8));
 	}
 }

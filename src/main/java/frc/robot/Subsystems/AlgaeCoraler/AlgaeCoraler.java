@@ -6,6 +6,8 @@ import static frc.robot.Subsystems.AlgaeCoraler.AlgaeCoralerConstants.*;
 import org.littletonrobotics.junction.Logger;
 import org.team7525.subsystem.Subsystem;
 
+import com.revrobotics.spark.SparkMax;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
@@ -68,5 +70,13 @@ public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 
 	public double getStateTime() {
 		return super.getStateTime();
+	}
+
+	public SparkMax getWheelSpark() {
+		return io.getWheelsSpark();
+	}
+
+	public SparkMax getPivotSpark() {
+		return io.getPivotSpark();
 	}
 }

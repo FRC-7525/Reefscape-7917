@@ -109,4 +109,14 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 	public void setThere(boolean there) {
 		this.there = there;
 	}
+
+	@Override
+	public SparkMax getWheelsSpark() {
+		return wheelsMotor;
+	}
+
+	@Override
+	public SparkMax getPivotSpark() {
+		return pivotMotor;
+	}
 }
