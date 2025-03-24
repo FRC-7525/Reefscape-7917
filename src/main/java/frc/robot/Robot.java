@@ -16,18 +16,20 @@ import com.pathplanner.lib.commands.PathfindingCommand;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.AutoManager.AutoManager;
+import frc.robot.GlobalConstants.FaultManagerConstants;
 import frc.robot.Manager.Manager;
 import frc.robot.Subsystems.Drive.Drive;
+import frc.robot.Subsystems.FaultManager.FaultManager;
 import frc.robot.Subsystems.Vision.Vision;
 import frc.robot.Utilitys.Utilitys;
+import frc.robot.GlobalConstants.FaultManagerConstants;
 
 public class Robot extends LoggedRobot {
 
 	private Manager manager;
-	private AutoManager autoManager; 
 	private Drive drive; 
 	private Vision vision; 
+	private FaultManager faultManager = FaultManager.getInstance();
 
 	public Robot() {}
 
@@ -46,11 +48,12 @@ public class Robot extends LoggedRobot {
 			case REPLAY:
 				Logger.addDataReceiver(new NT4Publisher());
 				break;
+
 		}
  
 		manager = Manager.getInstance();
-		autoManager = new AutoManager(); 
 		vision = Vision.getInstance();  
+		FaultManager.getInstance().calibrateDeviceOrder(FaultManagerConstants.CAN_DEVICE_ORDER, "Main CAN");
 
 		Logger.start();
 		PathfindingCommand.warmupCommand().schedule();
@@ -71,7 +74,6 @@ public class Robot extends LoggedRobot {
 	@Override
 	public void autonomousInit() {
 		Drive.getInstance().zeroGyro();
-		CommandScheduler.getInstance().schedule(autoManager.getSelectedCommand());
 	}
 
 	@Override

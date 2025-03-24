@@ -11,6 +11,7 @@ import frc.robot.Subsystems.AlgaeCoraler.AlgaeCoraler;
 import frc.robot.Subsystems.Climber.Climber;
 import frc.robot.Subsystems.Drive.Drive;
 import frc.robot.Subsystems.Drive.DriveStates;
+import frc.robot.Subsystems.FaultManager.FaultManager;
 
 public class Manager extends Subsystem<ManagerStates> {
 
@@ -18,6 +19,7 @@ public class Manager extends Subsystem<ManagerStates> {
 	private AlgaeCoraler algaeCoraler;
 	private Drive drive;
 	private static Manager instance; 
+	private FaultManager faultManager = FaultManager.getInstance();
 
 	public static Manager getInstance() {
 		if (instance == null) {
@@ -25,6 +27,7 @@ public class Manager extends Subsystem<ManagerStates> {
 		}
 		return instance;
 	}
+
 
 	public Manager() {
 		super("Manager", ManagerStates.IDLE);
@@ -73,6 +76,7 @@ public class Manager extends Subsystem<ManagerStates> {
 		// climber.setState(getState().getClimber());
 		algaeCoraler.setState(getState().getAlgaeCoraler());
 		drive.periodic();
+		faultManager.periodic();
 
 		// climber.periodic();
 		algaeCoraler.periodic();
