@@ -1,6 +1,7 @@
 package frc.robot.Subsystems.Drive;
 
 import static edu.wpi.first.units.Units.Radians;
+import static frc.robot.GlobalConstants.Controllers.DRIVER_CONTROLLER;
 import static frc.robot.Subsystems.Drive.DriveConstants.*;
 import java.io.File;
 
@@ -114,7 +115,7 @@ public class Drive extends Subsystem<DriveStates> {
 			.driveToPoseEnabled(false);
 
 		// Auto Builder and Pathfinder setup:
-		PathFinder.BuildAutoBuilder(swerveDrive, this);
+		//PathFinder.BuildAutoBuilder(swerveDrive, this);
 
 		AutoBuilder.configure(
             swerveDrive::getPose, // Robot pose supplier
@@ -148,8 +149,9 @@ public class Drive extends Subsystem<DriveStates> {
 		addRunnableTrigger( () -> { this.BeginAligning(DriveStates.AUTO_ALIGNING_REEF); }, () -> Controllers.DRIVER_CONTROLLER.getPOV() == 0 && getState() == DriveStates.MANUAL );
 		addRunnableTrigger( () -> { this.BeginAligning(DriveStates.AUTO_ALIGNING_FEEDER); }, () -> Controllers.DRIVER_CONTROLLER.getPOV() == 90 && getState() == DriveStates.MANUAL );
 		//addRunnableTrigger( () -> { this.BeginAligning(DriveStates.AUTO_ALIGNING_CAGES); }, () -> Controllers.DRIVER_CONTROLLER.getPOV() == 180 && getState() == DriveStates.MANUAL );
-
+		addRunnableTrigger(() -> swerveDrive.lockPose(), () -> DRIVER_CONTROLLER.getAButton());
 		// Auto Align Cancel:
+		
 		addRunnableTrigger( () -> { this.EndAligning(); }, () -> atSetpoint() && getState() != DriveStates.MANUAL );
 		addRunnableTrigger( () -> { this.EndAligning(); }, Controllers.DRIVER_CONTROLLER::getXButtonPressed );
 	}
@@ -254,6 +256,7 @@ public class Drive extends Subsystem<DriveStates> {
 		// Logging:
 		SmartDashboard.putData("Field", field);
 		SmartDashboard.putString("DRIVE_STATE", getState().getStateString());
+		Logger.recordOutput("Pose", swerveDrive.getPose());
 	}
 
 	private boolean atSetpoint() {
