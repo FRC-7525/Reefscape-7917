@@ -14,6 +14,7 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -44,6 +45,7 @@ public class Drive extends Subsystem<DriveStates> {
 	// Swerve:
 	private SwerveInputStream swerveInputs;
 	private SwerveDrive swerveDrive;
+	private boolean fieldRelative;
 
 	// PID Controllers:
 	private ProfiledPIDController xPID;
@@ -54,6 +56,7 @@ public class Drive extends Subsystem<DriveStates> {
 	private Pose2d target;
 	private Command pathfindingCommand;
 	private boolean first;
+	private boolean slow; 
 	// INSTANCE:
 	private static Drive instance;
 
@@ -70,6 +73,7 @@ public class Drive extends Subsystem<DriveStates> {
 
 		// Create field:
 		field = new Field2d();
+		fieldRelative = true;
 
 		//Logging for pathplanner
 		PathPlannerLogging.setLogActivePathCallback(poses -> {
@@ -94,6 +98,8 @@ public class Drive extends Subsystem<DriveStates> {
 		xPID.setTolerance(X_TOLERANCE.magnitude());
 		yPID.setTolerance(Y_TOLERANCE.magnitude());
 		rotationPID.setTolerance(ROTATION_TOLERANCE.in(Radians));
+
+		slow = false; 
 
 		// Setup SwerveDrive:
 		SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
@@ -146,14 +152,14 @@ public class Drive extends Subsystem<DriveStates> {
 
 	private void establishTriggers() {
 		// Auto Align Activate:
-		addRunnableTrigger( () -> { this.BeginAligning(DriveStates.AUTO_ALIGNING_REEF); }, () -> Controllers.DRIVER_CONTROLLER.getPOV() == 0 && getState() == DriveStates.MANUAL );
-		addRunnableTrigger( () -> { this.BeginAligning(DriveStates.AUTO_ALIGNING_FEEDER); }, () -> Controllers.DRIVER_CONTROLLER.getPOV() == 90 && getState() == DriveStates.MANUAL );
+		//addRunnableTrigger( () -> { this.BeginAligning(DriveStates.AUTO_ALIGNING_REEF); }, () -> Controllers.DRIVER_CONTROLLER.getPOV() == 0 && getState() == DriveStates.MANUAL );
+		//addRunnableTrigger( () -> { this.BeginAligning(DriveStates.AUTO_ALIGNING_FEEDER); }, () -> Controllers.DRIVER_CONTROLLER.getPOV() == 90 && getState() == DriveStates.MANUAL );
 		//addRunnableTrigger( () -> { this.BeginAligning(DriveStates.AUTO_ALIGNING_CAGES); }, () -> Controllers.DRIVER_CONTROLLER.getPOV() == 180 && getState() == DriveStates.MANUAL );
 		addRunnableTrigger(() -> swerveDrive.lockPose(), () -> DRIVER_CONTROLLER.getAButton());
 		// Auto Align Cancel:
 		
-		addRunnableTrigger( () -> { this.EndAligning(); }, () -> atSetpoint() && getState() != DriveStates.MANUAL );
-		addRunnableTrigger( () -> { this.EndAligning(); }, Controllers.DRIVER_CONTROLLER::getXButtonPressed );
+		//addRunnableTrigger( () -> { this.EndAligning(); }, () -> atSetpoint() && getState() != DriveStates.MANUAL );
+		//addRunnableTrigger( () -> { this.EndAligning(); }, Controllers.DRIVER_CONTROLLER::getXButtonPressed );
 	}
 
 	// Aligner Transition Methods:
@@ -228,10 +234,16 @@ public class Drive extends Subsystem<DriveStates> {
 		} else {
 			// Manual Control
 			// Slow Mode:
-			if (Controllers.DRIVER_CONTROLLER.getLeftBumperButton()) {
-				swerveInputs.scaleTranslation(0.5);
-				swerveInputs.scaleRotation(0.5);
+			if (slow) {
+				if(Controllers.DRIVER_CONTROLLER.getLeftBumperButtonPressed()) {
+					slow = false;
+				}
+				swerveInputs.scaleTranslation(0.33);
+				swerveInputs.scaleRotation(0.33); 
 			} else {
+				if(Controllers.DRIVER_CONTROLLER.getLeftBumperButtonPressed()) {
+					slow = true;
+				}
 				swerveInputs.scaleTranslation(1);
 				swerveInputs.scaleRotation(1);
 			}
@@ -239,7 +251,18 @@ public class Drive extends Subsystem<DriveStates> {
 			if (Controllers.DRIVER_CONTROLLER.getRightBumperButton()) {
 				swerveDrive.lockPose();
 			}
-			swerveDrive.driveFieldOriented(swerveInputs.get());
+
+			if (fieldRelative) {
+				if (DRIVER_CONTROLLER.getBackButtonPressed()) {
+					fieldRelative = false;
+				}
+				swerveDrive.driveFieldOriented(swerveInputs.get());
+			} else {
+				if (DRIVER_CONTROLLER.getBackButtonPressed()) {
+					fieldRelative = true;
+				}
+				swerveDrive.drive(swerveInputs.get());
+			}
 		}
 		// Update Alignment Targets:
 		if (!DriverStation.getAlliance().isEmpty()) {
@@ -254,6 +277,8 @@ public class Drive extends Subsystem<DriveStates> {
 		}
 		field.getObject("ROBOT").setPose(swerveDrive.getPose());
 		// Logging:
+		SmartDashboard.putBoolean("SLOW", slow);
+		SmartDashboard.putBoolean("FIELD RELATIVE", fieldRelative);
 		SmartDashboard.putData("Field", field);
 		SmartDashboard.putString("DRIVE_STATE", getState().getStateString());
 		Logger.recordOutput("Pose", swerveDrive.getPose());

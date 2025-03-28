@@ -2,6 +2,7 @@ package frc.robot.Subsystems.Climber;
 
 import static frc.robot.GlobalConstants.*;
 import static frc.robot.GlobalConstants.Controllers.DRIVER_CONTROLLER;
+import static frc.robot.GlobalConstants.Controllers.OPERATOR_CONTROLLER;
 import static frc.robot.Subsystems.Climber.ClimberConstants.*;
 
 import org.littletonrobotics.junction.Logger;
@@ -27,9 +28,9 @@ public class Climber extends Subsystem<ClimberStates> {
 	public void runState() {
 		io.updateInputs(inputs);
 
-		if (Math.abs(DRIVER_CONTROLLER.getLeftTriggerAxis()) > 0.5) {
+		if (Math.abs(DRIVER_CONTROLLER.getRightTriggerAxis()) > 0.5 || Math.abs(OPERATOR_CONTROLLER.getRightTriggerAxis()) > 0.5) {
 			io.setSpeed(ClimberStates.IN.getSpeed());
-		} else if (Math.abs(DRIVER_CONTROLLER.getRightTriggerAxis()) >= 0.5) {
+		} else if (Math.abs(DRIVER_CONTROLLER.getLeftTriggerAxis()) > 0.5 || Math.abs(OPERATOR_CONTROLLER.getLeftTriggerAxis()) > 0.5) {
 			io.setSpeed(ClimberStates.OUT.getSpeed());
 		} else {
 			io.setSpeed(ClimberStates.IDLE.getSpeed());
