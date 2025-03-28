@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Manager.Manager;
 import frc.robot.Manager.ManagerStates;
-import frc.robot.Subsystems.Drive.Drive;
+//import frc.robot.Subsystems.Drive.Drive;
 
 public class AutoCommands {
 
@@ -22,61 +22,61 @@ public class AutoCommands {
         timer = new Timer(); 
     }
 
-    public class SidewaysToRightFace extends Command {
-        private final Drive drive = Drive.getInstance(); 
+    // public class SidewaysToRightFace extends Command {
+    //     private final Drive drive = Drive.getInstance(); 
 
-        public static SidewaysToRightFace sidewaysToRightFace () {
-			return AutoCommands.getInstance().new SidewaysToRightFace();
-        }
+    //     public static SidewaysToRightFace sidewaysToRightFace () {
+	// 		return AutoCommands.getInstance().new SidewaysToRightFace();
+    //     }
 
-        @Override
-        public void initialize() {
-            timer.restart();
-        }
+    //     @Override
+    //     public void initialize() {
+    //         timer.restart();
+    //     }
 
-        @Override
-        public void execute() {
-            if (timer.get() <= 4){
-                drive.sidewaysToRightFace();
-            } else {
-                Manager.getInstance().setState(ManagerStates.AUTO_OUT);
-            }
-        }
+    //     @Override
+    //     public void execute() {
+    //         if (timer.get() <= 4){
+    //             drive.sidewaysToRightFace();
+    //         } else {
+    //             Manager.getInstance().setState(ManagerStates.AUTO_OUT);
+    //         }
+    //     }
 
-        @Override
-        public boolean isFinished() {
-            return timer.get() >= 10; 
-        }
+    //     @Override
+    //     public boolean isFinished() {
+    //         return timer.get() >= 10; 
+    //     }
         
-    }
+    // }
 
-    public class DriveForward extends Command {
-        private final Drive drive = Drive.getInstance(); 
+    // public class DriveForward extends Command {
+    //     private final Drive drive = Drive.getInstance(); 
 
-        public static DriveForward driveForward() {
-			return AutoCommands.getInstance().new DriveForward();
-        }
+    //     public static DriveForward driveForward() {
+	// 		return AutoCommands.getInstance().new DriveForward();
+    //     }
 
-        @Override
-        public void initialize() {
-            timer.restart();
-        }
+    //     @Override
+    //     public void initialize() {
+    //         timer.restart();
+    //     }
 
-        @Override
-        public void execute() {
-            if (timer.get() <= 2.5){
-                drive.driveForward(); 
-            } else {
-                Manager.getInstance().setState(ManagerStates.AUTO_OUT);
-            }
-        }
+    //     @Override
+    //     public void execute() {
+    //         if (timer.get() <= 2.5){
+    //             drive.driveForward(); 
+    //         } else {
+    //             Manager.getInstance().setState(ManagerStates.AUTO_OUT);
+    //         }
+    //     }
 
-        @Override
-        public boolean isFinished() {
-            return timer.get() >= 10; 
-        }
+    //     @Override
+    //     public boolean isFinished() {
+    //         return timer.get() >= 10; 
+    //     }
         
-    }
+    // }
 
     public class IntakeCoral extends Command {
         private final Manager manager = Manager.getInstance();

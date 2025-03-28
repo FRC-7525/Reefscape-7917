@@ -1,17 +1,12 @@
 package frc.robot.AutoManager;
-import org.littletonrobotics.junction.Logger;
 
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.util.PathPlannerLogging;
-
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
-import frc.robot.Manager.Manager;
-import frc.robot.Manager.ManagerStates;
+
 
 public class AutoManager {
     private final SendableChooser<Command> autoChooser; 
@@ -25,8 +20,8 @@ public class AutoManager {
         NamedCommands.registerCommand("Hold Algae", AutoCommands.HoldAlgae.holdAlgae());
         NamedCommands.registerCommand("Score Algae", AutoCommands.ScoreAlgae.scoreAlgae());
         NamedCommands.registerCommand("Idle", AutoCommands.Idle.idle());
-        NamedCommands.registerCommand("DRIVE !", AutoCommands.DriveForward.driveForward());
-        NamedCommands.registerCommand("Sideways to Right Face", AutoCommands.SidewaysToRightFace.sidewaysToRightFace());
+        //NamedCommands.registerCommand("DRIVE !", AutoCommands.DriveForward.driveForward());
+        //NamedCommands.registerCommand("Sideways to Right Face", AutoCommands.SidewaysToRightFace.sidewaysToRightFace());
         
         //Autochooser!
         autoChooser = new SendableChooser<>();

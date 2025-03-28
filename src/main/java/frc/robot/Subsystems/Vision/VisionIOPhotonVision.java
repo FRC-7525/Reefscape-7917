@@ -5,6 +5,8 @@ import static frc.robot.Subsystems.Vision.VisionConstants.*;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -42,6 +44,7 @@ public class VisionIOPhotonVision implements VisionIO {
 			} else {
 				inputs.latestTargetObservation = new TargetObservation(new Rotation2d(), new Rotation2d());
 			}
+			SmartDashboard.putBoolean("HAS TARGET", result.hasTargets());
 
 			// Add pose observation
 			if (result.multitagResult.isPresent()) { // Multitag result
