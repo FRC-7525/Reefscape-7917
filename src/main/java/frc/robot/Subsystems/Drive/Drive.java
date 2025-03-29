@@ -158,7 +158,7 @@ public class Drive extends Subsystem<DriveStates> {
 	}
 
 	public void zeroGyro() {
-		swerveDrive.zeroGyro();
+		swerveDrive.resetOdometry(new Pose2d(swerveDrive.getPose().getX(), swerveDrive.getPose().getY(), Rotation2d.fromDegrees(0)));
 	}
 
 	public void addVisionMeasurement(Pose2d visionPose, double timestamp, Matrix<N3, N1> visionMeasurementStdDevs) {
