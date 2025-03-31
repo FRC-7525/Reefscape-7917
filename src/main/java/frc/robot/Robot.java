@@ -9,10 +9,8 @@ import com.pathplanner.lib.commands.PathfindingCommand;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.AutoManager.AutoManager;
 import frc.robot.Manager.Manager;
 import frc.robot.Subsystems.Drive.Drive;
-import frc.robot.Subsystems.Vision.Vision;
 import frc.robot.Utilitys.Utilitys;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
@@ -23,8 +21,8 @@ import org.team7525.misc.CommandsUtil;
 public class Robot extends LoggedRobot {
 
 	private Manager manager;
-	private AutoManager autoManager;
-	private Vision vision;
+	//private AutoManager autoManager;
+	//private Vision vision;
 
 	public Robot() {}
 
@@ -46,8 +44,8 @@ public class Robot extends LoggedRobot {
 		}
 
 		manager = Manager.getInstance();
-		autoManager = new AutoManager();
-		vision = Vision.getInstance();
+		//autoManager = new AutoManager();
+		//vision = Vision.getInstance();
 
 		Logger.start();
 		PathfindingCommand.warmupCommand().schedule();
@@ -60,7 +58,7 @@ public class Robot extends LoggedRobot {
 	@Override
 	public void robotPeriodic() {
 		manager.periodic();
-		vision.periodic();
+		//vision.periodic();
 		CommandScheduler.getInstance().run();
 		Utilitys.controllers.clearCache();
 	}
@@ -68,7 +66,7 @@ public class Robot extends LoggedRobot {
 	@Override
 	public void autonomousInit() {
 		Drive.getInstance().zeroGyro();
-		CommandScheduler.getInstance().schedule(autoManager.getSelectedCommand());
+		//CommandScheduler.getInstance().schedule(autoManager.getSelectedCommand());
 	}
 
 	@Override
@@ -90,7 +88,7 @@ public class Robot extends LoggedRobot {
 
 	@Override
 	public void disabledPeriodic() {
-		vision.periodic();
+		//vision.periodic();
 	}
 
 	@Override
