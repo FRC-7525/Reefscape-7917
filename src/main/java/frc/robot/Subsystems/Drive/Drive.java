@@ -88,14 +88,14 @@ public class Drive extends Subsystem<DriveStates> {
 			if (Controllers.DRIVER_CONTROLLER.getLeftBumperButtonPressed()) {
 				slow = false;
 			}
-			swerveInputs.scaleTranslation(0.1);
-			swerveInputs.scaleRotation(0.1);
+			swerveInputs.scaleTranslation(0.5);
+			swerveInputs.scaleRotation(0.5);
 		} else {
 			if (Controllers.DRIVER_CONTROLLER.getLeftBumperButtonPressed()) {
 				slow = true;
 			}
-			swerveInputs.scaleTranslation(0.33);
-			swerveInputs.scaleRotation(0.33);
+			swerveInputs.scaleTranslation(0.9);
+			swerveInputs.scaleRotation(0.9);
 		}
 
 		if (fieldRelative) {
