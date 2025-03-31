@@ -29,7 +29,6 @@ public class ClimberIOSim implements ClimberIO {
 
 		dummySpark = new SparkMax(CLIMBER_CANID, MotorType.kBrushless);
 		climberSparkSim = new SparkSim(dummySpark, DCMotor.getNEO(NUM_MOTORS));
-
 	}
 
 	@Override

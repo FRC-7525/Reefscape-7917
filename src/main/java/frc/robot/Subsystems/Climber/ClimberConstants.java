@@ -1,6 +1,7 @@
 package frc.robot.Subsystems.Climber;
 
 import static edu.wpi.first.units.Units.*;
+
 import edu.wpi.first.units.measure.MomentOfInertia;
 
 public final class ClimberConstants {
@@ -11,8 +12,8 @@ public final class ClimberConstants {
 
 	public static final double IN_SPEED = -0.65;
 	public static final double OUT_SPEED = 0.65;
-	// TODO: set values ^
 
+	// TODO: set values ^
 
 	public static class Sim {
 

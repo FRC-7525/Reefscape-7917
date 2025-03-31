@@ -13,9 +13,8 @@ public final class GlobalConstants {
 	}
 
 	public static final double SIMULATION_PERIOD = 0.02;
-  
-	public static final RobotMode ROBOT_MODE = RobotBase.isReal() ? RobotMode.REAL : RobotMode.SIM;
 
+	public static final RobotMode ROBOT_MODE = RobotBase.isReal() ? RobotMode.REAL : RobotMode.SIM;
 
 	public static final class Controllers {
 

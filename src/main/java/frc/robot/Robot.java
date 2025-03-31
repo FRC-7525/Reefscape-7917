@@ -4,11 +4,6 @@
 
 package frc.robot;
 
-import org.littletonrobotics.junction.LoggedRobot;
-import org.littletonrobotics.junction.Logger;
-import org.littletonrobotics.junction.networktables.NT4Publisher;
-import org.littletonrobotics.junction.wpilog.WPILOGWriter;
-import org.team7525.misc.CommandsUtil;
 import com.pathplanner.lib.commands.FollowPathCommand;
 import com.pathplanner.lib.commands.PathfindingCommand;
 import edu.wpi.first.cameraserver.CameraServer;
@@ -19,12 +14,17 @@ import frc.robot.Manager.Manager;
 import frc.robot.Subsystems.Drive.Drive;
 import frc.robot.Subsystems.Vision.Vision;
 import frc.robot.Utilitys.Utilitys;
+import org.littletonrobotics.junction.LoggedRobot;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.NT4Publisher;
+import org.littletonrobotics.junction.wpilog.WPILOGWriter;
+import org.team7525.misc.CommandsUtil;
 
 public class Robot extends LoggedRobot {
 
 	private Manager manager;
-	private AutoManager autoManager; 
-	private Vision vision; 
+	private AutoManager autoManager;
+	private Vision vision;
 
 	public Robot() {}
 
@@ -44,14 +44,14 @@ public class Robot extends LoggedRobot {
 				Logger.addDataReceiver(new NT4Publisher());
 				break;
 		}
- 
+
 		manager = Manager.getInstance();
-		autoManager = new AutoManager(); 
-		vision = Vision.getInstance();  
+		autoManager = new AutoManager();
+		vision = Vision.getInstance();
 
 		Logger.start();
 		PathfindingCommand.warmupCommand().schedule();
-		FollowPathCommand.warmupCommand().schedule(); 
+		FollowPathCommand.warmupCommand().schedule();
 		CommandsUtil.logCommands();
 		DriverStation.silenceJoystickConnectionWarning(true);
 		CameraServer.startAutomaticCapture();

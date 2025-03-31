@@ -3,14 +3,13 @@ package frc.robot.Subsystems.AlgaeCoraler;
 import static frc.robot.GlobalConstants.*;
 import static frc.robot.Subsystems.AlgaeCoraler.AlgaeCoralerConstants.*;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.littletonrobotics.junction.Logger;
 import org.team7525.subsystem.Subsystem;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 
-	public static AlgaeCoraler instance; 
+	public static AlgaeCoraler instance;
 
 	private AlgaeCoralerIO io;
 	private AlgaeCoralerIOInputsAutoLogged inputs;
@@ -45,8 +44,7 @@ public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 		io.setWheelSpeed(getState().getWheelSpeed());
 		if (past != getState()) {
 			there = false;
-		}
-		else if (nearTarget()) {
+		} else if (nearTarget()) {
 			there = true;
 		}
 		io.setThere(there);

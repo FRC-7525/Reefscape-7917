@@ -1,7 +1,8 @@
 package frc.robot.Subsystems.Climber;
 
-import org.team7525.subsystem.SubsystemStates;
 import static frc.robot.Subsystems.Climber.ClimberConstants.*;
+
+import org.team7525.subsystem.SubsystemStates;
 
 public enum ClimberStates implements SubsystemStates {
 	IN("IDLE", IN_SPEED),
