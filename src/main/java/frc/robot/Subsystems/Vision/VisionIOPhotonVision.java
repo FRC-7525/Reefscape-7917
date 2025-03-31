@@ -5,6 +5,7 @@ import static frc.robot.Subsystems.Vision.VisionConstants.*;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -38,10 +39,17 @@ public class VisionIOPhotonVision implements VisionIO {
 		for (var result : camera.getAllUnreadResults()) {
 			// Update latest target observation
 			if (result.hasTargets()) {
-				inputs.latestTargetObservation = new TargetObservation(Rotation2d.fromDegrees(result.getBestTarget().getYaw()), Rotation2d.fromDegrees(result.getBestTarget().getPitch()));
+				inputs.latestTargetObservation = new TargetObservation(
+					Rotation2d.fromDegrees(result.getBestTarget().getYaw()),
+					Rotation2d.fromDegrees(result.getBestTarget().getPitch())
+				);
 			} else {
-				inputs.latestTargetObservation = new TargetObservation(new Rotation2d(), new Rotation2d());
+				inputs.latestTargetObservation = new TargetObservation(
+					new Rotation2d(),
+					new Rotation2d()
+				);
 			}
+			SmartDashboard.putBoolean("HAS TARGET", result.hasTargets());
 
 			// Add pose observation
 			if (result.multitagResult.isPresent()) { // Multitag result
@@ -50,7 +58,10 @@ public class VisionIOPhotonVision implements VisionIO {
 				// Calculate robot pose
 				Transform3d fieldToCamera = multitagResult.estimatedPose.best;
 				Transform3d fieldToRobot = fieldToCamera.plus(robotToCamera.inverse());
-				Pose3d robotPose = new Pose3d(fieldToRobot.getTranslation(), fieldToRobot.getRotation());
+				Pose3d robotPose = new Pose3d(
+					fieldToRobot.getTranslation(),
+					fieldToRobot.getRotation()
+				);
 
 				// Calculate average tag distance
 				double totalTagDistance = 0.0;
@@ -78,11 +89,17 @@ public class VisionIOPhotonVision implements VisionIO {
 				// Calculate robot pose
 				var tagPose = APRIL_TAG_FIELD_LAYOUT.getTagPose(target.fiducialId);
 				if (tagPose.isPresent()) {
-					Transform3d fieldToTarget = new Transform3d(tagPose.get().getTranslation(), tagPose.get().getRotation());
+					Transform3d fieldToTarget = new Transform3d(
+						tagPose.get().getTranslation(),
+						tagPose.get().getRotation()
+					);
 					Transform3d cameraToTarget = target.bestCameraToTarget;
 					Transform3d fieldToCamera = fieldToTarget.plus(cameraToTarget.inverse());
 					Transform3d fieldToRobot = fieldToCamera.plus(robotToCamera.inverse());
-					Pose3d robotPose = new Pose3d(fieldToRobot.getTranslation(), fieldToRobot.getRotation());
+					Pose3d robotPose = new Pose3d(
+						fieldToRobot.getTranslation(),
+						fieldToRobot.getRotation()
+					);
 
 					// Add tag ID
 					tagIds.add((short) target.fiducialId);

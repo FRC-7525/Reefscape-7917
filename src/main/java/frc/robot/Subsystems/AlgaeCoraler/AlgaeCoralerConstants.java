@@ -6,13 +6,12 @@ import static edu.wpi.first.units.Units.KilogramSquareMeters;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.Second;
 
-import org.team7525.controlConstants.PIDConstants;
-
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.MomentOfInertia;
 import edu.wpi.first.units.measure.Time;
+import org.team7525.controlConstants.PIDConstants;
 
 public final class AlgaeCoralerConstants {
 
@@ -20,7 +19,7 @@ public final class AlgaeCoralerConstants {
 
 	public static final String SUBSYSTEM_NAME = "Algae Coraler";
 
-	public static final double WHEEL_GEARING = 25; 
+	public static final double WHEEL_GEARING = 25;
 	public static final double PIVOT_GEARING = 25;
 
 	//CAN IDs - Correct Values
@@ -30,14 +29,14 @@ public final class AlgaeCoralerConstants {
 	public static final Angle PIVOT_TOLERANCE = Degrees.of(1);
 
 	//Speeds
-	public static final double ALGAE_IN_SPEED = -1; 
+	public static final double ALGAE_IN_SPEED = -1;
 	public static final double ALGAE_OUT_SPEED = 1;
-	public static final double CORAL_OUT_SPEED = -0.23;
-	public static final double HOLDING_SPEED = 0;	
+	public static final double CORAL_OUT_SPEED = -0.25;
+	public static final double HOLDING_SPEED = 0;
 	public static final double AUTO_SPEED = -0.43;
 
 	//Currents
-	public static final Current ALGAE_CURRENT_LIMIT = Amps.of(12); 
+	public static final Current ALGAE_CURRENT_LIMIT = Amps.of(12);
 
 	//Angles
 	public static final Angle IDLE_ANGLE = Degrees.of(20);
@@ -47,9 +46,10 @@ public final class AlgaeCoralerConstants {
 	public static final Angle CORAL_BLOCK_ANGLE = Degrees.of(-74.05);
 
 	public static class Real {
-		public static final PIDConstants DOWN_PIVOT_PID = new PIDConstants(0.6, 0, 0.025); 
+
+		public static final PIDConstants DOWN_PIVOT_PID = new PIDConstants(0.6, 0, 0.025);
 		public static final PIDConstants UP_PIVOT_PID = new PIDConstants(0.9, 0, 0.025);
-		public static final PIDConstants PIVOT_PID = new PIDConstants(0.0, 0, 0); 
+		public static final PIDConstants PIVOT_PID = new PIDConstants(0.0, 0, 0);
 	}
 
 	public static class Sim {
@@ -64,9 +64,9 @@ public final class AlgaeCoralerConstants {
 		public static final Angle MAX_PIVOT_ANGLE = Degrees.of(180);
 		public static final Angle STARTING_PIVOT_ANGLE = Degrees.of(0);
 
-		public static final PIDConstants PIVOT_PID = new PIDConstants(0.4, 0, 0.001); 
-		public static final PIDConstants SPEED_PID = new PIDConstants(0.05, 0, 0.001); 
+		public static final PIDConstants PIVOT_PID = new PIDConstants(0.4, 0, 0.001);
+		public static final PIDConstants SPEED_PID = new PIDConstants(0.05, 0, 0.001);
 
-		public static final Time CORAL_TIME = Second.of(2); 
+		public static final Time CORAL_TIME = Second.of(2);
 	}
 }

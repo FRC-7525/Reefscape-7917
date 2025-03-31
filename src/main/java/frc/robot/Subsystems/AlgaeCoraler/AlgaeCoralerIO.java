@@ -3,7 +3,7 @@ package frc.robot.Subsystems.AlgaeCoraler;
 import edu.wpi.first.units.measure.Angle;
 import org.littletonrobotics.junction.AutoLog;
 
-public interface AlgaeCoralerIO  {
+public interface AlgaeCoralerIO {
 	@AutoLog
 	public static class AlgaeCoralerIOInputs {
 
@@ -26,8 +26,7 @@ public interface AlgaeCoralerIO  {
 
 	public boolean nearTarget();
 
-	public boolean hasCoral(); 
+	public boolean hasCoral();
 
 	public void setThere(boolean there);
-	
 }
