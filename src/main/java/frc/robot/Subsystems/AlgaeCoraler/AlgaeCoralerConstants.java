@@ -1,16 +1,16 @@
 package frc.robot.Subsystems.AlgaeCoraler;
 
+import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.KilogramSquareMeters;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.Second;
-import static edu.wpi.first.units.Units.Amps;
 
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.MomentOfInertia;
 import edu.wpi.first.units.measure.Time;
-import edu.wpi.first.units.measure.Current;
 import org.team7525.controlConstants.PIDConstants;
 
 public final class AlgaeCoralerConstants {
