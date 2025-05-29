@@ -38,6 +38,8 @@ public final class AlgaeCoralerConstants {
 	public static final double ALGAE_OUT_SPEED = 1;
 	public static final double CORAL_OUT_SPEED = -0.25;
 	public static final double HOLDING_SPEED = 0;
+	public static final double AUTO_SHOOT_SPEED = -0.25;
+
 
 	//Pivot speeds
 	//t and nt are slang for there and not there
