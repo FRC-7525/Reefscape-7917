@@ -1,13 +1,11 @@
 package frc.robot.Subsystems.AlgaeCoraler;
 
-import static edu.wpi.first.units.Units.*;
 import static frc.robot.Subsystems.AlgaeCoraler.AlgaeCoralerConstants.*;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import org.littletonrobotics.junction.Logger;
 
@@ -60,7 +58,7 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 
 	@Override
 	public boolean nearTarget() {
-		if (debounce.calculate(pivotMotor.getOutputCurrent() >= NEAR_TARGET_AMPS)) {
+		if (debounce.calculate(pivotMotor.getOutputCurrent() >= NEAR_TARGET_AMPS.magnitude())) {
 			return true;
 		}
 		return false;
