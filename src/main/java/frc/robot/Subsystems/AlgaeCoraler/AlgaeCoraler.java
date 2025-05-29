@@ -47,7 +47,7 @@ public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 			there = true;
 		}
 		io.setThere(there);
-		if (there = true) {
+		if (there) {
 			io.setArmSpeed(getState().getThereSpeed());
 		} else {
 			io.setArmSpeed(getState().getNotThereSpeed());
