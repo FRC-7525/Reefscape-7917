@@ -2,26 +2,29 @@ package frc.robot.Subsystems.AlgaeCoraler;
 
 import static frc.robot.Subsystems.AlgaeCoraler.AlgaeCoralerConstants.*;
 
-import edu.wpi.first.units.measure.*;
+
 import org.team7525.subsystem.SubsystemStates;
 
 public enum AlgaeCoralerStates implements SubsystemStates {
-	IDLE("IDLE", (double) 0, IDLE_ANGLE),
-	CORALOUT("CORALOUT", CORAL_OUT_SPEED, IDLE_ANGLE),
-	ALGAEIN("ALGAEIN", ALGAE_IN_SPEED, ALGAE_IN_ANGLE),
-	HOLDING("HOLDING", HOLDING_SPEED, IDLE_ANGLE),
-	ALGAEOUT("ALGAEOUT", ALGAE_OUT_SPEED, IDLE_ANGLE),
-	AUTO_SHOOT("Auto Shoot", AUTO_SPEED, IDLE_ANGLE),
-	CORALBLOCK("CORALBLOCK", (double) 0, CORAL_BLOCK_ANGLE);
+	IDLE("IDLE", (double) 0, IDLE_THERE_SPEED, IDLE_NOT_THERE_SPEED),
+	CORALOUT("CORALOUT", CORAL_OUT_SPEED, IDLE_THERE_SPEED, IDLE_NOT_THERE_SPEED),
+	ALGAEIN("ALGAEIN", ALGAE_IN_SPEED, ALGAE_IN_T_SPEED, ALGAE_IN_NT_SPEED),
+	HOLDING("HOLDING", HOLDING_SPEED, IDLE_THERE_SPEED, IDLE_NOT_THERE_SPEED),
+	ALGAEOUT("ALGAEOUT", ALGAE_OUT_SPEED, ALGAE_OUT_T_SPEED, ALGAE_OUT_NT_SPEED),
+	CORALBLOCK("CORALBLOCK", (double) 0, CORAL_BLOCK_T_SPEED, CORAL_BLOCK_NT_SPEED);
 
 	private String stateString;
 	private double wheelSpeed;
-	private Angle pivotSetpoint;
+	private double thereSpeed;
+	private double notThereSpeed;
 
-	AlgaeCoralerStates(String stateString, Double wheelSpeed, Angle pivotSetpoint) {
+
+
+	AlgaeCoralerStates(String stateString, Double wheelSpeed, Double thereSpeed, Double notThereSpeed) {
 		this.stateString = stateString;
-		this.pivotSetpoint = pivotSetpoint;
 		this.wheelSpeed = wheelSpeed;
+		this.thereSpeed = thereSpeed;
+		this.notThereSpeed = notThereSpeed;
 	}
 
 	@Override
@@ -33,7 +36,11 @@ public enum AlgaeCoralerStates implements SubsystemStates {
 		return wheelSpeed;
 	}
 
-	public Angle getPivotSetpoint() {
-		return pivotSetpoint;
+	public double getThereSpeed() {
+		return thereSpeed;
+	}
+
+	public double getNotThereSpeed() {
+		return notThereSpeed;
 	}
 }

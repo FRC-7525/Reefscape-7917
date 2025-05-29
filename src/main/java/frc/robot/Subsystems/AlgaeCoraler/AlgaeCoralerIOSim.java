@@ -8,7 +8,6 @@ import static frc.robot.Subsystems.AlgaeCoraler.AlgaeCoralerConstants.Sim.*;
 import com.revrobotics.sim.SparkMaxSim;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.math.util.Units;
@@ -29,7 +28,6 @@ public class AlgaeCoralerIOSim implements AlgaeCoralerIO {
 	private SparkMaxSim pivotSparkSim;
 	private SparkMaxSim wheelSparkSim;
 
-	private PIDController pivotController;
 
 	private double wheelSpeedSetpoint;
 	private Angle pivotPosSetpoint;
@@ -62,8 +60,6 @@ public class AlgaeCoralerIOSim implements AlgaeCoralerIO {
 
 		wheelSparkSim = new SparkMaxSim(dummyWheelsSpark, DCMotor.getNEO(NUM_SPEED_MOTORS));
 
-		pivotController = new PIDController(PIVOT_PID.kP, PIVOT_PID.kI, PIVOT_PID.kD);
-
 		pivotPosSetpoint = Degrees.of(0);
 		wheelSpeedSetpoint = 0;
 	}
@@ -73,10 +69,8 @@ public class AlgaeCoralerIOSim implements AlgaeCoralerIO {
 		pivotSim.update(SIMULATION_PERIOD);
 		wheelMotorSim.update(SIMULATION_PERIOD);
 
-		inputs.pivotPosition = Units.radiansToDegrees(pivotSim.getAngleRads());
 		inputs.wheelSpeed = Units.radiansToDegrees(wheelMotorSim.getAngularVelocityRPM() / 60);
 
-		inputs.pivotSetpoint = pivotPosSetpoint.in(Degree);
 		inputs.wheelSpeedSetpoint = wheelSpeedSetpoint;
 
 		pivotSparkSim.setPosition(pivotSim.getAngleRads());
@@ -89,20 +83,14 @@ public class AlgaeCoralerIOSim implements AlgaeCoralerIO {
 	}
 
 	@Override
-	public void setPivotSetpoint(Angle pivotSetpoint) {
-		this.pivotPosSetpoint = pivotSetpoint;
-		double voltage = pivotController.calculate(
-			Units.radiansToDegrees(pivotSim.getAngleRads()),
-			pivotSetpoint.in(Degrees)
-		);
-
-		pivotSim.setInputVoltage(voltage);
+	public void setWheelSpeed(double wheelSpeedSetpoint) {
+		this.wheelSpeedSetpoint = wheelSpeedSetpoint;
+		wheelMotorSim.setInputVoltage(wheelSpeedSetpoint * MAX_VOLTS);
 	}
 
 	@Override
-	public void setWheelSpeed(double wheelSpeedSetpoint) {
-		this.wheelSpeedSetpoint = wheelSpeedSetpoint;
-		wheelMotorSim.setInputVoltage(wheelSpeedSetpoint * 12);
+	public void setArmSpeed(double armSpeed) {
+		pivotSim.setInputVoltage(armSpeed * MAX_VOLTS);
 	}
 
 	@Override
