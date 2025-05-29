@@ -17,6 +17,7 @@ import frc.robot.GlobalConstants;
 import frc.robot.GlobalConstants.Controllers;
 import frc.robot.GlobalConstants.RobotMode;
 import frc.robot.Utilitys.PathFinder;
+import java.io.File;
 import org.littletonrobotics.junction.Logger;
 import org.team7525.subsystem.Subsystem;
 import swervelib.SwerveDrive;
@@ -24,8 +25,6 @@ import swervelib.SwerveInputStream;
 import swervelib.parser.SwerveParser;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
-
-import java.io.File;
 
 public class Drive extends Subsystem<DriveStates> {
 
@@ -96,13 +95,14 @@ public class Drive extends Subsystem<DriveStates> {
 	private void establishTriggers() {
 		addRunnableTrigger(() -> swerveDrive.lockPose(), DRIVER_CONTROLLER::getAButton);
 		addRunnableTrigger(
-			() -> swerveDrive.resetOdometry(
-				new Pose2d(
-					swerveDrive.getPose().getX(),
-					swerveDrive.getPose().getY(),
-					Rotation2d.fromDegrees(0)
-				)
-			),
+			() ->
+				swerveDrive.resetOdometry(
+					new Pose2d(
+						swerveDrive.getPose().getX(),
+						swerveDrive.getPose().getY(),
+						Rotation2d.fromDegrees(0)
+					)
+				),
 			DRIVER_CONTROLLER::getRightBumperButtonPressed
 		);
 	}

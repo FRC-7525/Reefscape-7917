@@ -3,6 +3,7 @@ package frc.robot.Subsystems.Drive;
 import static edu.wpi.first.units.Units.DegreesPerSecond;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
+
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.path.PathConstraints;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -24,7 +25,9 @@ public final class DriveConstants {
 	public static final LinearVelocity MAX_SPEED = MetersPerSecond.of(4.6);
 	public static final LinearVelocity SLOW_SPEED = MetersPerSecond.of(MAX_SPEED.magnitude() * 0.2);
 	public static final AngularVelocity MAX_ANGULAR_VELOCITY = RotationsPerSecond.of(3);
-	public static final AngularVelocity SLOW_ANGULAR_VELOCITY = RotationsPerSecond.of(MAX_ANGULAR_VELOCITY.magnitude() * 0.2);
+	public static final AngularVelocity SLOW_ANGULAR_VELOCITY = RotationsPerSecond.of(
+		MAX_ANGULAR_VELOCITY.magnitude() * 0.2
+	);
 
 	// Rate limit for acceleration
 	public static final int RATE_LIMIT = 6;
