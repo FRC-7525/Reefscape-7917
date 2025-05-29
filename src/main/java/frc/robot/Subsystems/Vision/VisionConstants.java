@@ -50,8 +50,10 @@ public class VisionConstants {
 
 	// Camera settings
 	public static final double CAMERA_DEBOUNCE_TIME = 0.5;
-	public static final CameraResolution FRONT_RIGHT_CAMERA_RESOLUTION = CameraResolution.HIGH_RESOLUTION;
-	public static final CameraResolution FRONT_LEFT_CAMERA_RESOLUTION = CameraResolution.HIGH_RESOLUTION;
+	public static final CameraResolution FRONT_RIGHT_CAMERA_RESOLUTION =
+		CameraResolution.HIGH_RESOLUTION;
+	public static final CameraResolution FRONT_LEFT_CAMERA_RESOLUTION =
+		CameraResolution.HIGH_RESOLUTION;
 
 	// Field layout configuration
 	public static final boolean USE_WELDED_FIELD = false; // Adjust based on competition setup
@@ -62,18 +64,18 @@ public class VisionConstants {
 	);
 
 	// Camera properties
-	public static final int CAMERA_WIDTH = 1200; 
-	public static final int CAMERA_HEIGHT = 800; 
+	public static final int CAMERA_WIDTH = 1200;
+	public static final int CAMERA_HEIGHT = 800;
 	public static final Rotation2d CAMERA_FOV = Rotation2d.fromDegrees(84.47);
 	public static final double CALIB_ERROR_AVG = 0.25;
 	public static final double CALIB_ERROR_STD_DEV = 0.08;
 	public static final int CAMERA_FPS = 40;
-	public static final int AVG_LATENCY_MS = 40; 
+	public static final int AVG_LATENCY_MS = 40;
 	public static final int LATENCY_STD_DEV_MS = 10;
 
 	// Filtering thresholds for pose observations
-	public static final double maxAmbiguity = 0.3; 
-	public static final double maxZError = 0.75; 
+	public static final double maxAmbiguity = 0.3;
+	public static final double maxZError = 0.75;
 
 	public static final double linearStdDevBaseline = 0.02;
 	public static final double angularStdDevBaseline = 0.06;
