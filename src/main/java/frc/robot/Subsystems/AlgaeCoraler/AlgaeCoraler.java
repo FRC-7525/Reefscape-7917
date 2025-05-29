@@ -47,21 +47,17 @@ public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 			there = true;
 		}
 		io.setThere(there);
-		if(there = true) {
+		if (there = true) {
 			io.setArmSpeed(getState().getThereSpeed());
-		}
-		else {
+		} else {
 			io.setArmSpeed(getState().getNotThereSpeed());
 		}
-		
 
 		io.updateInputs(inputs);
 		Logger.processInputs(SUBSYSTEM_NAME, inputs);
 		SmartDashboard.putNumber("Coral Out", CORAL_OUT_SPEED);
 		Logger.recordOutput(SUBSYSTEM_NAME + "/State", getState().getStateString());
 		past = getState();
-
-		
 	}
 
 	public boolean nearTarget() {

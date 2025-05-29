@@ -2,7 +2,6 @@ package frc.robot.Subsystems.AlgaeCoraler;
 
 import static frc.robot.Subsystems.AlgaeCoraler.AlgaeCoralerConstants.*;
 
-
 import org.team7525.subsystem.SubsystemStates;
 
 public enum AlgaeCoralerStates implements SubsystemStates {
@@ -19,9 +18,12 @@ public enum AlgaeCoralerStates implements SubsystemStates {
 	private double thereSpeed;
 	private double notThereSpeed;
 
-
-
-	AlgaeCoralerStates(String stateString, Double wheelSpeed, Double thereSpeed, Double notThereSpeed) {
+	AlgaeCoralerStates(
+		String stateString,
+		Double wheelSpeed,
+		Double thereSpeed,
+		Double notThereSpeed
+	) {
 		this.stateString = stateString;
 		this.wheelSpeed = wheelSpeed;
 		this.thereSpeed = thereSpeed;

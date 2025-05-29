@@ -28,7 +28,6 @@ public class AlgaeCoralerIOSim implements AlgaeCoralerIO {
 	private SparkMaxSim pivotSparkSim;
 	private SparkMaxSim wheelSparkSim;
 
-
 	private double wheelSpeedSetpoint;
 	private Angle pivotPosSetpoint;
 
