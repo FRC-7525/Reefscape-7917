@@ -17,10 +17,10 @@ public interface VisionIO {
 		public int[] tagIds = new int[0];
 	}
 
-	/** Represents the angle to a simple target, not used for pose estimation. */
+	// Represents the angle to a simple target, not used for pose estimation.
 	public static record TargetObservation(Rotation2d tx, Rotation2d ty) {}
 
-	/** Represents a robot pose sample used for pose estimation. */
+	// Represents a robot pose sample used for pose estimation. 
 	public static record PoseObservation(
 		double timestamp,
 		Pose3d pose,
