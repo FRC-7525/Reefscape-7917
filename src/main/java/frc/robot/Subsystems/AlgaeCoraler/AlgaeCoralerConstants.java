@@ -4,11 +4,13 @@ import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.KilogramSquareMeters;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.Second;
+import static edu.wpi.first.units.Units.Amps;
 
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.MomentOfInertia;
 import edu.wpi.first.units.measure.Time;
+import edu.wpi.first.units.measure.Current;
 import org.team7525.controlConstants.PIDConstants;
 
 public final class AlgaeCoralerConstants {
@@ -22,7 +24,7 @@ public final class AlgaeCoralerConstants {
 
 	public static final double DEBOUNCE_TIME = 0.25;
 
-	public static final double NEAR_TARGET_AMPS = 11.5;
+	public static final Current NEAR_TARGET_AMPS = Amps.of(11.5);
 
 	public static final int MAX_VOLTS = 12;
 
