@@ -26,7 +26,6 @@ public final class AlgaeCoralerConstants {
 
 	public static final int MAX_VOLTS = 12;
 
-
 	//CAN IDs - Correct Values
 	public static final int PIVOT_MOTOR_CANID = 15;
 	public static final int SPEED_MOTOR_CANID = 5;
@@ -40,7 +39,6 @@ public final class AlgaeCoralerConstants {
 	public static final double HOLDING_SPEED = 0;
 	public static final double AUTO_SHOOT_SPEED = -0.25;
 
-
 	//Pivot speeds
 	//t and nt are slang for there and not there
 	public static final double IDLE_THERE_SPEED = 0.08;
@@ -52,10 +50,7 @@ public final class AlgaeCoralerConstants {
 	public static final double CORAL_BLOCK_T_SPEED = 0;
 	public static final double CORAL_BLOCK_NT_SPEED = -0.2;
 
-
-
-	public static class Real {
-	}
+	public static class Real {}
 
 	public static class Sim {
 

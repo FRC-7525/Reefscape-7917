@@ -18,7 +18,6 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 	private SparkMax wheelsMotor;
 	private SparkMax pivotMotor;
 
-	
 	private double wheelSpeedSetpoint;
 	private DigitalInput beamBreak;
 	private boolean motorZeroed;
@@ -48,7 +47,6 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 		Logger.recordOutput("Pivot Current", pivotMotor.getOutputCurrent());
 	}
 
-	
 	@Override
 	public void setWheelSpeed(double wheelSpeed) {
 		this.wheelSpeedSetpoint = wheelSpeed;
@@ -59,7 +57,6 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 	public void setArmSpeed(double armSpeed) {
 		pivotMotor.set(armSpeed);
 	}
-
 
 	@Override
 	public boolean nearTarget() {
