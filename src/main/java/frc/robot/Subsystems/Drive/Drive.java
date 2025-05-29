@@ -3,8 +3,6 @@ package frc.robot.Subsystems.Drive;
 import static frc.robot.GlobalConstants.Controllers.DRIVER_CONTROLLER;
 import static frc.robot.Subsystems.Drive.DriveConstants.*;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.pathfinding.Pathfinding;
 import com.pathplanner.lib.util.PathPlannerLogging;
 import edu.wpi.first.math.Matrix;
@@ -12,14 +10,13 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.GlobalConstants;
 import frc.robot.GlobalConstants.Controllers;
 import frc.robot.GlobalConstants.RobotMode;
-import java.io.File;
+import frc.robot.Utilitys.PathFinder;
 import org.littletonrobotics.junction.Logger;
 import org.team7525.subsystem.Subsystem;
 import swervelib.SwerveDrive;
@@ -28,19 +25,21 @@ import swervelib.parser.SwerveParser;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 
+import java.io.File;
+
 public class Drive extends Subsystem<DriveStates> {
 
-	// Swerve:
+	// Swerve-related components
 	private SwerveInputStream swerveInputs;
 	private SwerveDrive swerveDrive;
 	private boolean fieldRelative;
 
-	// Field/Auto Variables:
+	// Field management
 	private Field2d field;
 	private boolean slow;
-	// INSTANCE:
 	private static Drive instance;
 
+	// Singleton pattern for Drive instance
 	public static Drive getInstance() {
 		if (instance == null) {
 			instance = new Drive();
@@ -48,29 +47,25 @@ public class Drive extends Subsystem<DriveStates> {
 		return instance;
 	}
 
-	public Drive() {
+	private Drive() {
 		super("Drive", DriveStates.MANUAL);
-		// Create field:
 		field = new Field2d();
 
-		//Logging for pathplanner
+		// PathPlanner logging setup
 		PathPlannerLogging.setLogActivePathCallback(poses -> {
 			field.getObject("PATH").setPoses(poses);
-			Logger.recordOutput("Auto/poses", poses.toArray(new Pose2d[poses.size()]));
+			Logger.recordOutput("Auto/poses", poses.toArray(new Pose2d[0]));
 		});
 		PathPlannerLogging.setLogActivePathCallback(activePath -> {
 			field.getObject("TRAJECTORY").setPoses(activePath);
-			Logger.recordOutput(
-				"Auto/Trajectory",
-				activePath.toArray(new Pose2d[activePath.size()])
-			);
+			Logger.recordOutput("Auto/Trajectory", activePath.toArray(new Pose2d[0]));
 		});
 		Pathfinding.ensureInitialized();
 
 		slow = false;
 		fieldRelative = true;
 
-		// Setup SwerveDrive:
+		// SwerveDrive setup
 		SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
 		try {
 			File swerveJsonDirectory = new File(Filesystem.getDeployDirectory(), "swerve");
@@ -83,59 +78,39 @@ public class Drive extends Subsystem<DriveStates> {
 		}
 		swerveDrive.setMotorIdleMode(true);
 
-		// Setup Swerve Inputs:
+		// Swerve inputs setup
 		swerveInputs = SwerveInputStream.of(
 			swerveDrive,
-			() -> -1 * (Controllers.DRIVER_CONTROLLER.getLeftY()),
-			() -> -1 * (Controllers.DRIVER_CONTROLLER.getLeftX())
+			() -> -Controllers.DRIVER_CONTROLLER.getLeftY(),
+			() -> -Controllers.DRIVER_CONTROLLER.getLeftX()
 		)
-			.withControllerRotationAxis(() -> -1 * Controllers.DRIVER_CONTROLLER.getRightX())
+			.withControllerRotationAxis(() -> -Controllers.DRIVER_CONTROLLER.getRightX())
 			.allianceRelativeControl(true)
 			.driveToPoseEnabled(false);
 
-		AutoBuilder.configure(
-			swerveDrive::getPose, // Robot pose supplier
-			swerveDrive::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
-			swerveDrive::getRobotVelocity, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-			swerveDrive::setChassisSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
-			new PPHolonomicDriveController(
-				// PPHolonomicController is the built in path following controller for holonomic drive trains
-				PPH_TRANSLATION_PID, // Translation PID constants
-				PPH_ROTATION_PID // Rotation PID constants
-			),
-			DriveConstants.getRobotConfig(), // The robot configuration
-			() -> {
-				var alliance = DriverStation.getAlliance();
-				if (alliance.isPresent()) {
-					return alliance.get() == DriverStation.Alliance.Red;
-				}
-				return false;
-			},
-			this // Reference to this subsystem to set requirements
-		);
-
+		PathFinder.BuildAutoBuilder(swerveDrive, this);
 		establishTriggers();
 	}
 
+	// Establish controller triggers
 	private void establishTriggers() {
-		addRunnableTrigger(() -> swerveDrive.lockPose(), () -> DRIVER_CONTROLLER.getAButton());
+		addRunnableTrigger(() -> swerveDrive.lockPose(), DRIVER_CONTROLLER::getAButton);
 		addRunnableTrigger(
-			() ->
-				swerveDrive.resetOdometry(
-					new Pose2d(
-						swerveDrive.getPose().getX(),
-						swerveDrive.getPose().getY(),
-						Rotation2d.fromDegrees(0)
-					)
-				),
-			() -> DRIVER_CONTROLLER.getRightBumperButtonPressed()
+			() -> swerveDrive.resetOdometry(
+				new Pose2d(
+					swerveDrive.getPose().getX(),
+					swerveDrive.getPose().getY(),
+					Rotation2d.fromDegrees(0)
+				)
+			),
+			DRIVER_CONTROLLER::getRightBumperButtonPressed
 		);
 	}
 
-	// Run State:
+	// Run state logic
 	@Override
 	public void runState() {
-		// Slow Mode:
+		// Slow mode toggle
 		if (slow) {
 			if (Controllers.DRIVER_CONTROLLER.getLeftBumperButtonPressed()) {
 				slow = false;
@@ -150,6 +125,7 @@ public class Drive extends Subsystem<DriveStates> {
 			swerveInputs.scaleRotation(1);
 		}
 
+		// Field-relative toggle
 		if (fieldRelative) {
 			if (DRIVER_CONTROLLER.getBackButtonPressed()) {
 				fieldRelative = false;
@@ -162,16 +138,18 @@ public class Drive extends Subsystem<DriveStates> {
 			swerveDrive.drive(swerveInputs.get());
 		}
 
+		// Update SmartDashboard
 		SmartDashboard.putBoolean("SLOW MODE", slow);
 		SmartDashboard.putBoolean("FIELD RELATIVE", fieldRelative);
 		SmartDashboard.putData(field);
 	}
 
-	// Vision Code Getters:
+	// Get current robot pose
 	public Pose2d getPose() {
 		return swerveDrive.getPose();
 	}
 
+	// Reset gyro orientation
 	public void zeroGyro() {
 		swerveDrive.resetOdometry(
 			new Pose2d(
@@ -182,6 +160,7 @@ public class Drive extends Subsystem<DriveStates> {
 		);
 	}
 
+	// Add vision measurement for odometry updates
 	public void addVisionMeasurement(
 		Pose2d visionPose,
 		double timestamp,
@@ -194,12 +173,4 @@ public class Drive extends Subsystem<DriveStates> {
 		}
 		swerveDrive.updateOdometry();
 	}
-	// // Bum AUTO Stuff:
-	// public void driveForward() {
-	// 	swerveDrive.drive(DRIVE_FORWARD_CHASSIS_SPEED);
-	// }
-
-	// public void sidewaysToRightFace() {
-	// 	swerveDrive.drive(SIDEWAYS_TO_RIGHT_CHASSIS_SPEED);
-	// }
 }
