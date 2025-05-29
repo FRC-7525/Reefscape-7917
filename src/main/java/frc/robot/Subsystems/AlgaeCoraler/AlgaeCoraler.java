@@ -40,7 +40,6 @@ public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 
 	@Override
 	public void runState() {
-		io.setPivotSetpoint(getState().getPivotSetpoint());
 		io.setWheelSpeed(getState().getWheelSpeed());
 		if (past != getState()) {
 			there = false;
@@ -48,12 +47,21 @@ public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 			there = true;
 		}
 		io.setThere(there);
+		if(there = true) {
+			io.setArmSpeed(getState().getThereSpeed());
+		}
+		else {
+			io.setArmSpeed(getState().getNotThereSpeed());
+		}
+		
 
 		io.updateInputs(inputs);
 		Logger.processInputs(SUBSYSTEM_NAME, inputs);
 		SmartDashboard.putNumber("Coral Out", CORAL_OUT_SPEED);
 		Logger.recordOutput(SUBSYSTEM_NAME + "/State", getState().getStateString());
 		past = getState();
+
+		
 	}
 
 	public boolean nearTarget() {
