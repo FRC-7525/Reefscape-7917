@@ -13,8 +13,6 @@ public final class ClimberConstants {
 	public static final double IN_SPEED = -0.65;
 	public static final double OUT_SPEED = 0.65;
 
-	public static class Real {}
-
 	public static class Sim {
 
 		public static final double MOTOR_GEARING = 25;

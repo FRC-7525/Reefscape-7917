@@ -8,8 +8,6 @@ public interface ClimberIO {
 
 		public double speed;
 		public double speedSetpoint;
-
-		public ClimberStates state;
 	}
 
 	public void updateInputs(ClimberIOInputs input);
