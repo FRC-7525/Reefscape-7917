@@ -8,7 +8,7 @@ import org.team7525.subsystem.Subsystem;
 
 public class Climber extends Subsystem<ClimberStates> {
 
-	public static Climber instance; 
+	public static Climber instance;
 
 	private ClimberIO io;
 	private ClimberIOInputsAutoLogged inputs;
