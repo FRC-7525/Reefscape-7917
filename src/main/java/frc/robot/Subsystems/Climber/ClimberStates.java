@@ -22,7 +22,7 @@ public enum ClimberStates implements SubsystemStates {
 		return stateString;
 	}
 
-	protected double getSpeed() {
+	public double getSpeed() {
 		return speed;
 	}
 }

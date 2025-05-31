@@ -1,8 +1,6 @@
 package frc.robot.Subsystems.Climber;
 
 import static frc.robot.GlobalConstants.*;
-import static frc.robot.GlobalConstants.Controllers.DRIVER_CONTROLLER;
-import static frc.robot.GlobalConstants.Controllers.OPERATOR_CONTROLLER;
 import static frc.robot.Subsystems.Climber.ClimberConstants.*;
 
 import org.littletonrobotics.junction.Logger;
@@ -10,8 +8,17 @@ import org.team7525.subsystem.Subsystem;
 
 public class Climber extends Subsystem<ClimberStates> {
 
+	public static Climber instance; 
+
 	private ClimberIO io;
 	private ClimberIOInputsAutoLogged inputs;
+
+	public static Climber getInstance() {
+		if (instance == null) {
+			instance = new Climber();
+		}
+		return instance;
+	}
 
 	public Climber() {
 		super("Climber", ClimberStates.IDLE);
@@ -26,21 +33,8 @@ public class Climber extends Subsystem<ClimberStates> {
 
 	@Override
 	public void runState() {
+		io.setSpeed(getState().getSpeed());
 		io.updateInputs(inputs);
-
-		if (
-			Math.abs(DRIVER_CONTROLLER.getRightTriggerAxis()) > 0.5 ||
-			Math.abs(OPERATOR_CONTROLLER.getRightTriggerAxis()) > 0.5
-		) {
-			io.setSpeed(ClimberStates.IN.getSpeed());
-		} else if (
-			Math.abs(DRIVER_CONTROLLER.getLeftTriggerAxis()) > 0.5 ||
-			Math.abs(OPERATOR_CONTROLLER.getLeftTriggerAxis()) > 0.5
-		) {
-			io.setSpeed(ClimberStates.OUT.getSpeed());
-		} else {
-			io.setSpeed(ClimberStates.IDLE.getSpeed());
-		}
 
 		Logger.processInputs(SUBSYSTEM_NAME, inputs);
 		Logger.recordOutput(SUBSYSTEM_NAME + "/State", getState().getStateString());
