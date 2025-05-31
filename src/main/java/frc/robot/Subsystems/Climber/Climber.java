@@ -20,7 +20,7 @@ public class Climber extends Subsystem<ClimberStates> {
 		return instance;
 	}
 
-	private Climber() {
+	public Climber() {
 		super("Climber", ClimberStates.IDLE);
 		this.io = switch (ROBOT_MODE) {
 			case REAL -> new ClimberIOReal();
