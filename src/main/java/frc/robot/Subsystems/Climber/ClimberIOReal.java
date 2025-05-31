@@ -19,7 +19,7 @@ public class ClimberIOReal implements ClimberIO {
 	@Override
 	public void updateInputs(ClimberIOInputs inputs) {
 		inputs.speed = (motor.getEncoder().getVelocity()) / 60;
-		inputs.speedSetpoint = speedSetpoint; 
+		inputs.speedSetpoint = speedSetpoint;
 	}
 
 	@Override
