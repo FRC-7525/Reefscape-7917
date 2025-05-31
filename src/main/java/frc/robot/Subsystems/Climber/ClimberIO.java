@@ -7,6 +7,9 @@ public interface ClimberIO {
 	public static class ClimberIOInputs {
 
 		public double speed;
+		public double speedSetpoint; 
+
+		public ClimberStates state;
 	}
 
 	public void updateInputs(ClimberIOInputs input);
