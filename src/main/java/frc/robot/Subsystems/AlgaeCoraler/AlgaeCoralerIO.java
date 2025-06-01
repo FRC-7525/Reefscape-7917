@@ -1,5 +1,6 @@
 package frc.robot.Subsystems.AlgaeCoraler;
 
+import edu.wpi.first.math.geometry.Pose3d;
 import org.littletonrobotics.junction.AutoLog;
 
 public interface AlgaeCoralerIO {
@@ -9,11 +10,10 @@ public interface AlgaeCoralerIO {
 		public double ArmSpeed;
 		public double ArmSetpoint;
 
-		//Wheels
+		public Pose3d ArmPosition;
+
 		public double wheelSpeed;
 		public double wheelSpeedSetpoint;
-
-		public AlgaeCoralerStates state;
 	}
 
 	public void updateInputs(AlgaeCoralerIOInputs input);
@@ -24,7 +24,7 @@ public interface AlgaeCoralerIO {
 
 	public boolean hasCoral();
 
-	public void setThere(boolean there);
-
 	public void setArmSpeed(double ArmSpeed);
+
+	public Pose3d getArmPosition();
 }

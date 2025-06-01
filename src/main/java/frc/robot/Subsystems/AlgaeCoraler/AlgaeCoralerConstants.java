@@ -32,8 +32,6 @@ public final class AlgaeCoralerConstants {
 	public static final int PIVOT_MOTOR_CANID = 15;
 	public static final int SPEED_MOTOR_CANID = 5;
 
-	public static final Angle PIVOT_TOLERANCE = Degrees.of(1);
-
 	//Wheel Speeds
 	public static final double ALGAE_IN_SPEED = -1;
 	public static final double ALGAE_OUT_SPEED = 1;

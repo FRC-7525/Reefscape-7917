@@ -8,10 +8,12 @@ import static frc.robot.Subsystems.AlgaeCoraler.AlgaeCoralerConstants.Sim.*;
 import com.revrobotics.sim.SparkMaxSim;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import frc.robot.Subsystems.AlgaeCoraler.AlgaeCoralerConstants.Sim;
@@ -29,7 +31,6 @@ public class AlgaeCoralerIOSim implements AlgaeCoralerIO {
 	private SparkMaxSim wheelSparkSim;
 
 	private double wheelSpeedSetpoint;
-	private Angle pivotPosSetpoint;
 
 	public AlgaeCoralerIOSim() {
 		pivotSim = new SingleJointedArmSim(
@@ -58,8 +59,6 @@ public class AlgaeCoralerIOSim implements AlgaeCoralerIO {
 		pivotSparkSim = new SparkMaxSim(dummyPivotSpark, DCMotor.getNEO(NUM_PIVOT_MOTORS));
 
 		wheelSparkSim = new SparkMaxSim(dummyWheelsSpark, DCMotor.getNEO(NUM_SPEED_MOTORS));
-
-		pivotPosSetpoint = Degrees.of(0);
 		wheelSpeedSetpoint = 0;
 	}
 
@@ -94,20 +93,32 @@ public class AlgaeCoralerIOSim implements AlgaeCoralerIO {
 
 	@Override
 	public boolean nearTarget() {
-		return (
-			(Math.abs(
-					Units.radiansToDegrees(pivotSim.getAngleRads()) - pivotPosSetpoint.in(Degree)
-				) <
-				PIVOT_TOLERANCE.in(Degrees))
-		);
+		return true; // In simulation, we assume the arm is always near the target
 	}
 
 	@Override
 	public boolean hasCoral() {
 		return AlgaeCoraler.getInstance().getStateTime() > Sim.CORAL_TIME.in(Seconds);
-		// IDK how to sim this
 	}
 
 	@Override
-	public void setThere(boolean there) {}
+	public Pose3d getArmPosition() {
+		return new Pose3d(
+			new Translation3d(0.355, 0, 0.193),
+			new Rotation3d(
+				0,
+				Math.toRadians(
+					AlgaeCoraler.getInstance().getState() == AlgaeCoralerStates.IDLE ||
+						AlgaeCoraler.getInstance().getState() == AlgaeCoralerStates.HOLDING ||
+						AlgaeCoraler.getInstance().getState() == AlgaeCoralerStates.CORALOUT ||
+						AlgaeCoraler.getInstance().getState() == AlgaeCoralerStates.ALGAEOUT
+						? Math.floor(
+							Math.max(45 - (AlgaeCoraler.getInstance().getStateTime() * 60), -10)
+						)
+						: Math.floor(Math.min(AlgaeCoraler.getInstance().getStateTime() * 60, 45))
+				),
+				0
+			)
+		);
+	}
 }

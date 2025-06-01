@@ -8,6 +8,7 @@ import com.pathplanner.lib.commands.FollowPathCommand;
 import com.pathplanner.lib.commands.PathfindingCommand;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.AutoManager.AutoManager;
 import frc.robot.Manager.Manager;
@@ -60,7 +61,9 @@ public class Robot extends LoggedRobot {
 	@Override
 	public void robotPeriodic() {
 		manager.periodic();
-		vision.periodic();
+		if (!RobotBase.isSimulation()) {
+			vision.periodic(); // Vision sim is broken :(
+		}
 		CommandScheduler.getInstance().run();
 		Utilitys.controllers.clearCache();
 	}
