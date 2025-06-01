@@ -15,6 +15,8 @@ import edu.wpi.first.units.measure.LinearVelocity;
  */
 public final class DriveConstants {
 
+	public static final String SUBSYSTEM_NAME = "DriveBase";
+
 	// PID constants for translation and rotation
 	public static final PIDConstants PPH_TRANSLATION_PID = new PIDConstants(5, 0, 0);
 	public static final PIDConstants PPH_ROTATION_PID = new PIDConstants(5, 0, 0);
