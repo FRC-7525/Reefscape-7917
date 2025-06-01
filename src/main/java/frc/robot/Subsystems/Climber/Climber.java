@@ -8,7 +8,7 @@ import org.team7525.subsystem.Subsystem;
 
 public class Climber extends Subsystem<ClimberStates> {
 
-	public static Climber instance;
+	private static Climber instance;
 
 	private ClimberIO io;
 	private ClimberIOInputsAutoLogged inputs;
@@ -20,7 +20,7 @@ public class Climber extends Subsystem<ClimberStates> {
 		return instance;
 	}
 
-	public Climber() {
+	private Climber() {
 		super("Climber", ClimberStates.IDLE);
 		this.io = switch (ROBOT_MODE) {
 			case REAL -> new ClimberIOReal();
