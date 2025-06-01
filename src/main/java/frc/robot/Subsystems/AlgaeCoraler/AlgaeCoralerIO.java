@@ -1,12 +1,12 @@
 package frc.robot.Subsystems.AlgaeCoraler;
 
-import org.littletonrobotics.junction.AutoLog;
-
 import edu.wpi.first.math.geometry.Pose3d;
+import org.littletonrobotics.junction.AutoLog;
 
 public interface AlgaeCoralerIO {
 	@AutoLog
 	public static class AlgaeCoralerIOInputs {
+
 		public double ArmSpeed;
 		public double ArmSetpoint;
 

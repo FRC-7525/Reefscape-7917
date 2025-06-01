@@ -2,6 +2,7 @@ package frc.robot.Subsystems.AlgaeCoraler;
 
 import static frc.robot.GlobalConstants.*;
 import static frc.robot.Subsystems.AlgaeCoraler.AlgaeCoralerConstants.*;
+
 import org.littletonrobotics.junction.Logger;
 import org.team7525.subsystem.Subsystem;
 

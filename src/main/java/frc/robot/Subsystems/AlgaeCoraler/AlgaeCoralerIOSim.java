@@ -8,7 +8,6 @@ import static frc.robot.Subsystems.AlgaeCoraler.AlgaeCoralerConstants.Sim.*;
 import com.revrobotics.sim.SparkMaxSim;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
-
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation3d;
@@ -110,10 +109,12 @@ public class AlgaeCoralerIOSim implements AlgaeCoralerIO {
 				0,
 				Math.toRadians(
 					AlgaeCoraler.getInstance().getState() == AlgaeCoralerStates.IDLE ||
-					AlgaeCoraler.getInstance().getState() == AlgaeCoralerStates.HOLDING ||
-					AlgaeCoraler.getInstance().getState() == AlgaeCoralerStates.CORALOUT ||
-					AlgaeCoraler.getInstance().getState() == AlgaeCoralerStates.ALGAEOUT
-						? Math.floor(Math.max(45 - (AlgaeCoraler.getInstance().getStateTime() * 60), -10))
+						AlgaeCoraler.getInstance().getState() == AlgaeCoralerStates.HOLDING ||
+						AlgaeCoraler.getInstance().getState() == AlgaeCoralerStates.CORALOUT ||
+						AlgaeCoraler.getInstance().getState() == AlgaeCoralerStates.ALGAEOUT
+						? Math.floor(
+							Math.max(45 - (AlgaeCoraler.getInstance().getStateTime() * 60), -10)
+						)
 						: Math.floor(Math.min(AlgaeCoraler.getInstance().getStateTime() * 60, 45))
 				),
 				0

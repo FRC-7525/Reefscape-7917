@@ -70,9 +70,11 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 			0,
 			0,
 			0,
-			new Rotation3d(0, Units.rotationsToDegrees(pivotMotor.getEncoder().getPosition()) / 25, 0)
+			new Rotation3d(
+				0,
+				Units.rotationsToDegrees(pivotMotor.getEncoder().getPosition()) / 25,
+				0
+			)
 		);
 	}
-
-
 }
