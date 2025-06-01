@@ -28,7 +28,7 @@ public class Manager extends Subsystem<ManagerStates> {
 
 	public Manager() {
 		super("Manager", ManagerStates.IDLE);
-		climber = new Climber();
+		climber = Climber.getInstance(); 
 		algaeCoraler = AlgaeCoraler.getInstance();
 		drive = Drive.getInstance();
 
