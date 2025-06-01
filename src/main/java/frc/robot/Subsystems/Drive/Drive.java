@@ -1,4 +1,7 @@
+// Drive Subsystem
+// [Rouge Subsystem: Manages it's own state]
 package frc.robot.Subsystems.Drive;
+
 
 import static frc.robot.GlobalConstants.Controllers.DRIVER_CONTROLLER;
 import static frc.robot.Subsystems.Drive.DriveConstants.*;
@@ -112,15 +115,11 @@ public class Drive extends Subsystem<DriveStates> {
 	public void runState() {
 		// Slow mode toggle
 		if (slow) {
-			if (Controllers.DRIVER_CONTROLLER.getLeftBumperButtonPressed()) {
-				slow = false;
-			}
+			if (Controllers.DRIVER_CONTROLLER.getLeftBumperButtonPressed()) slow = false;
 			swerveInputs.scaleTranslation(0.33);
 			swerveInputs.scaleRotation(0.33);
 		} else {
-			if (Controllers.DRIVER_CONTROLLER.getLeftBumperButtonPressed()) {
-				slow = true;
-			}
+			if (Controllers.DRIVER_CONTROLLER.getLeftBumperButtonPressed()) slow = true;
 			swerveInputs.scaleTranslation(1);
 			swerveInputs.scaleRotation(1);
 		}
@@ -138,9 +137,12 @@ public class Drive extends Subsystem<DriveStates> {
 			swerveDrive.drive(swerveInputs.get());
 		}
 
-		// Update SmartDashboard
-		SmartDashboard.putBoolean("SLOW MODE", slow);
-		SmartDashboard.putBoolean("FIELD RELATIVE", fieldRelative);
+		// Logging Stuff
+		field.setRobotPose(swerveDrive.getPose());
+		Logger.recordOutput(SUBSYSTEM_NAME + "/Pose", swerveDrive.getPose());
+		Logger.recordOutput(SUBSYSTEM_NAME + "/Slow Mode", slow);
+		Logger.recordOutput(SUBSYSTEM_NAME + "/Field Relative", fieldRelative);
+		Logger.recordOutput(SUBSYSTEM_NAME + "/Drive State", getState());
 		SmartDashboard.putData(field);
 	}
 

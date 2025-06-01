@@ -6,10 +6,11 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import org.littletonrobotics.junction.Logger;
-
-// TODO: Implement Current sensing for detection of algae
 
 public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 
@@ -18,8 +19,6 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 
 	private double wheelSpeedSetpoint;
 	private DigitalInput beamBreak;
-	private boolean motorZeroed;
-	private Boolean there;
 	private Debouncer debounce;
 
 	public AlgaeCoralerIOReal() {
@@ -30,8 +29,6 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 		debounce = new Debouncer(DEBOUNCE_TIME, DebounceType.kBoth);
 
 		pivotMotor.getEncoder().setPosition(0); // Zeroing the encoder
-
-		there = true;
 	}
 
 	@Override
@@ -39,9 +36,7 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 		inputs.wheelSpeed = (wheelsMotor.getEncoder().getVelocity()) / 60;
 		inputs.wheelSpeedSetpoint = wheelSpeedSetpoint;
 
-		Logger.recordOutput("Motors Zeroed", motorZeroed);
 		Logger.recordOutput("Beam Break Value", beamBreak.get());
-		Logger.recordOutput("Wheels Current", wheelsMotor.getOutputCurrent());
 		Logger.recordOutput("Pivot Current", pivotMotor.getOutputCurrent());
 	}
 
@@ -70,7 +65,14 @@ public class AlgaeCoralerIOReal implements AlgaeCoralerIO {
 	}
 
 	@Override
-	public void setThere(boolean there) {
-		this.there = there;
+	public Pose3d getArmPosition() {
+		return new Pose3d(
+			0,
+			0,
+			0,
+			new Rotation3d(0, Units.rotationsToDegrees(pivotMotor.getEncoder().getPosition()) / 25, 0)
+		);
 	}
+
+
 }

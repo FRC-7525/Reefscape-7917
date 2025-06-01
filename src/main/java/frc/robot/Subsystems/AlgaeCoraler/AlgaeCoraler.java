@@ -2,8 +2,6 @@ package frc.robot.Subsystems.AlgaeCoraler;
 
 import static frc.robot.GlobalConstants.*;
 import static frc.robot.Subsystems.AlgaeCoraler.AlgaeCoralerConstants.*;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.littletonrobotics.junction.Logger;
 import org.team7525.subsystem.Subsystem;
 
@@ -13,8 +11,8 @@ public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 
 	private AlgaeCoralerIO io;
 	private AlgaeCoralerIOInputsAutoLogged inputs;
-	private boolean there;
-	private AlgaeCoralerStates past;
+	private boolean there; // If arm is at the target position
+	private AlgaeCoralerStates past; // Previous state of the algae bar to reset there variable
 
 	public static AlgaeCoraler getInstance() {
 		if (instance == null) {
@@ -46,7 +44,6 @@ public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 		} else if (nearTarget()) {
 			there = true;
 		}
-		io.setThere(there);
 		if (there) {
 			io.setArmSpeed(getState().getThereSpeed());
 		} else {
@@ -55,8 +52,9 @@ public class AlgaeCoraler extends Subsystem<AlgaeCoralerStates> {
 
 		io.updateInputs(inputs);
 		Logger.processInputs(SUBSYSTEM_NAME, inputs);
-		SmartDashboard.putNumber("Coral Out", CORAL_OUT_SPEED);
 		Logger.recordOutput(SUBSYSTEM_NAME + "/State", getState().getStateString());
+		Logger.recordOutput(SUBSYSTEM_NAME + "/isThere", there);
+		Logger.recordOutput(SUBSYSTEM_NAME + "/Mechanism Position", io.getArmPosition());
 		past = getState();
 	}
 
