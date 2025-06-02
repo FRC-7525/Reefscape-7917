@@ -40,7 +40,6 @@ public class Manager extends Subsystem<ManagerStates> {
 		addTrigger(ALGAE_IN, HOLDING, DRIVER_CONTROLLER::getBButtonPressed);
 		addTrigger(HOLDING, ALGAE_OUT, DRIVER_CONTROLLER::getBButtonPressed);
 		addTrigger(ALGAE_IN, IDLE, DRIVER_CONTROLLER::getXButtonPressed);
-
 	}
 
 	@Override
