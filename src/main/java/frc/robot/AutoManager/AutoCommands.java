@@ -1,6 +1,5 @@
 package frc.robot.AutoManager;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Manager.Manager;
 import frc.robot.Manager.ManagerStates;
@@ -10,7 +9,6 @@ import frc.robot.Manager.ManagerStates;
 public class AutoCommands {
 
 	private static AutoCommands instance;
-	private Timer timer;
 
 	protected static AutoCommands getInstance() {
 		if (instance == null) {
@@ -19,37 +17,7 @@ public class AutoCommands {
 		return instance;
 	}
 
-	public AutoCommands() {
-		timer = new Timer();
-	}
-
-	// public class SidewaysToRightFace extends Command {
-	//     private final Drive drive = Drive.getInstance();
-
-	//     public static SidewaysToRightFace sidewaysToRightFace () {
-	// 		return AutoCommands.getInstance().new SidewaysToRightFace();
-	//     }
-
-	//     @Override
-	//     public void initialize() {
-	//         timer.restart();
-	//     }
-
-	//     @Override
-	//     public void execute() {
-	//         if (timer.get() <= 4){
-	//             drive.sidewaysToRightFace();
-	//         } else {
-	//             Manager.getInstance().setState(ManagerStates.AUTO_OUT);
-	//         }
-	//     }
-
-	//     @Override
-	//     public boolean isFinished() {
-	//         return timer.get() >= 10;
-	//     }
-
-	// }
+	public AutoCommands() {}
 
 	// public class DriveForward extends Command {
 	//     private final Drive drive = Drive.getInstance();
@@ -143,7 +111,6 @@ public class AutoCommands {
 		@Override
 		public boolean isFinished() {
 			return false;
-			// BUG: INSANE SELL
 		}
 	}
 
